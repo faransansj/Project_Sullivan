@@ -21,16 +21,23 @@
 
 ## 📊 Current Status
 
-**Current Milestone:** M1 - Data Pipeline Construction
-**Current Phase:** Phase 1 - Data Preprocessing
+**Current Milestone:** M2 - Baseline Model Training
+**Current Phase:** Phase 2 - Audio-to-Parameter Modeling
 
-**Progress:**
+**Phase 1 Progress (✅ COMPLETE):**
 - [x] Project structure initialized
-- [x] Requirements defined
-- [x] Git repository created
-- [ ] Data downloaded from figshare
-- [ ] EDA completed
-- [ ] Preprocessing pipeline built
+- [x] U-Net segmentation pipeline built
+- [x] Model trained (81.8% Dice score)
+- [x] Parameter extraction module implemented
+
+**Phase 2 Progress (🚧 IN PROGRESS):**
+- [x] Audio feature extraction module
+- [x] Bi-LSTM baseline model implemented
+- [x] Training pipeline complete
+- [x] Evaluation metrics implemented
+- [ ] Full dataset processing (Phase 1 → Phase 2)
+- [ ] Model training on real data
+- [ ] Baseline performance evaluation (RMSE < 0.15)
 
 ---
 
@@ -101,8 +108,8 @@ jupyter notebook notebooks/01_EDA.ipynb
 
 | Milestone | Target | Status | Completion Criteria |
 |-----------|--------|--------|---------------------|
-| **M1: Data Pipeline** | Phase 1 | 🟡 In Progress | MRI-Audio paired dataset ready |
-| **M2: Baseline Model** | Phase 2 | ⬜ Pending | RMSE < 0.15, PCC > 0.50 |
+| **M1: Data Pipeline** | Phase 1 | ✅ Complete | MRI segmentation complete (81.8% Dice) |
+| **M2: Baseline Model** | Phase 2 | 🟡 In Progress | RMSE < 0.15, PCC > 0.50 |
 | **M3: Core Goal** | Phase 2 | ⬜ Pending | RMSE < 0.10, PCC > 0.70 |
 | **M4: Digital Twin** | Phase 3 | ⬜ Future | 3D synthesis working |
 
@@ -111,36 +118,47 @@ jupyter notebook notebooks/01_EDA.ipynb
 ## 📖 Documentation
 
 - **[Researcher Manual](docs/researcher_manual.md)** - Complete research protocol and guidelines
+- **[Phase 1 Complete Report](docs/PROJECT_SULLIVAN_SEGMENTATION_COMPLETE.md)** - U-Net segmentation results
+- **[Phase 2 Setup Report](docs/PHASE2_SETUP_COMPLETE.md)** - Audio-to-parameter infrastructure
 - **[Data Download Guide](docs/DATA_DOWNLOAD_GUIDE.md)** - How to obtain the dataset
-- **[Meeting Notes](docs/meeting_notes/)** - Weekly meeting records
-- **[Literature Review](docs/literature_review/)** - Paper reviews
 
 ---
 
 ## 🔬 Research Phases
 
-### Phase 1: Data Preprocessing ⭐ (Current)
+### Phase 1: Data Preprocessing ✅ (Complete)
 
 **Goal:** Extract articulatory parameters from MRI data
 
-**Tasks:**
-1. Data loading & exploration
-2. MRI/Audio denoising & alignment
-3. Vocal tract segmentation
-4. Parameter extraction (PCA/Autoencoder)
+**Completed Tasks:**
+1. ✅ Data loading & exploration
+2. ✅ MRI segmentation (U-Net: 81.8% Dice score)
+3. ✅ Parameter extraction module (10-dimensional)
+4. ⬜ Full dataset processing (468 utterances)
 
-**Output:** `data/processed/parameters/` (train/val/test splits)
+**Output:** `data/processed/segmentations/`, `data/processed/parameters/`
 
-### Phase 2: Audio-to-Parameter Model ⭐
+**Documentation:** [Phase 1 Complete Report](docs/PROJECT_SULLIVAN_SEGMENTATION_COMPLETE.md)
+
+### Phase 2: Audio-to-Parameter Model ⭐ (Current)
 
 **Goal:** Train AI model to predict articulatory parameters from audio
 
-**Approaches:**
-- Bi-LSTM baseline
-- Transformer-based models
-- Conformer architecture
+**Implemented Infrastructure:**
+- ✅ Audio feature extraction (Mel-spectrogram, MFCC)
+- ✅ PyTorch Dataset with variable-length sequences
+- ✅ Bi-LSTM baseline model (256 hidden, 3 layers)
+- ✅ Training pipeline with early stopping
+- ✅ Evaluation metrics (RMSE, MAE, PCC)
+
+**Next Steps:**
+1. Process full dataset (Phase 1 → Phase 2 data)
+2. Train baseline Bi-LSTM model
+3. Evaluate and iterate to meet targets
 
 **Target Performance:** RMSE < 0.10, PCC > 0.70
+
+**Documentation:** [Phase 2 Setup Report](docs/PHASE2_SETUP_COMPLETE.md)
 
 ### Phase 3: Digital Twin (Future)
 
@@ -233,5 +251,5 @@ Research use only. See USC-TIMIT dataset license for data usage terms.
 
 ---
 
-**Last Updated:** 2025-11-25
-**Version:** 1.1
+**Last Updated:** 2025-11-27
+**Version:** 2.0 (Phase 2 Infrastructure Complete)

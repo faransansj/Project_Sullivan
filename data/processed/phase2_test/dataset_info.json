@@ -1,0 +1,15 @@
+{
+  "num_train": 20,
+  "num_val": 5,
+  "num_test": 5,
+  "total_samples": 30,
+  "audio_feature_type": "mel",
+  "duration_range": [
+    1.0,
+    3.0
+  ],
+  "parameter_dim": 10,
+  "audio_dim": 80,
+  "created_at": "1764234546.9825413",
+  "seed": 42
+}

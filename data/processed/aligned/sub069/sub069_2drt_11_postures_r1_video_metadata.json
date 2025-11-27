@@ -1,0 +1,17 @@
+{
+  "alignment": {
+    "offset_seconds": 18.111519274376416,
+    "correlation": 0.1359858218598729,
+    "is_valid": false,
+    "validation_message": "Low correlation: 0.136 < 0.3"
+  },
+  "metadata": {
+    "original_mri_shape": [
+      2962,
+      84,
+      84
+    ],
+    "original_audio_length": 798720,
+    "video_file": "sub069_2drt_11_postures_r1_video.mp4"
+  }
+}

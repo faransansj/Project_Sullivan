@@ -1,0 +1,31 @@
+{
+  "total_subjects": 1,
+  "processed_subjects": 1,
+  "total_utterances": 2,
+  "failed_utterances": 0,
+  "subjects": [
+    {
+      "subject_id": "sub001",
+      "total_utterances": 2,
+      "processed": 2,
+      "failed": 0,
+      "utterances": [
+        {
+          "utterance_name": "sub001_2drt_01_vcv1_r1_video",
+          "hdf5_path": "data/processed/test_batch/sub001/sub001_2drt_01_vcv1_r1_video.h5",
+          "metadata_path": "data/processed/test_batch/sub001/sub001_2drt_01_vcv1_r1_video_metadata.json",
+          "alignment_valid": true,
+          "correlation": 0.3634748063297857
+        },
+        {
+          "utterance_name": "sub001_2drt_01_vcv1_r2_video",
+          "hdf5_path": "data/processed/test_batch/sub001/sub001_2drt_01_vcv1_r2_video.h5",
+          "metadata_path": "data/processed/test_batch/sub001/sub001_2drt_01_vcv1_r2_video_metadata.json",
+          "alignment_valid": true,
+          "correlation": 0.3930155547746085
+        }
+      ],
+      "failed_utterances": []
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+[flake8]
+max-line-length = 100
+ignore = E203,E501,W503,E231
+max-complexity = 10
+exclude =
+    .git,
+    __pycache__,
+    .venv,
+    venv,
+    venv_sullivan,
+    build,
+    dist,
+    *.egg-info,
+    .tox,
+    .pytest_cache,
+    .mypy_cache,
+    data,
+    models,
+    results,
+    logs,
+    notebooks/.ipynb_checkpoints
+per-file-ignores =
+    __init__.py:F401,F403
+    tests/*:F401,F811
+    src/preprocessing/data_loader.py:C901
+docstring-convention = google

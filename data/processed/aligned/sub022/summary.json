@@ -1,0 +1,205 @@
+{
+  "subject_id": "sub022",
+  "total_utterances": 28,
+  "processed": 28,
+  "failed": 0,
+  "utterances": [
+    {
+      "utterance_name": "sub022_2drt_01_vcv1_r1_video",
+      "hdf5_path": "data/processed/aligned/sub022/sub022_2drt_01_vcv1_r1_video.h5",
+      "metadata_path": "data/processed/aligned/sub022/sub022_2drt_01_vcv1_r1_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.15848604472991373
+    },
+    {
+      "utterance_name": "sub022_2drt_01_vcv1_r2_video",
+      "hdf5_path": "data/processed/aligned/sub022/sub022_2drt_01_vcv1_r2_video.h5",
+      "metadata_path": "data/processed/aligned/sub022/sub022_2drt_01_vcv1_r2_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.12712088833643914
+    },
+    {
+      "utterance_name": "sub022_2drt_02_vcv2_r1_video",
+      "hdf5_path": "data/processed/aligned/sub022/sub022_2drt_02_vcv2_r1_video.h5",
+      "metadata_path": "data/processed/aligned/sub022/sub022_2drt_02_vcv2_r1_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.10348823464761042
+    },
+    {
+      "utterance_name": "sub022_2drt_02_vcv2_r2_video",
+      "hdf5_path": "data/processed/aligned/sub022/sub022_2drt_02_vcv2_r2_video.h5",
+      "metadata_path": "data/processed/aligned/sub022/sub022_2drt_02_vcv2_r2_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.16929336893722116
+    },
+    {
+      "utterance_name": "sub022_2drt_03_vcv3_r1_video",
+      "hdf5_path": "data/processed/aligned/sub022/sub022_2drt_03_vcv3_r1_video.h5",
+      "metadata_path": "data/processed/aligned/sub022/sub022_2drt_03_vcv3_r1_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.1110471750631548
+    },
+    {
+      "utterance_name": "sub022_2drt_03_vcv3_r2_video",
+      "hdf5_path": "data/processed/aligned/sub022/sub022_2drt_03_vcv3_r2_video.h5",
+      "metadata_path": "data/processed/aligned/sub022/sub022_2drt_03_vcv3_r2_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.1571877428072959
+    },
+    {
+      "utterance_name": "sub022_2drt_04_bvt_r1_video",
+      "hdf5_path": "data/processed/aligned/sub022/sub022_2drt_04_bvt_r1_video.h5",
+      "metadata_path": "data/processed/aligned/sub022/sub022_2drt_04_bvt_r1_video_metadata.json",
+      "alignment_valid": true,
+      "correlation": 0.3261834551085793
+    },
+    {
+      "utterance_name": "sub022_2drt_04_bvt_r2_video",
+      "hdf5_path": "data/processed/aligned/sub022/sub022_2drt_04_bvt_r2_video.h5",
+      "metadata_path": "data/processed/aligned/sub022/sub022_2drt_04_bvt_r2_video_metadata.json",
+      "alignment_valid": true,
+      "correlation": 0.3226233637680012
+    },
+    {
+      "utterance_name": "sub022_2drt_05_shibboleth_r1_video",
+      "hdf5_path": "data/processed/aligned/sub022/sub022_2drt_05_shibboleth_r1_video.h5",
+      "metadata_path": "data/processed/aligned/sub022/sub022_2drt_05_shibboleth_r1_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.12688112124456563
+    },
+    {
+      "utterance_name": "sub022_2drt_05_shibboleth_r2_video",
+      "hdf5_path": "data/processed/aligned/sub022/sub022_2drt_05_shibboleth_r2_video.h5",
+      "metadata_path": "data/processed/aligned/sub022/sub022_2drt_05_shibboleth_r2_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.17359931549578722
+    },
+    {
+      "utterance_name": "sub022_2drt_06_rainbow_r1_video",
+      "hdf5_path": "data/processed/aligned/sub022/sub022_2drt_06_rainbow_r1_video.h5",
+      "metadata_path": "data/processed/aligned/sub022/sub022_2drt_06_rainbow_r1_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.2054015166250394
+    },
+    {
+      "utterance_name": "sub022_2drt_06_rainbow_r2_video",
+      "hdf5_path": "data/processed/aligned/sub022/sub022_2drt_06_rainbow_r2_video.h5",
+      "metadata_path": "data/processed/aligned/sub022/sub022_2drt_06_rainbow_r2_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.20465943775048895
+    },
+    {
+      "utterance_name": "sub022_2drt_07_grandfather1_r1_video",
+      "hdf5_path": "data/processed/aligned/sub022/sub022_2drt_07_grandfather1_r1_video.h5",
+      "metadata_path": "data/processed/aligned/sub022/sub022_2drt_07_grandfather1_r1_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.09750638802997086
+    },
+    {
+      "utterance_name": "sub022_2drt_07_grandfather1_r2_video",
+      "hdf5_path": "data/processed/aligned/sub022/sub022_2drt_07_grandfather1_r2_video.h5",
+      "metadata_path": "data/processed/aligned/sub022/sub022_2drt_07_grandfather1_r2_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.16453837353881035
+    },
+    {
+      "utterance_name": "sub022_2drt_09_northwind1_r1_video",
+      "hdf5_path": "data/processed/aligned/sub022/sub022_2drt_09_northwind1_r1_video.h5",
+      "metadata_path": "data/processed/aligned/sub022/sub022_2drt_09_northwind1_r1_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.231666643680555
+    },
+    {
+      "utterance_name": "sub022_2drt_09_northwind1_r2_video",
+      "hdf5_path": "data/processed/aligned/sub022/sub022_2drt_09_northwind1_r2_video.h5",
+      "metadata_path": "data/processed/aligned/sub022/sub022_2drt_09_northwind1_r2_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.16918539650126316
+    },
+    {
+      "utterance_name": "sub022_2drt_11_postures_r1_video",
+      "hdf5_path": "data/processed/aligned/sub022/sub022_2drt_11_postures_r1_video.h5",
+      "metadata_path": "data/processed/aligned/sub022/sub022_2drt_11_postures_r1_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.13526865503230528
+    },
+    {
+      "utterance_name": "sub022_2drt_11_postures_r2_video",
+      "hdf5_path": "data/processed/aligned/sub022/sub022_2drt_11_postures_r2_video.h5",
+      "metadata_path": "data/processed/aligned/sub022/sub022_2drt_11_postures_r2_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.19309882869479947
+    },
+    {
+      "utterance_name": "sub022_2drt_12_picture1_video",
+      "hdf5_path": "data/processed/aligned/sub022/sub022_2drt_12_picture1_video.h5",
+      "metadata_path": "data/processed/aligned/sub022/sub022_2drt_12_picture1_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.17674088721813988
+    },
+    {
+      "utterance_name": "sub022_2drt_13_picture2_video",
+      "hdf5_path": "data/processed/aligned/sub022/sub022_2drt_13_picture2_video.h5",
+      "metadata_path": "data/processed/aligned/sub022/sub022_2drt_13_picture2_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.18251030434580331
+    },
+    {
+      "utterance_name": "sub022_2drt_14_picture3_video",
+      "hdf5_path": "data/processed/aligned/sub022/sub022_2drt_14_picture3_video.h5",
+      "metadata_path": "data/processed/aligned/sub022/sub022_2drt_14_picture3_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.24033662331158923
+    },
+    {
+      "utterance_name": "sub022_2drt_15_picture4_video",
+      "hdf5_path": "data/processed/aligned/sub022/sub022_2drt_15_picture4_video.h5",
+      "metadata_path": "data/processed/aligned/sub022/sub022_2drt_15_picture4_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.15851116889004566
+    },
+    {
+      "utterance_name": "sub022_2drt_16_picture5_video",
+      "hdf5_path": "data/processed/aligned/sub022/sub022_2drt_16_picture5_video.h5",
+      "metadata_path": "data/processed/aligned/sub022/sub022_2drt_16_picture5_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.15027857489475863
+    },
+    {
+      "utterance_name": "sub022_2drt_17_topic1_video",
+      "hdf5_path": "data/processed/aligned/sub022/sub022_2drt_17_topic1_video.h5",
+      "metadata_path": "data/processed/aligned/sub022/sub022_2drt_17_topic1_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.12281390494089367
+    },
+    {
+      "utterance_name": "sub022_2drt_18_topic2_video",
+      "hdf5_path": "data/processed/aligned/sub022/sub022_2drt_18_topic2_video.h5",
+      "metadata_path": "data/processed/aligned/sub022/sub022_2drt_18_topic2_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.10439494735891547
+    },
+    {
+      "utterance_name": "sub022_2drt_19_topic3_video",
+      "hdf5_path": "data/processed/aligned/sub022/sub022_2drt_19_topic3_video.h5",
+      "metadata_path": "data/processed/aligned/sub022/sub022_2drt_19_topic3_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.13629882598115342
+    },
+    {
+      "utterance_name": "sub022_2drt_20_topic4_video",
+      "hdf5_path": "data/processed/aligned/sub022/sub022_2drt_20_topic4_video.h5",
+      "metadata_path": "data/processed/aligned/sub022/sub022_2drt_20_topic4_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.10090294930400047
+    },
+    {
+      "utterance_name": "sub022_2drt_21_topic5_video",
+      "hdf5_path": "data/processed/aligned/sub022/sub022_2drt_21_topic5_video.h5",
+      "metadata_path": "data/processed/aligned/sub022/sub022_2drt_21_topic5_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.1486236986169341
+    }
+  ],
+  "failed_utterances": []
+}

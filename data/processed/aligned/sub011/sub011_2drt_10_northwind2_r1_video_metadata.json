@@ -1,0 +1,17 @@
+{
+  "alignment": {
+    "offset_seconds": 0.01832199546485261,
+    "correlation": 0.1855670236989819,
+    "is_valid": false,
+    "validation_message": "Low correlation: 0.186 < 0.3"
+  },
+  "metadata": {
+    "original_mri_shape": [
+      1688,
+      84,
+      84
+    ],
+    "original_audio_length": 449536,
+    "video_file": "sub011_2drt_10_northwind2_r1_video.mp4"
+  }
+}

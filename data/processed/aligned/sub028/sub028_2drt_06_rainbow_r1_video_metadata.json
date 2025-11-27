@@ -1,0 +1,17 @@
+{
+  "alignment": {
+    "offset_seconds": 0.18027210884353742,
+    "correlation": 0.12685881813911115,
+    "is_valid": false,
+    "validation_message": "Low correlation: 0.127 < 0.3"
+  },
+  "metadata": {
+    "original_mri_shape": [
+      3966,
+      84,
+      84
+    ],
+    "original_audio_length": 1052672,
+    "video_file": "sub028_2drt_06_rainbow_r1_video.mp4"
+  }
+}

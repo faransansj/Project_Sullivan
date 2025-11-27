@@ -1,0 +1,17 @@
+{
+  "alignment": {
+    "offset_seconds": -1.2208616780045352,
+    "correlation": 0.1283038807091941,
+    "is_valid": false,
+    "validation_message": "Low correlation: 0.128 < 0.3"
+  },
+  "metadata": {
+    "original_mri_shape": [
+      2668,
+      84,
+      84
+    ],
+    "original_audio_length": 709632,
+    "video_file": "sub011_2drt_19_topic3_video.mp4"
+  }
+}

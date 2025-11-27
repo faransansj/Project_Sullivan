@@ -1,0 +1,249 @@
+{
+  "total_frames": 150,
+  "total_samples": 15,
+  "frames_per_subject": 10,
+  "max_subjects": 15,
+  "method": "combined",
+  "samples": [
+    {
+      "utterance_name": "sub001_2drt_11_postures_r1_video",
+      "hdf5_path": "data/processed/aligned/sub001/sub001_2drt_11_postures_r1_video.h5",
+      "frame_indices": [
+        0,
+        252,
+        505,
+        758,
+        1011,
+        1263,
+        1516,
+        1769,
+        2022,
+        2275
+      ]
+    },
+    {
+      "utterance_name": "sub007_2drt_12_picture1_video",
+      "hdf5_path": "data/processed/aligned/sub007/sub007_2drt_12_picture1_video.h5",
+      "frame_indices": [
+        0,
+        296,
+        593,
+        890,
+        1186,
+        1483,
+        1780,
+        2076,
+        2373,
+        2670
+      ]
+    },
+    {
+      "utterance_name": "sub008_2drt_01_vcv1_r2_video",
+      "hdf5_path": "data/processed/aligned/sub008/sub008_2drt_01_vcv1_r2_video.h5",
+      "frame_indices": [
+        0,
+        258,
+        516,
+        774,
+        1032,
+        1290,
+        1548,
+        1806,
+        2064,
+        2322
+      ]
+    },
+    {
+      "utterance_name": "sub009_2drt_01_vcv1_r1_video",
+      "hdf5_path": "data/processed/aligned/sub009/sub009_2drt_01_vcv1_r1_video.h5",
+      "frame_indices": [
+        0,
+        364,
+        729,
+        1093,
+        1458,
+        1822,
+        2187,
+        2551,
+        2916,
+        3281
+      ]
+    },
+    {
+      "utterance_name": "sub011_2drt_04_bvt_r2_video",
+      "hdf5_path": "data/processed/aligned/sub011/sub011_2drt_04_bvt_r2_video.h5",
+      "frame_indices": [
+        0,
+        212,
+        425,
+        638,
+        851,
+        1063,
+        1276,
+        1489,
+        1702,
+        1915
+      ]
+    },
+    {
+      "utterance_name": "sub012_2drt_03_vcv3_r2_video",
+      "hdf5_path": "data/processed/aligned/sub012/sub012_2drt_03_vcv3_r2_video.h5",
+      "frame_indices": [
+        0,
+        344,
+        689,
+        1034,
+        1379,
+        1724,
+        2069,
+        2414,
+        2759,
+        3104
+      ]
+    },
+    {
+      "utterance_name": "sub017_2drt_04_bvt_r1_video",
+      "hdf5_path": "data/processed/aligned/sub017/sub017_2drt_04_bvt_r1_video.h5",
+      "frame_indices": [
+        0,
+        235,
+        470,
+        705,
+        940,
+        1175,
+        1410,
+        1645,
+        1880,
+        2115
+      ]
+    },
+    {
+      "utterance_name": "sub021_2drt_11_postures_r2_video",
+      "hdf5_path": "data/processed/aligned/sub021/sub021_2drt_11_postures_r2_video.h5",
+      "frame_indices": [
+        0,
+        262,
+        524,
+        786,
+        1048,
+        1310,
+        1572,
+        1834,
+        2096,
+        2359
+      ]
+    },
+    {
+      "utterance_name": "sub022_2drt_04_bvt_r1_video",
+      "hdf5_path": "data/processed/aligned/sub022/sub022_2drt_04_bvt_r1_video.h5",
+      "frame_indices": [
+        0,
+        251,
+        503,
+        754,
+        1006,
+        1257,
+        1509,
+        1760,
+        2012,
+        2264
+      ]
+    },
+    {
+      "utterance_name": "sub028_2drt_04_bvt_r1_video",
+      "hdf5_path": "data/processed/aligned/sub028/sub028_2drt_04_bvt_r1_video.h5",
+      "frame_indices": [
+        0,
+        268,
+        536,
+        804,
+        1072,
+        1341,
+        1609,
+        1877,
+        2145,
+        2414
+      ]
+    },
+    {
+      "utterance_name": "sub037_2drt_04_bvt_r1_video",
+      "hdf5_path": "data/processed/aligned/sub037/sub037_2drt_04_bvt_r1_video.h5",
+      "frame_indices": [
+        0,
+        272,
+        545,
+        818,
+        1091,
+        1363,
+        1636,
+        1909,
+        2182,
+        2455
+      ]
+    },
+    {
+      "utterance_name": "sub038_2drt_04_bvt_r1_video",
+      "hdf5_path": "data/processed/aligned/sub038/sub038_2drt_04_bvt_r1_video.h5",
+      "frame_indices": [
+        0,
+        268,
+        537,
+        806,
+        1074,
+        1343,
+        1612,
+        1880,
+        2149,
+        2418
+      ]
+    },
+    {
+      "utterance_name": "sub039_2drt_04_bvt_r2_video",
+      "hdf5_path": "data/processed/aligned/sub039/sub039_2drt_04_bvt_r2_video.h5",
+      "frame_indices": [
+        0,
+        185,
+        370,
+        555,
+        740,
+        925,
+        1110,
+        1295,
+        1480,
+        1665
+      ]
+    },
+    {
+      "utterance_name": "sub061_2drt_04_bvt_r1_video",
+      "hdf5_path": "data/processed/aligned/sub061/sub061_2drt_04_bvt_r1_video.h5",
+      "frame_indices": [
+        0,
+        246,
+        492,
+        738,
+        984,
+        1231,
+        1477,
+        1723,
+        1969,
+        2216
+      ]
+    },
+    {
+      "utterance_name": "sub069_2drt_01_vcv1_r1_video",
+      "hdf5_path": "data/processed/aligned/sub069/sub069_2drt_01_vcv1_r1_video.h5",
+      "frame_indices": [
+        0,
+        404,
+        808,
+        1212,
+        1616,
+        2021,
+        2425,
+        2829,
+        3233,
+        3638
+      ]
+    }
+  ]
+}

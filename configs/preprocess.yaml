@@ -1,0 +1,54 @@
+# Project Sullivan - Preprocessing Configuration
+# This file contains all configuration parameters for the preprocessing pipeline
+
+# Input/Output paths
+raw_data_path: "/home/midori/Develop/Project_Sullivan/data/raw/usc_timit_data"
+output_path: "/home/midori/Develop/Project_Sullivan/data/processed"
+
+# MRI settings
+mri_target_size: [256, 256]
+mri_fps: 83.28
+denoise_method: "gaussian"
+mri_denoise_method: "gaussian"
+mri_denoise_sigma: 1.0
+mri_temporal_window: 3  # Options: gaussian, bilateral, nlm, bm3d
+
+# Audio settings
+audio_sr: 16000
+audio_sample_rate: 22050
+audio_denoise: true
+
+# Alignment
+alignment_method: "cross_correlation"
+
+# Segmentation
+segmentation_model: "unet_resnet50"
+segmentation_pretrained: true
+num_classes: 5  # background, tongue, jaw, lips, velum
+segmentation_batch_size: 8
+segmentation_device: "cuda"
+
+# Parameterization
+parameterization_method: "pca"  # Options: pca, autoencoder, both
+pca_components: 10
+autoencoder_latent_dim: 10
+temporal_smoothing: true
+smoothing_method: "savgol"  # Options: savgol, gaussian, median
+smoothing_window: 11
+
+# Audio features
+n_mfcc: 13
+n_mels: 80
+hop_length: 160  # 10ms at 16kHz
+
+# Dataset building
+train_ratio: 0.7
+val_ratio: 0.15
+test_ratio: 0.15
+speaker_level_split: true
+compression: "gzip"
+compression_level: 4
+
+# Validation
+run_validation: true
+generate_visualizations: true

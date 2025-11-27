@@ -1,0 +1,17 @@
+{
+  "alignment": {
+    "offset_seconds": 0.10158730158730159,
+    "correlation": 0.15608803337744187,
+    "is_valid": false,
+    "validation_message": "Low correlation: 0.156 < 0.3"
+  },
+  "metadata": {
+    "original_mri_shape": [
+      3567,
+      84,
+      84
+    ],
+    "original_audio_length": 946176,
+    "video_file": "sub069_2drt_07_grandfather1_r2_video.mp4"
+  }
+}

@@ -1,0 +1,233 @@
+{
+  "subject_id": "sub069",
+  "total_utterances": 32,
+  "processed": 32,
+  "failed": 0,
+  "utterances": [
+    {
+      "utterance_name": "sub069_2drt_01_vcv1_r1_video",
+      "hdf5_path": "data/processed/aligned/sub069/sub069_2drt_01_vcv1_r1_video.h5",
+      "metadata_path": "data/processed/aligned/sub069/sub069_2drt_01_vcv1_r1_video_metadata.json",
+      "alignment_valid": true,
+      "correlation": 0.4105614128002907
+    },
+    {
+      "utterance_name": "sub069_2drt_01_vcv1_r2_video",
+      "hdf5_path": "data/processed/aligned/sub069/sub069_2drt_01_vcv1_r2_video.h5",
+      "metadata_path": "data/processed/aligned/sub069/sub069_2drt_01_vcv1_r2_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.2955309033954645
+    },
+    {
+      "utterance_name": "sub069_2drt_02_vcv2_r1_video",
+      "hdf5_path": "data/processed/aligned/sub069/sub069_2drt_02_vcv2_r1_video.h5",
+      "metadata_path": "data/processed/aligned/sub069/sub069_2drt_02_vcv2_r1_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.29228980957132716
+    },
+    {
+      "utterance_name": "sub069_2drt_02_vcv2_r2_video",
+      "hdf5_path": "data/processed/aligned/sub069/sub069_2drt_02_vcv2_r2_video.h5",
+      "metadata_path": "data/processed/aligned/sub069/sub069_2drt_02_vcv2_r2_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.25382655541944166
+    },
+    {
+      "utterance_name": "sub069_2drt_03_vcv3_r1_video",
+      "hdf5_path": "data/processed/aligned/sub069/sub069_2drt_03_vcv3_r1_video.h5",
+      "metadata_path": "data/processed/aligned/sub069/sub069_2drt_03_vcv3_r1_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.28437215859749954
+    },
+    {
+      "utterance_name": "sub069_2drt_03_vcv3_r2_video",
+      "hdf5_path": "data/processed/aligned/sub069/sub069_2drt_03_vcv3_r2_video.h5",
+      "metadata_path": "data/processed/aligned/sub069/sub069_2drt_03_vcv3_r2_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.2873194275599522
+    },
+    {
+      "utterance_name": "sub069_2drt_04_bvt_r1_video",
+      "hdf5_path": "data/processed/aligned/sub069/sub069_2drt_04_bvt_r1_video.h5",
+      "metadata_path": "data/processed/aligned/sub069/sub069_2drt_04_bvt_r1_video_metadata.json",
+      "alignment_valid": true,
+      "correlation": 0.3689532332365897
+    },
+    {
+      "utterance_name": "sub069_2drt_04_bvt_r2_video",
+      "hdf5_path": "data/processed/aligned/sub069/sub069_2drt_04_bvt_r2_video.h5",
+      "metadata_path": "data/processed/aligned/sub069/sub069_2drt_04_bvt_r2_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.27292388252822974
+    },
+    {
+      "utterance_name": "sub069_2drt_05_shibboleth_r1_video",
+      "hdf5_path": "data/processed/aligned/sub069/sub069_2drt_05_shibboleth_r1_video.h5",
+      "metadata_path": "data/processed/aligned/sub069/sub069_2drt_05_shibboleth_r1_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.1709839125122786
+    },
+    {
+      "utterance_name": "sub069_2drt_05_shibboleth_r2_video",
+      "hdf5_path": "data/processed/aligned/sub069/sub069_2drt_05_shibboleth_r2_video.h5",
+      "metadata_path": "data/processed/aligned/sub069/sub069_2drt_05_shibboleth_r2_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.21015630379707684
+    },
+    {
+      "utterance_name": "sub069_2drt_06_rainbow_r1_video",
+      "hdf5_path": "data/processed/aligned/sub069/sub069_2drt_06_rainbow_r1_video.h5",
+      "metadata_path": "data/processed/aligned/sub069/sub069_2drt_06_rainbow_r1_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.13722268300932722
+    },
+    {
+      "utterance_name": "sub069_2drt_06_rainbow_r2_video",
+      "hdf5_path": "data/processed/aligned/sub069/sub069_2drt_06_rainbow_r2_video.h5",
+      "metadata_path": "data/processed/aligned/sub069/sub069_2drt_06_rainbow_r2_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.14351470407180147
+    },
+    {
+      "utterance_name": "sub069_2drt_07_grandfather1_r1_video",
+      "hdf5_path": "data/processed/aligned/sub069/sub069_2drt_07_grandfather1_r1_video.h5",
+      "metadata_path": "data/processed/aligned/sub069/sub069_2drt_07_grandfather1_r1_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.13722291122450997
+    },
+    {
+      "utterance_name": "sub069_2drt_07_grandfather1_r2_video",
+      "hdf5_path": "data/processed/aligned/sub069/sub069_2drt_07_grandfather1_r2_video.h5",
+      "metadata_path": "data/processed/aligned/sub069/sub069_2drt_07_grandfather1_r2_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.15608803337744187
+    },
+    {
+      "utterance_name": "sub069_2drt_08_grandfather2_r1_video",
+      "hdf5_path": "data/processed/aligned/sub069/sub069_2drt_08_grandfather2_r1_video.h5",
+      "metadata_path": "data/processed/aligned/sub069/sub069_2drt_08_grandfather2_r1_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.14841147128228088
+    },
+    {
+      "utterance_name": "sub069_2drt_08_grandfather2_r2_video",
+      "hdf5_path": "data/processed/aligned/sub069/sub069_2drt_08_grandfather2_r2_video.h5",
+      "metadata_path": "data/processed/aligned/sub069/sub069_2drt_08_grandfather2_r2_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.17294169966752912
+    },
+    {
+      "utterance_name": "sub069_2drt_09_northwind1_r1_video",
+      "hdf5_path": "data/processed/aligned/sub069/sub069_2drt_09_northwind1_r1_video.h5",
+      "metadata_path": "data/processed/aligned/sub069/sub069_2drt_09_northwind1_r1_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.17148475827005655
+    },
+    {
+      "utterance_name": "sub069_2drt_09_northwind1_r2_video",
+      "hdf5_path": "data/processed/aligned/sub069/sub069_2drt_09_northwind1_r2_video.h5",
+      "metadata_path": "data/processed/aligned/sub069/sub069_2drt_09_northwind1_r2_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.196728738976886
+    },
+    {
+      "utterance_name": "sub069_2drt_10_northwind2_r1_video",
+      "hdf5_path": "data/processed/aligned/sub069/sub069_2drt_10_northwind2_r1_video.h5",
+      "metadata_path": "data/processed/aligned/sub069/sub069_2drt_10_northwind2_r1_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.1623239372265262
+    },
+    {
+      "utterance_name": "sub069_2drt_10_northwind2_r2_video",
+      "hdf5_path": "data/processed/aligned/sub069/sub069_2drt_10_northwind2_r2_video.h5",
+      "metadata_path": "data/processed/aligned/sub069/sub069_2drt_10_northwind2_r2_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.1424117355665773
+    },
+    {
+      "utterance_name": "sub069_2drt_11_postures_r1_video",
+      "hdf5_path": "data/processed/aligned/sub069/sub069_2drt_11_postures_r1_video.h5",
+      "metadata_path": "data/processed/aligned/sub069/sub069_2drt_11_postures_r1_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.1359858218598729
+    },
+    {
+      "utterance_name": "sub069_2drt_11_postures_r2_video",
+      "hdf5_path": "data/processed/aligned/sub069/sub069_2drt_11_postures_r2_video.h5",
+      "metadata_path": "data/processed/aligned/sub069/sub069_2drt_11_postures_r2_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.2140921924388556
+    },
+    {
+      "utterance_name": "sub069_2drt_12_picture1_video",
+      "hdf5_path": "data/processed/aligned/sub069/sub069_2drt_12_picture1_video.h5",
+      "metadata_path": "data/processed/aligned/sub069/sub069_2drt_12_picture1_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.13760130113028898
+    },
+    {
+      "utterance_name": "sub069_2drt_13_picture2_video",
+      "hdf5_path": "data/processed/aligned/sub069/sub069_2drt_13_picture2_video.h5",
+      "metadata_path": "data/processed/aligned/sub069/sub069_2drt_13_picture2_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.2097818685840152
+    },
+    {
+      "utterance_name": "sub069_2drt_14_picture3_video",
+      "hdf5_path": "data/processed/aligned/sub069/sub069_2drt_14_picture3_video.h5",
+      "metadata_path": "data/processed/aligned/sub069/sub069_2drt_14_picture3_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.18563866820086422
+    },
+    {
+      "utterance_name": "sub069_2drt_15_picture4_video",
+      "hdf5_path": "data/processed/aligned/sub069/sub069_2drt_15_picture4_video.h5",
+      "metadata_path": "data/processed/aligned/sub069/sub069_2drt_15_picture4_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.20512366019336792
+    },
+    {
+      "utterance_name": "sub069_2drt_16_picture5_video",
+      "hdf5_path": "data/processed/aligned/sub069/sub069_2drt_16_picture5_video.h5",
+      "metadata_path": "data/processed/aligned/sub069/sub069_2drt_16_picture5_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.18130887414732624
+    },
+    {
+      "utterance_name": "sub069_2drt_17_topic1_video",
+      "hdf5_path": "data/processed/aligned/sub069/sub069_2drt_17_topic1_video.h5",
+      "metadata_path": "data/processed/aligned/sub069/sub069_2drt_17_topic1_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.15268131646329586
+    },
+    {
+      "utterance_name": "sub069_2drt_18_topic2_video",
+      "hdf5_path": "data/processed/aligned/sub069/sub069_2drt_18_topic2_video.h5",
+      "metadata_path": "data/processed/aligned/sub069/sub069_2drt_18_topic2_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.16898609928420927
+    },
+    {
+      "utterance_name": "sub069_2drt_19_topic3_video",
+      "hdf5_path": "data/processed/aligned/sub069/sub069_2drt_19_topic3_video.h5",
+      "metadata_path": "data/processed/aligned/sub069/sub069_2drt_19_topic3_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.17880551492423882
+    },
+    {
+      "utterance_name": "sub069_2drt_20_topic4_video",
+      "hdf5_path": "data/processed/aligned/sub069/sub069_2drt_20_topic4_video.h5",
+      "metadata_path": "data/processed/aligned/sub069/sub069_2drt_20_topic4_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.21800011413746115
+    },
+    {
+      "utterance_name": "sub069_2drt_21_topic5_video",
+      "hdf5_path": "data/processed/aligned/sub069/sub069_2drt_21_topic5_video.h5",
+      "metadata_path": "data/processed/aligned/sub069/sub069_2drt_21_topic5_video_metadata.json",
+      "alignment_valid": false,
+      "correlation": 0.1535988749334368
+    }
+  ],
+  "failed_utterances": []
+}

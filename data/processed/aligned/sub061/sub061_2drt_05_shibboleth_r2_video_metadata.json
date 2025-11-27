@@ -1,0 +1,17 @@
+{
+  "alignment": {
+    "offset_seconds": 0.13891156462585033,
+    "correlation": 0.21858108456160652,
+    "is_valid": false,
+    "validation_message": "Low correlation: 0.219 < 0.3"
+  },
+  "metadata": {
+    "original_mri_shape": [
+      1847,
+      84,
+      84
+    ],
+    "original_audio_length": 491520,
+    "video_file": "sub061_2drt_05_shibboleth_r2_video.mp4"
+  }
+}

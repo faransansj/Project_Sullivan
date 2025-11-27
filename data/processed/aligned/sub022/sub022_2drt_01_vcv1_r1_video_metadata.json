@@ -1,0 +1,17 @@
+{
+  "alignment": {
+    "offset_seconds": -0.1964172335600907,
+    "correlation": 0.15848604472991373,
+    "is_valid": false,
+    "validation_message": "Low correlation: 0.158 < 0.3"
+  },
+  "metadata": {
+    "original_mri_shape": [
+      2859,
+      84,
+      84
+    ],
+    "original_audio_length": 761856,
+    "video_file": "sub022_2drt_01_vcv1_r1_video.mp4"
+  }
+}

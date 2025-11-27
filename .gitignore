@@ -1,0 +1,134 @@
+# Project Sullivan - Git Ignore
+
+# ============================================
+# Python
+# ============================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# ============================================
+# Virtual Environments
+# ============================================
+venv/
+venv_sullivan/
+ENV/
+env/
+.venv
+
+# ============================================
+# IDEs
+# ============================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# ============================================
+# Jupyter Notebook
+# ============================================
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# ============================================
+# Data Files (IMPORTANT: Do not commit large data files)
+# ============================================
+data/raw/**/*.h5
+data/raw/**/*.hdf5
+data/raw/**/*.mat
+data/raw/**/*.nii
+data/raw/**/*.nii.gz
+data/raw/**/*.dcm
+data/raw/**/*.wav
+data/raw/**/*.mp3
+data/raw/**/*.mp4
+data/raw/**/*.avi
+data/processed/**/*.npy
+data/processed/**/*.npz
+data/processed/**/*.pkl
+data/processed/**/*.h5
+data/experiments/
+
+# Exception: Keep small example files (if needed)
+!data/raw/README.md
+!data/processed/README.md
+
+# ============================================
+# Model Checkpoints & Results
+# ============================================
+models/**/*.pth
+models/**/*.pt
+models/**/*.ckpt
+models/**/*.h5
+models/**/*.pb
+results/**/*.png
+results/**/*.jpg
+results/**/*.pdf
+results/**/*.mp4
+
+# Exception: Keep small model configs
+!models/README.md
+!results/README.md
+
+# ============================================
+# Logs & Temporary Files
+# ============================================
+logs/**/*.log
+logs/**/*.txt
+logs/experiments/**/*.json
+*.log
+*.tmp
+*.temp
+.tensorboard/
+
+# Exception: Keep log structure docs
+!logs/README.md
+
+# ============================================
+# System Files
+# ============================================
+.cache/
+*.bak
+*.orig
+
+# ============================================
+# Secrets & Credentials
+# ============================================
+.env
+.env.local
+secrets/
+credentials/
+*.pem
+*.key
+
+# ============================================
+# Large Archives
+# ============================================
+*.zip
+*.tar
+*.tar.gz
+*.rar
+*.7z
+
+# Exception: Keep small documentation archives
+!docs/**/*.zip

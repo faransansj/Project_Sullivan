@@ -1,0 +1,101 @@
+# Project Sullivan - Requirements
+# Speech-to-Articulatory Parameter Inference
+# Python 3.9+ recommended
+
+# ============================================
+# Deep Learning Frameworks
+# ============================================
+torch>=2.0.0
+torchvision>=0.15.0
+torchaudio>=2.0.0
+lightning>=2.0.0
+
+# ============================================
+# Data Processing & Scientific Computing
+# ============================================
+numpy>=1.24.0
+scipy>=1.10.0
+scikit-learn>=1.3.0
+pandas>=2.0.0
+
+# ============================================
+# Audio Processing
+# ============================================
+librosa>=0.10.0
+soundfile>=0.12.0
+pydub>=0.25.0
+resampy>=0.4.2
+audioread>=3.0.0
+
+# ============================================
+# Image/Video Processing
+# ============================================
+opencv-python>=4.8.0
+scikit-image>=0.21.0
+pillow>=10.0.0
+imageio>=2.31.0
+imageio-ffmpeg>=0.4.9
+
+# ============================================
+# Medical Image Processing
+# ============================================
+nibabel>=5.0.0  # NIfTI format
+pydicom>=2.4.0  # DICOM format
+SimpleITK>=2.3.0  # Medical image processing
+
+# ============================================
+# 3D Processing (for Phase 3 - Future)
+# ============================================
+trimesh>=3.23.0
+open3d>=0.17.0
+# vtk>=9.2.0  # Uncomment if needed for 3D visualization
+
+# ============================================
+# Evaluation Metrics
+# ============================================
+pesq>=0.0.4
+pystoi>=0.3.3
+
+# ============================================
+# Utilities & Visualization
+# ============================================
+tqdm>=4.65.0
+matplotlib>=3.7.0
+seaborn>=0.12.0
+plotly>=5.16.0
+
+# ============================================
+# Configuration & Logging
+# ============================================
+pyyaml>=6.0
+tensorboard>=2.13.0
+wandb>=0.15.0  # Optional: for experiment tracking
+
+# ============================================
+# Jupyter & Interactive Development
+# ============================================
+jupyter>=1.0.0
+jupyterlab>=4.0.0
+ipywidgets>=8.0.0
+ipykernel>=6.25.0
+
+# ============================================
+# Code Quality & Testing
+# ============================================
+pytest>=7.4.0
+pytest-cov>=4.1.0
+black>=23.7.0
+flake8>=6.1.0
+mypy>=1.5.0
+
+# ============================================
+# MRI Data Processing (from USC dataset)
+# ============================================
+h5py>=3.9.0  # For HDF5 files
+ismrmrd>=1.14.0  # MRI raw data format (may need manual installation)
+
+# ============================================
+# Additional Dependencies
+# ============================================
+requests>=2.31.0  # For downloading datasets
+joblib>=1.3.0  # Parallel processing

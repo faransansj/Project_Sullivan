@@ -21,16 +21,26 @@
 
 ## 📊 Current Status
 
-**Current Milestone:** M1 - Data Pipeline Construction
-**Current Phase:** Phase 1 - Data Preprocessing
+**Current Milestone:** M2 - Baseline Model Development (**In Progress** 🟢)
+**Current Phase:** Phase 2-A (Baseline LSTM Training)
 
 **Progress:**
 - [x] Project structure initialized
 - [x] Requirements defined
 - [x] Git repository created
-- [ ] Data downloaded from figshare
-- [ ] EDA completed
-- [ ] Preprocessing pipeline built
+- [x] Data downloaded from figshare (468 utterances, 15 subjects)
+- [x] EDA completed
+- [x] Preprocessing pipeline built (alignment, denoising)
+- [x] **U-Net Segmentation Pipeline Complete** (81.8% test Dice score, +16.9% above target)
+- [x] **Segmentation infrastructure ready** (scripts tested and validated)
+- [x] **Selective dataset segmentation** (75 utterances, 186,124 frames - COMPLETE ✅)
+- [x] **Articulatory parameter extraction** (14 geometric + 10 PCA features - COMPLETE ✅)
+- [x] **Audio feature extraction** (Mel-spectrogram + MFCC - COMPLETE ✅)
+- [x] **Train/Val/Test dataset splits** (70/15/15 ratio, subject-level - COMPLETE ✅)
+- [x] **Baseline LSTM model implementation** (Bi-LSTM, 613K params - COMPLETE ✅)
+- [x] **Training pipeline setup** (PyTorch Lightning, TensorBoard - COMPLETE ✅)
+- [ ] **Baseline model training** (In Progress 🟢 - Epoch 7+/50)
+- [ ] Model evaluation and baseline report (Pending)
 
 ---
 
@@ -38,26 +48,42 @@
 
 ```
 Project_Sullivan/
-├── data/                      # Data directory (not in git)
-│   ├── raw/                   # Original USC-TIMIT data
-│   ├── processed/             # Preprocessed data
-│   └── experiments/           # Experiment-specific data
-├── src/                       # Source code
-│   ├── preprocessing/         # Phase 1: Data preprocessing
-│   ├── modeling/              # Phase 2: Model development
-│   ├── baseline/              # Baseline models
-│   ├── evaluation/            # Evaluation metrics
-│   └── utils/                 # Utilities
-├── notebooks/                 # Jupyter notebooks
-│   └── 01_EDA.ipynb          # Exploratory data analysis
-├── configs/                   # Configuration files
-├── logs/                      # Experiment logs
-├── models/                    # Trained models
-├── results/                   # Results & figures
-├── docs/                      # Documentation
-│   ├── researcher_manual.md   # Main research manual
-│   └── DATA_DOWNLOAD_GUIDE.md # Data download instructions
-└── tests/                     # Unit tests
+├── data/                          # Data directory (not in git)
+│   ├── raw/                       # Original USC-TIMIT data
+│   ├── processed/                 # Preprocessed data
+│   │   ├── segmentations/         # Vocal tract masks
+│   │   ├── parameters/            # Articulatory parameters
+│   │   ├── audio_features/        # Mel-spectrogram, MFCC
+│   │   └── splits/                # Train/val/test splits
+│   └── experiments/               # Experiment-specific data
+├── src/                           # Source code
+│   ├── preprocessing/             # Phase 1: Data preprocessing
+│   ├── segmentation/              # U-Net segmentation
+│   ├── parameter_extraction/      # Geometric & PCA features
+│   ├── audio_features/            # Audio feature extraction
+│   ├── modeling/                  # Phase 2: Model development
+│   │   ├── dataset.py             # PyTorch Dataset
+│   │   └── baseline_lstm.py       # Bi-LSTM model
+│   ├── evaluation/                # Evaluation metrics
+│   └── utils/                     # Utilities
+├── scripts/                       # Standalone scripts
+│   ├── train_baseline.py          # Training script
+│   ├── monitor_training_simple.sh # Training monitor
+│   └── start_tensorboard.sh       # TensorBoard launcher
+├── notebooks/                     # Jupyter notebooks
+│   └── 01_EDA.ipynb              # Exploratory data analysis
+├── configs/                       # Configuration files
+│   ├── baseline_config.yaml       # Main training config
+│   └── baseline_quick_test.yaml   # Quick test config
+├── logs/                          # Experiment logs (not in git)
+├── models/                        # Trained models (not in git)
+├── results/                       # Results & figures
+├── docs/                          # Documentation
+│   ├── researcher_manual.md       # Main research manual
+│   ├── M1_COMPLETION_REPORT.md    # M1 completion report
+│   └── DATA_DOWNLOAD_GUIDE.md     # Data download instructions
+├── TRAINING_IN_PROGRESS.md        # Current training status 🟢
+└── tests/                         # Unit tests
 ```
 
 ---
@@ -99,18 +125,39 @@ jupyter notebook notebooks/01_EDA.ipynb
 
 ## 📋 Milestones
 
-| Milestone | Target | Status | Completion Criteria |
-|-----------|--------|--------|---------------------|
-| **M1: Data Pipeline** | Phase 1 | 🟡 In Progress | MRI-Audio paired dataset ready |
-| **M2: Baseline Model** | Phase 2 | ⬜ Pending | RMSE < 0.15, PCC > 0.50 |
-| **M3: Core Goal** | Phase 2 | ⬜ Pending | RMSE < 0.10, PCC > 0.70 |
-| **M4: Digital Twin** | Phase 3 | ⬜ Future | 3D synthesis working |
+| Milestone | Target | Status | Completion Criteria | Progress |
+|-----------|--------|--------|---------------------|----------|
+| **M1: Data Pipeline** | Phase 1 | ✅ **100% Complete** | MRI-Audio paired dataset ready | Completed ✅ |
+| **M2: Baseline Model** | Phase 2 | 🟢 **In Progress** (15%) | RMSE < 0.15, PCC > 0.50 | Training Epoch 7+/50 |
+| **M3: Core Goal** | Phase 2 | ⬜ Pending (Jan 2026) | RMSE < 0.10, PCC > 0.70 | - |
+| **M4: Digital Twin** | Phase 3 | ⬜ Future (TBD) | 3D synthesis working | Phase 1-2 완료 후 착수 |
+
+### Recent Achievements 🎉
+- **Nov 30, 2025**: **Phase 2-A Training Started** 🟢 - Baseline LSTM training in progress (Epoch 7+/50)
+- **Nov 30, 2025**: **Training infrastructure complete** ✅ - PyTorch Lightning, TensorBoard, monitoring scripts
+- **Nov 30, 2025**: **M1 Phase 1-B Complete** ✅ - Parameters & audio features extracted, dataset splits created
+- **Nov 30, 2025**: **M1 100% Complete** ✅ - All data pipeline tasks finished, ready for Phase 2
+- **Nov 29, 2025**: Selective segmentation finished (75 utterances, 186K frames, 2.3h, 22.8 fps)
+- **Nov 27, 2025**: U-Net segmentation model trained with **81.8% test Dice score** (target: 70%, **+16.9% above**)
+- **Nov 27, 2025**: Generated 150 high-quality pseudo-labels for vocal tract segmentation
 
 ---
 
 ## 📖 Documentation
 
-- **[Researcher Manual](docs/researcher_manual.md)** - Complete research protocol and guidelines
+### Main Documents
+- **[Researcher Manual](researcher_manual.md)** - Complete research protocol and guidelines
+- **[Training Status Report](TRAINING_IN_PROGRESS.md)** - Current training progress and monitoring guide 🟢
+- **[M1 Completion Report](docs/M1_COMPLETION_REPORT.md)** - Milestone 1 completion status (100%)
+- **[Next Milestones Plan](docs/NEXT_MILESTONES.md)** - Detailed roadmap for M2, M3, M4
+
+### Technical Documentation
+- **[Segmentation Complete](docs/PROJECT_SULLIVAN_SEGMENTATION_COMPLETE.md)** - Full segmentation pipeline report
+- **[Methodology](docs/METHODOLOGY_SEGMENTATION_PIPELINE.md)** - Segmentation approach details
+- **[U-Net Evaluation](docs/UNET_EVALUATION_RESULTS.md)** - Model performance analysis
+- **[Segmentation Test](SEGMENTATION_TEST_REPORT.md)** - Pre-trained model test results
+
+### Administrative
 - **[Data Download Guide](docs/DATA_DOWNLOAD_GUIDE.md)** - How to obtain the dataset
 - **[Meeting Notes](docs/meeting_notes/)** - Weekly meeting records
 - **[Literature Review](docs/literature_review/)** - Paper reviews
@@ -233,5 +280,5 @@ Research use only. See USC-TIMIT dataset license for data usage terms.
 
 ---
 
-**Last Updated:** 2025-11-25
-**Version:** 1.1
+**Last Updated:** 2025-11-30
+**Version:** 1.2

@@ -79,7 +79,8 @@ Project_Sullivan/
 │   ├── monitor_training_simple.sh # Training monitor
 │   └── start_tensorboard.sh       # TensorBoard launcher
 ├── notebooks/                     # Jupyter notebooks
-│   └── 01_EDA.ipynb              # Exploratory data analysis
+│   ├── 01_EDA.ipynb              # Exploratory data analysis
+│   └── Project_Sullivan_Transformer_Training.ipynb  # Google Colab training
 ├── configs/                       # Configuration files
 │   ├── baseline_config.yaml       # Baseline LSTM config (Phase 2-A)
 │   ├── baseline_quick_test.yaml   # Baseline quick test
@@ -125,10 +126,31 @@ See detailed instructions: [`docs/DATA_DOWNLOAD_GUIDE.md`](docs/DATA_DOWNLOAD_GU
 - Download 1-2 subject files
 - Extract to `data/raw/`
 
-### 3. Run EDA
+### 3. Train on Google Colab (Recommended)
+
+**For GPU training with free resources:**
+
+1. Prepare data archives:
+   ```bash
+   bash scripts/prepare_data_for_colab.sh
+   ```
+
+2. Upload `colab_data_archives/processed_data_all.tar.gz` to Google Drive
+
+3. Follow the guide: [`docs/COLAB_TRAINING_GUIDE.md`](docs/COLAB_TRAINING_GUIDE.md)
+
+4. Use notebook: `notebooks/Project_Sullivan_Transformer_Training.ipynb`
+
+**Expected Training Time (Colab T4 GPU)**: 2-3 hours
+
+### 4. Local Training (CPU/GPU)
 
 ```bash
-jupyter notebook notebooks/01_EDA.ipynb
+# Train Transformer model
+python scripts/train_transformer.py --config configs/transformer_config.yaml
+
+# Monitor with TensorBoard
+tensorboard --logdir logs/training/
 ```
 
 ---

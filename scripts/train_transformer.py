@@ -162,7 +162,7 @@ def main():
         'accumulate_grad_batches': config['training']['accumulate_grad_batches'],
         'log_every_n_steps': config['logging']['log_every_n_steps'],
         'fast_dev_run': args.fast_dev_run,
-        'enable_progress_bar': True,
+        'enable_progress_bar': False,  # Disabled for log file compatibility
         'enable_model_summary': True
     }
 

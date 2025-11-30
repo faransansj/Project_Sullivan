@@ -21,8 +21,8 @@
 
 ## 📊 Current Status
 
-**Current Milestone:** M2 - Baseline Model Development (**In Progress** 🟢)
-**Current Phase:** Phase 2-A (Baseline LSTM Training)
+**Current Milestone:** M2 - Baseline Model Development (**Phase 2-A Complete** ✅, Phase 2-B Next)
+**Current Phase:** Phase 2-B (Advanced Model Development)
 
 **Progress:**
 - [x] Project structure initialized
@@ -39,8 +39,9 @@
 - [x] **Train/Val/Test dataset splits** (70/15/15 ratio, subject-level - COMPLETE ✅)
 - [x] **Baseline LSTM model implementation** (Bi-LSTM, 613K params - COMPLETE ✅)
 - [x] **Training pipeline setup** (PyTorch Lightning, TensorBoard - COMPLETE ✅)
-- [ ] **Baseline model training** (In Progress 🟢 - Epoch 7+/50)
-- [ ] Model evaluation and baseline report (Pending)
+- [x] **Baseline model training** (18 epochs, early stopped - COMPLETE ✅)
+- [x] **Model evaluation and baseline report** (Test RMSE: 1.011, PCC: 0.105 - COMPLETE ✅)
+- [ ] **Advanced model development** (Transformer/Conformer - Phase 2-B, Next)
 
 ---
 
@@ -128,18 +129,19 @@ jupyter notebook notebooks/01_EDA.ipynb
 | Milestone | Target | Status | Completion Criteria | Progress |
 |-----------|--------|--------|---------------------|----------|
 | **M1: Data Pipeline** | Phase 1 | ✅ **100% Complete** | MRI-Audio paired dataset ready | Completed ✅ |
-| **M2: Baseline Model** | Phase 2 | 🟢 **In Progress** (15%) | RMSE < 0.15, PCC > 0.50 | Training Epoch 7+/50 |
+| **M2: Baseline Model** | Phase 2 | 🟡 **40% Complete** | RMSE < 0.15, PCC > 0.50 | Phase 2-A done, 2-B next |
 | **M3: Core Goal** | Phase 2 | ⬜ Pending (Jan 2026) | RMSE < 0.10, PCC > 0.70 | - |
 | **M4: Digital Twin** | Phase 3 | ⬜ Future (TBD) | 3D synthesis working | Phase 1-2 완료 후 착수 |
 
 ### Recent Achievements 🎉
-- **Nov 30, 2025**: **Phase 2-A Training Started** 🟢 - Baseline LSTM training in progress (Epoch 7+/50)
+- **Nov 30, 2025**: **Phase 2-A COMPLETE** ✅ - Baseline LSTM trained (Test RMSE: 1.011, PCC: 0.105)
+- **Nov 30, 2025**: **Performance analysis complete** 📊 - Comprehensive baseline report generated
+- **Nov 30, 2025**: **Improvement strategy identified** 🎯 - Transformer/Conformer + feature engineering
+- **Nov 30, 2025**: **Phase 2-A Training Started** 🟢 - Baseline LSTM training completed (18 epochs)
 - **Nov 30, 2025**: **Training infrastructure complete** ✅ - PyTorch Lightning, TensorBoard, monitoring scripts
-- **Nov 30, 2025**: **M1 Phase 1-B Complete** ✅ - Parameters & audio features extracted, dataset splits created
-- **Nov 30, 2025**: **M1 100% Complete** ✅ - All data pipeline tasks finished, ready for Phase 2
+- **Nov 30, 2025**: **M1 100% Complete** ✅ - All data pipeline tasks finished
 - **Nov 29, 2025**: Selective segmentation finished (75 utterances, 186K frames, 2.3h, 22.8 fps)
 - **Nov 27, 2025**: U-Net segmentation model trained with **81.8% test Dice score** (target: 70%, **+16.9% above**)
-- **Nov 27, 2025**: Generated 150 high-quality pseudo-labels for vocal tract segmentation
 
 ---
 
@@ -147,7 +149,8 @@ jupyter notebook notebooks/01_EDA.ipynb
 
 ### Main Documents
 - **[Researcher Manual](researcher_manual.md)** - Complete research protocol and guidelines
-- **[Training Status Report](TRAINING_IN_PROGRESS.md)** - Current training progress and monitoring guide 🟢
+- **[Baseline Complete](BASELINE_COMPLETE.md)** - Phase 2-A completion summary ✅
+- **[Baseline Performance Report](docs/BASELINE_PERFORMANCE_REPORT.md)** - Comprehensive analysis and next steps 📊
 - **[M1 Completion Report](docs/M1_COMPLETION_REPORT.md)** - Milestone 1 completion status (100%)
 - **[Next Milestones Plan](docs/NEXT_MILESTONES.md)** - Detailed roadmap for M2, M3, M4
 

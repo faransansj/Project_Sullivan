@@ -21,8 +21,8 @@
 
 ## 📊 Current Status
 
-**Current Milestone:** M2 - Baseline Model Development (**Phase 2-A Complete** ✅, Phase 2-B Next)
-**Current Phase:** Phase 2-B (Advanced Model Development)
+**Current Milestone:** M2 - Baseline Model Development (**Phase 2-B In Progress** 🟡)
+**Current Phase:** Phase 2-B (Advanced Architecture - Transformer Implementation)
 
 **Progress:**
 - [x] Project structure initialized
@@ -41,7 +41,10 @@
 - [x] **Training pipeline setup** (PyTorch Lightning, TensorBoard - COMPLETE ✅)
 - [x] **Baseline model training** (18 epochs, early stopped - COMPLETE ✅)
 - [x] **Model evaluation and baseline report** (Test RMSE: 1.011, PCC: 0.105 - COMPLETE ✅)
-- [ ] **Advanced model development** (Transformer/Conformer - Phase 2-B, Next)
+- [x] **Transformer architecture implementation** (5M params, tested - COMPLETE ✅)
+- [ ] **Transformer model training** (Phase 2-B, Next)
+- [ ] **Conformer architecture implementation** (Phase 2-B, Pending)
+- [ ] **M2 target achievement** (RMSE < 0.15, PCC > 0.50 - Phase 2-B Goal)
 
 ---
 
@@ -64,18 +67,24 @@ Project_Sullivan/
 │   ├── audio_features/            # Audio feature extraction
 │   ├── modeling/                  # Phase 2: Model development
 │   │   ├── dataset.py             # PyTorch Dataset
-│   │   └── baseline_lstm.py       # Bi-LSTM model
+│   │   ├── baseline_lstm.py       # Bi-LSTM model (Phase 2-A)
+│   │   ├── transformer.py         # Transformer model (Phase 2-B)
+│   │   ├── positional_encoding.py # Positional encodings
+│   │   └── model_utils.py         # Shared utilities
 │   ├── evaluation/                # Evaluation metrics
 │   └── utils/                     # Utilities
 ├── scripts/                       # Standalone scripts
-│   ├── train_baseline.py          # Training script
+│   ├── train_baseline.py          # Baseline training (Phase 2-A)
+│   ├── train_transformer.py       # Transformer training (Phase 2-B)
 │   ├── monitor_training_simple.sh # Training monitor
 │   └── start_tensorboard.sh       # TensorBoard launcher
 ├── notebooks/                     # Jupyter notebooks
 │   └── 01_EDA.ipynb              # Exploratory data analysis
 ├── configs/                       # Configuration files
-│   ├── baseline_config.yaml       # Main training config
-│   └── baseline_quick_test.yaml   # Quick test config
+│   ├── baseline_config.yaml       # Baseline LSTM config (Phase 2-A)
+│   ├── baseline_quick_test.yaml   # Baseline quick test
+│   ├── transformer_config.yaml    # Transformer config (Phase 2-B)
+│   └── transformer_quick_test.yaml # Transformer quick test
 ├── logs/                          # Experiment logs (not in git)
 ├── models/                        # Trained models (not in git)
 ├── results/                       # Results & figures
@@ -129,16 +138,16 @@ jupyter notebook notebooks/01_EDA.ipynb
 | Milestone | Target | Status | Completion Criteria | Progress |
 |-----------|--------|--------|---------------------|----------|
 | **M1: Data Pipeline** | Phase 1 | ✅ **100% Complete** | MRI-Audio paired dataset ready | Completed ✅ |
-| **M2: Baseline Model** | Phase 2 | 🟡 **40% Complete** | RMSE < 0.15, PCC > 0.50 | Phase 2-A done, 2-B next |
+| **M2: Baseline Model** | Phase 2 | 🟡 **50% Complete** | RMSE < 0.15, PCC > 0.50 | Phase 2-A done, 2-B in progress |
 | **M3: Core Goal** | Phase 2 | ⬜ Pending (Jan 2026) | RMSE < 0.10, PCC > 0.70 | - |
 | **M4: Digital Twin** | Phase 3 | ⬜ Future (TBD) | 3D synthesis working | Phase 1-2 완료 후 착수 |
 
 ### Recent Achievements 🎉
+- **Nov 30, 2025**: **Transformer Implementation Complete** 🚀 - 5M params, tested and validated
+- **Nov 30, 2025**: **Phase 2-B Started** 🟡 - Advanced architecture development in progress
 - **Nov 30, 2025**: **Phase 2-A COMPLETE** ✅ - Baseline LSTM trained (Test RMSE: 1.011, PCC: 0.105)
 - **Nov 30, 2025**: **Performance analysis complete** 📊 - Comprehensive baseline report generated
 - **Nov 30, 2025**: **Improvement strategy identified** 🎯 - Transformer/Conformer + feature engineering
-- **Nov 30, 2025**: **Phase 2-A Training Started** 🟢 - Baseline LSTM training completed (18 epochs)
-- **Nov 30, 2025**: **Training infrastructure complete** ✅ - PyTorch Lightning, TensorBoard, monitoring scripts
 - **Nov 30, 2025**: **M1 100% Complete** ✅ - All data pipeline tasks finished
 - **Nov 29, 2025**: Selective segmentation finished (75 utterances, 186K frames, 2.3h, 22.8 fps)
 - **Nov 27, 2025**: U-Net segmentation model trained with **81.8% test Dice score** (target: 70%, **+16.9% above**)

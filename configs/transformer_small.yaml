@@ -1,0 +1,86 @@
+# Transformer Small Configuration
+# Optimized for small dataset (50-75 samples)
+# Reduced model size to prevent overfitting
+
+# Data settings
+data:
+  splits_dir: data/processed/splits
+  audio_feature_dir: data/processed/audio_features
+  parameter_dir: data/processed/parameters
+  audio_feature_type: mel
+  parameter_type: geometric
+  sequence_length: null  # Use full utterances - CRITICAL for this task
+
+# Model settings (Reduced size)
+model:
+  name: Transformer
+  input_dim: 80
+  d_model: 128  # Reduced from 256
+  num_layers: 2  # Reduced from 4
+  num_heads: 4  # Reduced from 8
+  d_ff: 512  # Reduced from 1024
+  output_dim: 14
+  dropout: 0.2  # Increased from 0.1 for regularization
+  pos_encoding: learnable
+  activation: gelu
+  learning_rate: 0.0003  # Slightly lower
+  weight_decay: 0.05  # Increased from 0.01 for regularization
+  max_seq_len: 5000
+
+# Training settings
+training:
+  batch_size: 4  # Smaller batch for full utterances
+  num_epochs: 100  # More epochs for small data
+  num_workers: 2  # Reduced to avoid overhead
+  accumulate_grad_batches: 4  # Effective batch size = 16
+  gradient_clip_val: 1.0
+  precision: 16
+
+# Optimization
+optimization:
+  optimizer: AdamW
+  learning_rate: 0.0003
+  weight_decay: 0.05
+  betas: [0.9, 0.98]
+  lr_scheduler: ReduceLROnPlateau  # Better for small data
+  lr_scheduler_params:
+    mode: min
+    factor: 0.5
+    patience: 10
+    min_lr: 0.00001
+
+# Callbacks
+callbacks:
+  early_stopping:
+    monitor: val_loss
+    patience: 25  # Longer patience for small data
+    mode: min
+    verbose: true
+  model_checkpoint:
+    monitor: val_loss
+    mode: min
+    save_top_k: 3
+    save_last: true
+    filename: "transformer-small-{epoch:02d}-{val_loss:.4f}"
+
+# Logging
+logging:
+  experiment_name: transformer_small
+  log_dir: logs/training
+  save_dir: models/transformer_small
+  log_every_n_steps: 5
+
+# Evaluation
+evaluation:
+  metrics:
+    - rmse
+    - mae
+    - pearson_correlation
+  visualize_predictions: true
+  num_samples_to_visualize: 5
+
+# Reproducibility
+seed: 42
+
+# Hardware
+device: cuda

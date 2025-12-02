@@ -8,7 +8,7 @@ data:
   parameter_dir: data/processed/parameters
   audio_feature_type: mel  # 'mel' or 'mfcc'
   parameter_type: geometric  # 'geometric' or 'pca'
-  sequence_length: null  # null = use full utterances
+  sequence_length: 100  # Split into 100-frame sequences (null = use full utterances)
 
 # Model settings
 model:

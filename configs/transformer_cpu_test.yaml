@@ -1,0 +1,84 @@
+# Transformer CPU Test Configuration
+# Ultra-fast test to verify sequence_length setting (1-2 epochs)
+
+# Data settings
+data:
+  splits_dir: data/processed/splits
+  audio_feature_dir: data/processed/audio_features
+  parameter_dir: data/processed/parameters
+  audio_feature_type: mel
+  parameter_type: geometric
+  sequence_length: 100  # ⭐ Split into 100-frame sequences
+
+# Model settings (very small for CPU speed)
+model:
+  name: Transformer
+  input_dim: 80
+  d_model: 64  # Tiny model for CPU test
+  num_layers: 1
+  num_heads: 2
+  d_ff: 256
+  output_dim: 14
+  dropout: 0.1
+  pos_encoding: learnable
+  activation: gelu
+  learning_rate: 0.001
+  weight_decay: 0.01
+  max_seq_len: 5000
+
+# Training settings (minimal for quick test)
+training:
+  batch_size: 4  # Small batch for CPU
+  num_epochs: 2  # Just 2 epochs to verify it works
+  num_workers: 0  # No multiprocessing
+  accumulate_grad_batches: 1
+  gradient_clip_val: 1.0
+  precision: 32
+
+# Optimization
+optimization:
+  optimizer: AdamW
+  learning_rate: 0.001
+  weight_decay: 0.01
+  betas: [0.9, 0.98]
+  lr_scheduler: CosineAnnealingWarmRestarts
+  lr_scheduler_params:
+    T_0: 2
+    T_mult: 1
+    eta_min: 0.0001
+
+# Callbacks
+callbacks:
+  early_stopping:
+    monitor: val_loss
+    patience: 10  # Don't stop early in test
+    mode: min
+    verbose: true
+  model_checkpoint:
+    monitor: val_loss
+    mode: min
+    save_top_k: 1
+    save_last: true
+    filename: "transformer-cpu-test-{epoch:02d}-{val_loss:.4f}"
+
+# Logging
+logging:
+  experiment_name: transformer_cpu_test
+  log_dir: logs/training
+  save_dir: models/transformer_cpu_test
+  log_every_n_steps: 5
+
+# Evaluation
+evaluation:
+  metrics:
+    - rmse
+    - mae
+    - pearson_correlation
+  visualize_predictions: false  # Skip visualization for speed
+  num_samples_to_visualize: 0
+
+# Reproducibility
+seed: 42
+
+# Hardware
+device: cpu

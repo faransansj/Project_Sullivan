@@ -1,0 +1,12 @@
+input_dim: 80
+d_model: 256
+num_layers: 4
+num_heads: 8
+d_ff: 1024
+output_dim: 14
+dropout: 0.1
+pos_encoding: learnable
+activation: gelu
+learning_rate: 0.0005
+weight_decay: 0.01
+max_seq_len: 5000

@@ -8,7 +8,7 @@ data:
   parameter_dir: data/processed/parameters
   audio_feature_type: mel
   parameter_type: geometric
-  sequence_length: 100  # ⭐ Split into 100-frame sequences
+  sequence_length: 500  # ⭐ Split into 500-frame sequences (~5 seconds)
 
 # Model settings (very small for CPU speed)
 model:

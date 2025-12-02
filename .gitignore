@@ -132,3 +132,6 @@ credentials/
 
 # Exception: Keep small documentation archives
 !docs/**/*.zip
+
+# Exception: Keep Colab data archives (< 100MB each)
+!colab_data_archives/*.tar.gz

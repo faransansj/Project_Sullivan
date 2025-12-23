@@ -127,6 +127,11 @@ def extract_dataset_from_gdrive():
                 else:
                     print("❌ Could not find any utterance files in the zip.")
                     print("   Please check the zip structure or create splits manually.")
+                    print("\n🔍 Sample files in zip (first 30):")
+                    for i, f in enumerate(all_files[:30]):
+                        print(f"   {i+1}. {f}")
+                    if len(all_files) > 30:
+                        print(f"   ... and {len(all_files) - 30} more files")
                 
         print("✅ You can now run training with --streaming")
         return "/content/drive/MyDrive/Project_Sullivan" # Return mount point

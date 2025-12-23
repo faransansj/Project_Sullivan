@@ -3,6 +3,8 @@
 # ============================================
 # 500GB Google Drive 데이터셋을 활용한 학습 설정
 
+seed: 42
+
 # Data paths (Google Drive mounted)
 data:
   # Google Drive mount point in Colab

@@ -26,9 +26,12 @@ def extract_dataset_from_gdrive():
     print("=" * 60)
     
     # Mount Google Drive
-    print("\n1️⃣ Mounting Google Drive...")
-    from google.colab import drive
-    drive.mount('/content/drive')
+    if os.path.exists('/content/drive/MyDrive'):
+        print("\n1️⃣ Google Drive already mounted.")
+    else:
+        print("\n1️⃣ Mounting Google Drive...")
+        from google.colab import drive
+        drive.mount('/content/drive')
     
     # Check if zip exists
     if not os.path.exists(zip_file):

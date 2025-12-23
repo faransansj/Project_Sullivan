@@ -1,0 +1,126 @@
+# ============================================
+# Project Sullivan - Google Drive Colab Configuration
+# ============================================
+# 500GB Google Drive 데이터셋을 활용한 학습 설정
+
+# Data paths (Google Drive mounted)
+data:
+  # Google Drive mount point in Colab
+  gdrive_mount: "/content/drive/MyDrive"
+  
+  # Data directory in Google Drive
+  data_dir: "${gdrive_mount}/Project_Sullivan/Dataset_Extracted"
+  
+  # Processed data subdirectories (if not using extraction, adjust accordingly)
+  # If using extract_gdrive_dataset.py, these will be in /content/sullivan_data
+  local_data_dir: "/content/sullivan_data"
+  audio_features_dir: "${local_data_dir}/audio_features"
+  parameters_dir: "${local_data_dir}/parameters"
+  segmentations_dir: "${local_data_dir}/segmentations"
+  
+  # Dataset splits
+  splits_dir: "${local_data_dir}/splits"
+
+# Model configuration
+model:
+  name: "Transformer"
+  input_dim: 80          # Mel-spectrogram bins
+  output_dim: 14         # Articulatory parameters
+  d_model: 256
+  nhead: 8
+  num_encoder_layers: 6
+  dim_feedforward: 1024
+  dropout: 0.1
+  max_seq_length: 1000   # Maximum sequence length
+
+# Training configuration
+training:
+  # Batch size (reduce if OOM)
+  batch_size: 16
+  
+  # Gradient accumulation (effective batch = batch_size * accumulate)
+  accumulate_grad_batches: 2
+  
+  # Learning rate
+  learning_rate: 0.0001
+  weight_decay: 0.0001
+  
+  # Epochs
+  max_epochs: 100
+  
+  # Early stopping
+  early_stopping:
+    patience: 15
+    monitor: "val_loss"
+    mode: "min"
+  
+  # Optimizer
+  optimizer: "AdamW"
+  scheduler: "CosineAnnealingWarmRestarts"
+  scheduler_params:
+    T_0: 10
+    T_mult: 2
+
+# Checkpointing (to Google Drive for persistence)
+checkpointing:
+  # Save to Google Drive
+  dirpath: "/content/drive/MyDrive/Project_Sullivan/Checkpoints"
+  
+  # Save top k models
+  save_top_k: 3
+  
+  # Save every n epochs
+  every_n_epochs: 1
+  
+  # Monitoring metric
+  monitor: "val_loss"
+  mode: "min"
+  
+  # Filename format
+  filename: "sullivan-{epoch:02d}-{val_loss:.4f}"
+
+# DataLoader configuration (for large datasets)
+dataloader:
+  # Number of workers (0 for Colab to avoid issues)
+  num_workers: 2
+  
+  # Pin memory for faster GPU transfer
+  pin_memory: true
+  
+  # Prefetch factor
+  prefetch_factor: 4
+  
+  # Streaming mode for large datasets
+  streaming: true
+  
+  # Cache size (in number of samples)
+  cache_size: 1000
+
+# Session persistence
+session:
+  # Auto-save interval (seconds)
+  autosave_interval: 300  # 5 minutes
+  
+  # Resume from checkpoint
+  resume: true
+  
+  # Keep-alive interval (seconds)
+  keepalive_interval: 60
+
+# Logging
+logging:
+  # TensorBoard log directory
+  log_dir: "/content/drive/MyDrive/Project_Sullivan/Logs"
+  
+  # Log every n steps
+  log_every_n_steps: 50
+  
+  # Save metrics to CSV
+  save_metrics_csv: true
+
+# Hardware
+hardware:
+  # GPU settings
+  accelerator: "gpu"
+  devices: 1
+  precision: 16  # Mixed precision for memory efficiency

@@ -113,6 +113,11 @@ def main():
         default=0,
         help='Overfit on N batches for testing (0 = disabled)'
     )
+    parser.add_argument(
+        '--streaming',
+        action='store_true',
+        help='Enable dataset streaming'
+    )
 
     args = parser.parse_args()
 
@@ -134,7 +139,8 @@ def main():
         parameter_type=config['data']['parameter_type'],
         batch_size=config['training']['batch_size'],
         num_workers=config['training']['num_workers'],
-        sequence_length=config['data']['sequence_length']
+        sequence_length=config['data']['sequence_length'],
+        streaming=args.streaming or config['dataloader'].get('streaming', False)
     )
 
     # Create model

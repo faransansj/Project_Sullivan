@@ -47,7 +47,8 @@ class ArticulatoryDataset(Dataset):
         audio_feature_type: str = 'mel',
         parameter_type: str = 'geometric',
         normalize_params: bool = True,
-        sequence_length: Optional[int] = None
+        sequence_length: Optional[int] = None,
+        streaming: bool = False
     ):
         self.utterance_list = utterance_list
         self.audio_feature_dir = Path(audio_feature_dir)
@@ -56,26 +57,26 @@ class ArticulatoryDataset(Dataset):
         self.parameter_type = parameter_type
         self.normalize_params = normalize_params
         self.sequence_length = sequence_length
+        self.streaming = streaming
 
-        # Load all data into memory (dataset is small enough)
-        self.data = self._load_all_data()
+        # Load data (metadata only if streaming)
+        self.data = self._load_data()
 
-        # Compute normalization statistics if needed
+        # Compute or set normalization statistics if needed
         if self.normalize_params:
             self._compute_normalization_stats()
 
-    def _load_all_data(self) -> List[Dict]:
-        """Load all utterances into memory."""
+    def _load_data(self) -> List[Dict]:
+        """Load utterances (metadata or full data)."""
         data = []
 
         for utterance_name in self.utterance_list:
-            # Load audio features
+            # Paths
             if self.audio_feature_type == 'mel':
                 audio_file = self.audio_feature_dir / 'mel_spectrogram' / f'{utterance_name}_mel.npy'
             else:  # mfcc
                 audio_file = self.audio_feature_dir / 'mfcc' / f'{utterance_name}_mfcc.npy'
 
-            # Load parameters
             param_file = self.parameter_dir / self.parameter_type / f'{utterance_name}_params.npy'
 
             # Check files exist
@@ -86,41 +87,75 @@ class ArticulatoryDataset(Dataset):
                 print(f"Warning: Parameter file not found: {param_file}")
                 continue
 
-            # Load
-            audio_features = np.load(audio_file)
-            parameters = np.load(param_file)
-
-            # Verify shapes match
-            assert audio_features.shape[0] == parameters.shape[0], \
-                f"Shape mismatch for {utterance_name}: audio {audio_features.shape[0]} vs params {parameters.shape[0]}"
-
-            # Split into sequences if needed
-            if self.sequence_length is not None:
-                num_frames = audio_features.shape[0]
-                num_sequences = num_frames // self.sequence_length
-
-                for i in range(num_sequences):
-                    start_idx = i * self.sequence_length
-                    end_idx = start_idx + self.sequence_length
-
+            if self.streaming:
+                # Get shape for sequence splitting without loading full data if possible
+                # For simplicity, we might still need to load once or assume/store shapes
+                # Here we load metadata or just the files
+                if self.sequence_length is not None:
+                    # In streaming mode with sequence_length, we still need the length
+                    # We can load just to get shape
+                    audio_features = np.load(audio_file, mmap_mode='r')
+                    num_frames = audio_features.shape[0]
+                    num_sequences = num_frames // self.sequence_length
+                    for i in range(num_sequences):
+                        data.append({
+                            'utterance_name': f"{utterance_name}_seq{i}",
+                            'audio_file': audio_file,
+                            'param_file': param_file,
+                            'start_idx': i * self.sequence_length,
+                            'end_idx': (i + 1) * self.sequence_length
+                        })
+                else:
                     data.append({
-                        'utterance_name': f"{utterance_name}_seq{i}",
-                        'audio_features': audio_features[start_idx:end_idx],
-                        'parameters': parameters[start_idx:end_idx]
+                        'utterance_name': utterance_name,
+                        'audio_file': audio_file,
+                        'param_file': param_file,
+                        'start_idx': None,
+                        'end_idx': None
                     })
             else:
-                # Use full utterance
-                data.append({
-                    'utterance_name': utterance_name,
-                    'audio_features': audio_features,
-                    'parameters': parameters
-                })
+                # Non-streaming: load full data
+                audio_features = np.load(audio_file)
+                parameters = np.load(param_file)
+
+                assert audio_features.shape[0] == parameters.shape[0]
+
+                if self.sequence_length is not None:
+                    num_frames = audio_features.shape[0]
+                    num_sequences = num_frames // self.sequence_length
+                    for i in range(num_sequences):
+                        start_idx = i * self.sequence_length
+                        end_idx = start_idx + self.sequence_length
+                        data.append({
+                            'utterance_name': f"{utterance_name}_seq{i}",
+                            'audio_features': audio_features[start_idx:end_idx],
+                            'parameters': parameters[start_idx:end_idx]
+                        })
+                else:
+                    data.append({
+                        'utterance_name': utterance_name,
+                        'audio_features': audio_features,
+                        'parameters': parameters
+                    })
 
         return data
 
     def _compute_normalization_stats(self):
         """Compute mean and std for parameter normalization."""
-        all_params = np.concatenate([item['parameters'] for item in self.data], axis=0)
+        if self.streaming:
+            # For streaming, we take a subset to estimate stats or load if pre-calculated
+            # Here we take up to 100 samples to estimate
+            num_samples = min(len(self.data), 100)
+            sampled_params = []
+            for i in range(num_samples):
+                item = self.data[i]
+                params = np.load(item['param_file'])
+                if item['start_idx'] is not None:
+                    params = params[item['start_idx']:item['end_idx']]
+                sampled_params.append(params)
+            all_params = np.concatenate(sampled_params, axis=0)
+        else:
+            all_params = np.concatenate([item['parameters'] for item in self.data], axis=0)
 
         self.param_mean = np.mean(all_params, axis=0, keepdims=True)
         self.param_std = np.std(all_params, axis=0, keepdims=True)
@@ -134,20 +169,22 @@ class ArticulatoryDataset(Dataset):
     def __getitem__(self, idx: int) -> Tuple[torch.Tensor, torch.Tensor, str]:
         """
         Get a single data sample.
-
-        Returns
-        -------
-        audio_features : torch.Tensor
-            Audio features, shape (num_frames, audio_dim)
-        parameters : torch.Tensor
-            Articulatory parameters, shape (num_frames, param_dim)
-        utterance_name : str
-            Name of the utterance
         """
         item = self.data[idx]
 
-        audio_features = torch.FloatTensor(item['audio_features'])
-        parameters = torch.FloatTensor(item['parameters'])
+        if self.streaming:
+            audio_features = np.load(item['audio_file'])
+            parameters = np.load(item['param_file'])
+
+            if item['start_idx'] is not None:
+                audio_features = audio_features[item['start_idx']:item['end_idx']]
+                parameters = parameters[item['start_idx']:item['end_idx']]
+        else:
+            audio_features = item['audio_features']
+            parameters = item['parameters']
+
+        audio_features = torch.FloatTensor(audio_features)
+        parameters = torch.FloatTensor(parameters)
 
         # Normalize parameters
         if self.normalize_params:
@@ -226,7 +263,8 @@ def create_dataloaders(
     parameter_type: str = 'geometric',
     batch_size: int = 16,
     num_workers: int = 4,
-    sequence_length: Optional[int] = None
+    sequence_length: Optional[int] = None,
+    streaming: bool = False
 ) -> Dict[str, DataLoader]:
     """
     Create train, val, and test dataloaders.
@@ -271,7 +309,8 @@ def create_dataloaders(
             audio_feature_type=audio_feature_type,
             parameter_type=parameter_type,
             normalize_params=True,
-            sequence_length=sequence_length
+            sequence_length=sequence_length,
+            streaming=streaming
         )
 
         # Create dataloader

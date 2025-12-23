@@ -15,10 +15,14 @@ data:
   
   # Processed data subdirectories (if not using extraction, adjust accordingly)
   # If using extract_gdrive_dataset.py, these will be in /content/sullivan_data
+  # Configure these to point to the MOUNTED DRIVE location if using Zip Streaming
+  # For Zip Streaming, these valid be internal paths or ignored if handled by code
   local_data_dir: "/content/sullivan_data"
-  audio_features_dir: "${local_data_dir}/audio_features"
-  parameters_dir: "${local_data_dir}/parameters"
-  segmentations_dir: "${local_data_dir}/segmentations"
+  
+  # Corrected keys to match dataset.py
+  audio_feature_dir: "${local_data_dir}/audio_features"
+  parameter_dir: "${local_data_dir}/parameters"
+  segmentation_dir: "${local_data_dir}/segmentations"
   
   # Dataset splits
   splits_dir: "${local_data_dir}/splits"

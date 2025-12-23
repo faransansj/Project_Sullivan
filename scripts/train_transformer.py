@@ -140,7 +140,8 @@ def main():
         batch_size=config['training']['batch_size'],
         num_workers=config['training']['num_workers'],
         sequence_length=config['data']['sequence_length'],
-        streaming=args.streaming or config['dataloader'].get('streaming', False)
+        streaming=args.streaming or config['dataloader'].get('streaming', False),
+        zip_file_path=config['data'].get('zip_file_path', None)
     )
 
     # Create model

@@ -39,10 +39,35 @@ def extract_dataset_from_gdrive():
         print("Please check Google Drive Project_Sullivan folder.")
         return None
     
-    file_size = os.path.getsize(zip_file) / (1024**3)
-    print(f"✅ Found Dataset: {file_size:.2f} GB")
+    # If the file is too large (>50GB), avoid extraction and use Zip Streaming
+    file_size_gb = os.path.getsize(zip_file) / (1024**3)
+    print(f"✅ Found Dataset: {file_size_gb:.2f} GB")
     
-    # Extract
+    if file_size_gb > 50:
+        print("\n⚠️  Dataset is too large for local extraction (>50GB).")
+        print("🔄 Configuring for Zip Streaming Mode...")
+        
+        # We return a dict or special indicator. 
+        # But this script is main entry.
+        # We should update the config file to point to this zip!
+        
+        # Read config
+        import yaml
+        config_path = 'configs/colab_gdrive_config.yaml'
+        with open(config_path, 'r') as f:
+            config = yaml.safe_load(f)
+            
+        # Update config
+        config['data']['zip_file_path'] = str(zip_file)
+        # Also need to ensure data_dir points to something valid or is ignored
+        
+        with open(config_path, 'w') as f:
+            yaml.dump(config, f)
+            
+        print(f"✅ Config updated with zip_file_path: {zip_file}")
+        print("✅ You can now run training with --streaming")
+        return "/content/drive/MyDrive/Project_Sullivan" # Return mount point
+        
     print(f"\n2️⃣ Extracting to: {extract_to}")
     os.makedirs(extract_to, exist_ok=True)
     

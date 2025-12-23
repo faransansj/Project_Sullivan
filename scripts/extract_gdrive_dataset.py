@@ -43,6 +43,45 @@ def extract_dataset_from_gdrive():
     file_size_gb = os.path.getsize(zip_file) / (1024**3)
     print(f"✅ Found Dataset: {file_size_gb:.2f} GB")
     
+    # Check for NESTED dataset.zip (common issue)
+    with zipfile.ZipFile(zip_file, 'r') as z:
+        all_files = z.namelist()
+        if 'dataset.zip' in all_files:
+            print("\n⚠️  Detected nested 'dataset.zip' inside the main file!")
+            print("   The file you pointed to seems to be a collection of datasets.")
+            
+            inner_zip_info = z.getinfo('dataset.zip')
+            inner_size_gb = inner_zip_info.file_size / (1024**3)
+            print(f"   Target 'dataset.zip' size: {inner_size_gb:.2f} GB")
+            
+            target_ready_zip = f"{source_dir}/dataset_ready.zip"
+            
+            if os.path.exists(target_ready_zip):
+                 if os.path.getsize(target_ready_zip) == inner_zip_info.file_size:
+                    print(f"✅ Found already extracted inner zip: {target_ready_zip}")
+                    zip_file = target_ready_zip
+                 else:
+                    print("⚠️  Existing target zip size mismatch. Re-extracting...")
+                    zip_file = None # Trigger extraction
+            else:
+                 zip_file = None # Trigger extraction
+                 
+            if zip_file is None:
+                print(f"⏳ Extracting inner 'dataset.zip' to Google Drive ({target_ready_zip})...")
+                print("   This is a one-time process. Please wait...")
+                
+                # Stream copy to drive to avoid local disk fill
+                with z.open('dataset.zip') as source, open(target_ready_zip, 'wb') as target:
+                    import shutil
+                    shutil.copyfileobj(source, target)
+                
+                print("✅ Extraction complete.")
+                zip_file = target_ready_zip
+                
+    # Refresh file size for the new target
+    file_size_gb = os.path.getsize(zip_file) / (1024**3)
+    print(f"🎯 Using Training Dataset: {zip_file} ({file_size_gb:.2f} GB)")
+    
     if file_size_gb > 50:
         print("\n⚠️  Dataset is too large for local extraction (>50GB).")
         print("🔄 Configuring for Zip Streaming Mode...")

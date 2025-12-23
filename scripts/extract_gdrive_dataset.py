@@ -78,7 +78,55 @@ def extract_dataset_from_gdrive():
                 z.extractall(extract_to, members=splits_members)
                 print(f"✅ Essential metadata extracted to {extract_to}")
             else:
-                print("⚠️  Warning: 'splits/' folder not found in zip. Training might fail.")
+                print("⚠️  'splits/' folder not found in zip. Auto-generating from contents...")
+                # List zip contents to find audio feature files
+                all_files = z.namelist()
+                
+                # Look for patterns like 'audio_features/mel_spectrogram/XXX_mel.npy'
+                # or 'XXX/audio_features/mel_spectrogram/XXX_mel.npy'
+                import re
+                utterance_names = set()
+                for f in all_files:
+                    # Match patterns ending in _mel.npy or _mfcc.npy
+                    match = re.search(r'([^/]+)_mel\.npy$', f)
+                    if match:
+                        utterance_names.add(match.group(1))
+                    match = re.search(r'([^/]+)_mfcc\.npy$', f)
+                    if match:
+                        utterance_names.add(match.group(1))
+                
+                if not utterance_names:
+                    # Try another pattern: _params.npy
+                    for f in all_files:
+                        match = re.search(r'([^/]+)_params\.npy$', f)
+                        if match:
+                            utterance_names.add(match.group(1))
+                
+                if utterance_names:
+                    print(f"   Found {len(utterance_names)} utterances. Creating splits...")
+                    utterance_list = sorted(list(utterance_names))
+                    
+                    # 80/10/10 split
+                    n = len(utterance_list)
+                    train_end = int(n * 0.8)
+                    val_end = int(n * 0.9)
+                    
+                    train_uttrs = utterance_list[:train_end]
+                    val_uttrs = utterance_list[train_end:val_end]
+                    test_uttrs = utterance_list[val_end:]
+                    
+                    # Create splits directory structure
+                    splits_base = os.path.join(extract_to, 'splits')
+                    for split_name, uttrs in [('train', train_uttrs), ('val', val_uttrs), ('test', test_uttrs)]:
+                        split_dir = os.path.join(splits_base, split_name)
+                        os.makedirs(split_dir, exist_ok=True)
+                        with open(os.path.join(split_dir, 'utterance_list.txt'), 'w') as f:
+                            f.write('\n'.join(uttrs))
+                    
+                    print(f"✅ Auto-generated splits: train={len(train_uttrs)}, val={len(val_uttrs)}, test={len(test_uttrs)}")
+                else:
+                    print("❌ Could not find any utterance files in the zip.")
+                    print("   Please check the zip structure or create splits manually.")
                 
         print("✅ You can now run training with --streaming")
         return "/content/drive/MyDrive/Project_Sullivan" # Return mount point

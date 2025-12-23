@@ -70,10 +70,20 @@ def extract_dataset_from_gdrive():
                 print(f"⏳ Extracting inner 'dataset.zip' to Google Drive ({target_ready_zip})...")
                 print("   This is a one-time process. Please wait...")
                 
-                # Stream copy to drive to avoid local disk fill
+                # Stream copy with progress bar
+                from tqdm import tqdm
+                
+                chunk_size = 10 * 1024 * 1024 # 10MB chunks
+                total_size = inner_zip_info.file_size
+                
                 with z.open('dataset.zip') as source, open(target_ready_zip, 'wb') as target:
-                    import shutil
-                    shutil.copyfileobj(source, target)
+                    with tqdm(total=total_size, unit='B', unit_scale=True, desc="Extracting") as pbar:
+                        while True:
+                            chunk = source.read(chunk_size)
+                            if not chunk:
+                                break
+                            target.write(chunk)
+                            pbar.update(len(chunk))
                 
                 print("✅ Extraction complete.")
                 zip_file = target_ready_zip

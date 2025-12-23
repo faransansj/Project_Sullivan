@@ -59,12 +59,27 @@ def extract_dataset_from_gdrive():
             
         # Update config
         config['data']['zip_file_path'] = str(zip_file)
-        # Also need to ensure data_dir points to something valid or is ignored
         
         with open(config_path, 'w') as f:
             yaml.dump(config, f)
             
         print(f"✅ Config updated with zip_file_path: {zip_file}")
+        
+        # EXTRACT ESSENTIALS: We need 'splits' to exist locally for the training script
+        print("📂 Extracting essential metadata (splits)...")
+        with zipfile.ZipFile(zip_file, 'r') as z:
+            # Look for members starting with 'splits/'
+            splits_members = [m for m in z.namelist() if m.startswith('splits/')]
+            if not splits_members:
+                # Try with 'Dataset/splits/' if it's nested
+                splits_members = [m for m in z.namelist() if 'splits/' in m]
+            
+            if splits_members:
+                z.extractall(extract_to, members=splits_members)
+                print(f"✅ Essential metadata extracted to {extract_to}")
+            else:
+                print("⚠️  Warning: 'splits/' folder not found in zip. Training might fail.")
+                
         print("✅ You can now run training with --streaming")
         return "/content/drive/MyDrive/Project_Sullivan" # Return mount point
         

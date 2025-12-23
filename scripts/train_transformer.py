@@ -14,6 +14,7 @@ import argparse
 import sys
 from pathlib import Path
 import yaml
+import re
 import torch
 import pytorch_lightning as pl
 from pytorch_lightning.callbacks import ModelCheckpoint, EarlyStopping
@@ -27,10 +28,50 @@ from modeling.transformer import TransformerModel
 
 
 def load_config(config_path: str) -> dict:
-    """Load configuration from YAML file."""
+    """Load configuration from YAML file and resolve interpolations."""
     with open(config_path, 'r') as f:
         config = yaml.safe_load(f)
-    return config
+    
+    # Flatten config to help with resolution
+    flat_config = {}
+    def flatten(d, prefix=''):
+        for k, v in d.items():
+            if isinstance(v, dict):
+                flatten(v, prefix + k + '.')
+                flat_config[k] = v # Also store section roots
+            flat_config[prefix + k] = v
+            flat_config[k] = v # Store key without prefix for simple placeholders
+            
+    flatten(config)
+    
+    # Resolver function
+    def resolve_str(s):
+        if not isinstance(s, str): return s
+        pattern = re.compile(r'\${([^}]+)}')
+        while True:
+            match = pattern.search(s)
+            if not match: break
+            key = match.group(1)
+            val = flat_config.get(key, f"${{{key}}}")
+            if isinstance(val, dict):
+                # If it's a dict, we can't easily interpolate into a string
+                # unless we want to support something complex.
+                # For now, let's assume it's a leaf value.
+                break
+            s = s.replace(f"${{{key}}}", str(val))
+        return s
+
+    def resolve_recursive(d):
+        if isinstance(d, dict):
+            return {k: resolve_recursive(v) for k, v in d.items()}
+        elif isinstance(d, list):
+            return [resolve_recursive(v) for v in d]
+        elif isinstance(d, str):
+            return resolve_str(d)
+        else:
+            return d
+
+    return resolve_recursive(config)
 
 
 def create_model(config: dict) -> TransformerModel:

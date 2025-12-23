@@ -26,6 +26,11 @@ data:
   
   # Dataset splits
   splits_dir: "${local_data_dir}/splits"
+  
+  # Data types
+  audio_feature_type: "mel"
+  parameter_type: "geometric"
+  sequence_length: 1000
 
 # Model configuration
 model:

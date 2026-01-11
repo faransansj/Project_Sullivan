@@ -1,233 +1,49 @@
 {
   "subject_id": "sub011",
-  "total_utterances": 32,
-  "processed": 32,
-  "failed": 0,
-  "utterances": [
+  "total_utterances": 10,
+  "processed": 0,
+  "failed": 10,
+  "utterances": [],
+  "failed_utterances": [
     {
       "utterance_name": "sub011_2drt_01_vcv1_r1_video",
-      "hdf5_path": "data/processed/aligned/sub011/sub011_2drt_01_vcv1_r1_video.h5",
-      "metadata_path": "data/processed/aligned/sub011/sub011_2drt_01_vcv1_r1_video_metadata.json",
-      "alignment_valid": false,
-      "correlation": 0.2732401640285447
+      "error": "Failed to extract audio from video data/raw/usc_timit_data/sub011/2drt/video/sub011_2drt_01_vcv1_r1_video.mp4: [Errno 2] No such file or directory: 'ffmpeg'"
     },
     {
       "utterance_name": "sub011_2drt_01_vcv1_r2_video",
-      "hdf5_path": "data/processed/aligned/sub011/sub011_2drt_01_vcv1_r2_video.h5",
-      "metadata_path": "data/processed/aligned/sub011/sub011_2drt_01_vcv1_r2_video_metadata.json",
-      "alignment_valid": false,
-      "correlation": 0.21379269204555346
+      "error": "Failed to extract audio from video data/raw/usc_timit_data/sub011/2drt/video/sub011_2drt_01_vcv1_r2_video.mp4: [Errno 2] No such file or directory: 'ffmpeg'"
     },
     {
       "utterance_name": "sub011_2drt_02_vcv2_r1_video",
-      "hdf5_path": "data/processed/aligned/sub011/sub011_2drt_02_vcv2_r1_video.h5",
-      "metadata_path": "data/processed/aligned/sub011/sub011_2drt_02_vcv2_r1_video_metadata.json",
-      "alignment_valid": false,
-      "correlation": 0.24134910817202823
+      "error": "Failed to extract audio from video data/raw/usc_timit_data/sub011/2drt/video/sub011_2drt_02_vcv2_r1_video.mp4: [Errno 2] No such file or directory: 'ffmpeg'"
     },
     {
       "utterance_name": "sub011_2drt_02_vcv2_r2_video",
-      "hdf5_path": "data/processed/aligned/sub011/sub011_2drt_02_vcv2_r2_video.h5",
-      "metadata_path": "data/processed/aligned/sub011/sub011_2drt_02_vcv2_r2_video_metadata.json",
-      "alignment_valid": false,
-      "correlation": 0.17195174463366045
+      "error": "Failed to extract audio from video data/raw/usc_timit_data/sub011/2drt/video/sub011_2drt_02_vcv2_r2_video.mp4: [Errno 2] No such file or directory: 'ffmpeg'"
     },
     {
       "utterance_name": "sub011_2drt_03_vcv3_r1_video",
-      "hdf5_path": "data/processed/aligned/sub011/sub011_2drt_03_vcv3_r1_video.h5",
-      "metadata_path": "data/processed/aligned/sub011/sub011_2drt_03_vcv3_r1_video_metadata.json",
-      "alignment_valid": false,
-      "correlation": 0.19295786083735283
+      "error": "Failed to extract audio from video data/raw/usc_timit_data/sub011/2drt/video/sub011_2drt_03_vcv3_r1_video.mp4: [Errno 2] No such file or directory: 'ffmpeg'"
     },
     {
       "utterance_name": "sub011_2drt_03_vcv3_r2_video",
-      "hdf5_path": "data/processed/aligned/sub011/sub011_2drt_03_vcv3_r2_video.h5",
-      "metadata_path": "data/processed/aligned/sub011/sub011_2drt_03_vcv3_r2_video_metadata.json",
-      "alignment_valid": false,
-      "correlation": 0.24830997474615354
+      "error": "Failed to extract audio from video data/raw/usc_timit_data/sub011/2drt/video/sub011_2drt_03_vcv3_r2_video.mp4: [Errno 2] No such file or directory: 'ffmpeg'"
     },
     {
       "utterance_name": "sub011_2drt_04_bvt_r1_video",
-      "hdf5_path": "data/processed/aligned/sub011/sub011_2drt_04_bvt_r1_video.h5",
-      "metadata_path": "data/processed/aligned/sub011/sub011_2drt_04_bvt_r1_video_metadata.json",
-      "alignment_valid": true,
-      "correlation": 0.33483758313210366
+      "error": "Failed to extract audio from video data/raw/usc_timit_data/sub011/2drt/video/sub011_2drt_04_bvt_r1_video.mp4: [Errno 2] No such file or directory: 'ffmpeg'"
     },
     {
       "utterance_name": "sub011_2drt_04_bvt_r2_video",
-      "hdf5_path": "data/processed/aligned/sub011/sub011_2drt_04_bvt_r2_video.h5",
-      "metadata_path": "data/processed/aligned/sub011/sub011_2drt_04_bvt_r2_video_metadata.json",
-      "alignment_valid": true,
-      "correlation": 0.35151474667782956
+      "error": "Failed to extract audio from video data/raw/usc_timit_data/sub011/2drt/video/sub011_2drt_04_bvt_r2_video.mp4: [Errno 2] No such file or directory: 'ffmpeg'"
     },
     {
       "utterance_name": "sub011_2drt_05_shibboleth_r1_video",
-      "hdf5_path": "data/processed/aligned/sub011/sub011_2drt_05_shibboleth_r1_video.h5",
-      "metadata_path": "data/processed/aligned/sub011/sub011_2drt_05_shibboleth_r1_video_metadata.json",
-      "alignment_valid": false,
-      "correlation": 0.2046448994195283
+      "error": "Failed to extract audio from video data/raw/usc_timit_data/sub011/2drt/video/sub011_2drt_05_shibboleth_r1_video.mp4: [Errno 2] No such file or directory: 'ffmpeg'"
     },
     {
       "utterance_name": "sub011_2drt_05_shibboleth_r2_video",
-      "hdf5_path": "data/processed/aligned/sub011/sub011_2drt_05_shibboleth_r2_video.h5",
-      "metadata_path": "data/processed/aligned/sub011/sub011_2drt_05_shibboleth_r2_video_metadata.json",
-      "alignment_valid": false,
-      "correlation": 0.19031998217997165
-    },
-    {
-      "utterance_name": "sub011_2drt_06_rainbow_r1_video",
-      "hdf5_path": "data/processed/aligned/sub011/sub011_2drt_06_rainbow_r1_video.h5",
-      "metadata_path": "data/processed/aligned/sub011/sub011_2drt_06_rainbow_r1_video_metadata.json",
-      "alignment_valid": false,
-      "correlation": 0.17706814991983347
-    },
-    {
-      "utterance_name": "sub011_2drt_06_rainbow_r2_video",
-      "hdf5_path": "data/processed/aligned/sub011/sub011_2drt_06_rainbow_r2_video.h5",
-      "metadata_path": "data/processed/aligned/sub011/sub011_2drt_06_rainbow_r2_video_metadata.json",
-      "alignment_valid": false,
-      "correlation": 0.14378166892790473
-    },
-    {
-      "utterance_name": "sub011_2drt_07_grandfather1_r1_video",
-      "hdf5_path": "data/processed/aligned/sub011/sub011_2drt_07_grandfather1_r1_video.h5",
-      "metadata_path": "data/processed/aligned/sub011/sub011_2drt_07_grandfather1_r1_video_metadata.json",
-      "alignment_valid": false,
-      "correlation": 0.18777096047954941
-    },
-    {
-      "utterance_name": "sub011_2drt_07_grandfather1_r2_video",
-      "hdf5_path": "data/processed/aligned/sub011/sub011_2drt_07_grandfather1_r2_video.h5",
-      "metadata_path": "data/processed/aligned/sub011/sub011_2drt_07_grandfather1_r2_video_metadata.json",
-      "alignment_valid": false,
-      "correlation": 0.17483801429359558
-    },
-    {
-      "utterance_name": "sub011_2drt_08_grandfather2_r1_video",
-      "hdf5_path": "data/processed/aligned/sub011/sub011_2drt_08_grandfather2_r1_video.h5",
-      "metadata_path": "data/processed/aligned/sub011/sub011_2drt_08_grandfather2_r1_video_metadata.json",
-      "alignment_valid": false,
-      "correlation": 0.17405434204574927
-    },
-    {
-      "utterance_name": "sub011_2drt_08_grandfather2_r2_video",
-      "hdf5_path": "data/processed/aligned/sub011/sub011_2drt_08_grandfather2_r2_video.h5",
-      "metadata_path": "data/processed/aligned/sub011/sub011_2drt_08_grandfather2_r2_video_metadata.json",
-      "alignment_valid": false,
-      "correlation": 0.1571798488431751
-    },
-    {
-      "utterance_name": "sub011_2drt_09_northwind1_r1_video",
-      "hdf5_path": "data/processed/aligned/sub011/sub011_2drt_09_northwind1_r1_video.h5",
-      "metadata_path": "data/processed/aligned/sub011/sub011_2drt_09_northwind1_r1_video_metadata.json",
-      "alignment_valid": false,
-      "correlation": 0.21982527540964458
-    },
-    {
-      "utterance_name": "sub011_2drt_09_northwind1_r2_video",
-      "hdf5_path": "data/processed/aligned/sub011/sub011_2drt_09_northwind1_r2_video.h5",
-      "metadata_path": "data/processed/aligned/sub011/sub011_2drt_09_northwind1_r2_video_metadata.json",
-      "alignment_valid": false,
-      "correlation": 0.1686998420261012
-    },
-    {
-      "utterance_name": "sub011_2drt_10_northwind2_r1_video",
-      "hdf5_path": "data/processed/aligned/sub011/sub011_2drt_10_northwind2_r1_video.h5",
-      "metadata_path": "data/processed/aligned/sub011/sub011_2drt_10_northwind2_r1_video_metadata.json",
-      "alignment_valid": false,
-      "correlation": 0.1855670236989819
-    },
-    {
-      "utterance_name": "sub011_2drt_10_northwind2_r2_video",
-      "hdf5_path": "data/processed/aligned/sub011/sub011_2drt_10_northwind2_r2_video.h5",
-      "metadata_path": "data/processed/aligned/sub011/sub011_2drt_10_northwind2_r2_video_metadata.json",
-      "alignment_valid": false,
-      "correlation": 0.23651221651661855
-    },
-    {
-      "utterance_name": "sub011_2drt_11_postures_r1_video",
-      "hdf5_path": "data/processed/aligned/sub011/sub011_2drt_11_postures_r1_video.h5",
-      "metadata_path": "data/processed/aligned/sub011/sub011_2drt_11_postures_r1_video_metadata.json",
-      "alignment_valid": false,
-      "correlation": 0.16659091008940793
-    },
-    {
-      "utterance_name": "sub011_2drt_11_postures_r2_video",
-      "hdf5_path": "data/processed/aligned/sub011/sub011_2drt_11_postures_r2_video.h5",
-      "metadata_path": "data/processed/aligned/sub011/sub011_2drt_11_postures_r2_video_metadata.json",
-      "alignment_valid": false,
-      "correlation": 0.2620900155870187
-    },
-    {
-      "utterance_name": "sub011_2drt_12_picture1_video",
-      "hdf5_path": "data/processed/aligned/sub011/sub011_2drt_12_picture1_video.h5",
-      "metadata_path": "data/processed/aligned/sub011/sub011_2drt_12_picture1_video_metadata.json",
-      "alignment_valid": false,
-      "correlation": 0.1572429400958202
-    },
-    {
-      "utterance_name": "sub011_2drt_13_picture2_video",
-      "hdf5_path": "data/processed/aligned/sub011/sub011_2drt_13_picture2_video.h5",
-      "metadata_path": "data/processed/aligned/sub011/sub011_2drt_13_picture2_video_metadata.json",
-      "alignment_valid": false,
-      "correlation": 0.1502912037604396
-    },
-    {
-      "utterance_name": "sub011_2drt_14_picture3_video",
-      "hdf5_path": "data/processed/aligned/sub011/sub011_2drt_14_picture3_video.h5",
-      "metadata_path": "data/processed/aligned/sub011/sub011_2drt_14_picture3_video_metadata.json",
-      "alignment_valid": false,
-      "correlation": 0.1343674129118956
-    },
-    {
-      "utterance_name": "sub011_2drt_15_picture4_video",
-      "hdf5_path": "data/processed/aligned/sub011/sub011_2drt_15_picture4_video.h5",
-      "metadata_path": "data/processed/aligned/sub011/sub011_2drt_15_picture4_video_metadata.json",
-      "alignment_valid": false,
-      "correlation": 0.15930607427686017
-    },
-    {
-      "utterance_name": "sub011_2drt_16_picture5_video",
-      "hdf5_path": "data/processed/aligned/sub011/sub011_2drt_16_picture5_video.h5",
-      "metadata_path": "data/processed/aligned/sub011/sub011_2drt_16_picture5_video_metadata.json",
-      "alignment_valid": false,
-      "correlation": 0.11854968978132181
-    },
-    {
-      "utterance_name": "sub011_2drt_17_topic1_video",
-      "hdf5_path": "data/processed/aligned/sub011/sub011_2drt_17_topic1_video.h5",
-      "metadata_path": "data/processed/aligned/sub011/sub011_2drt_17_topic1_video_metadata.json",
-      "alignment_valid": false,
-      "correlation": 0.11292602784052344
-    },
-    {
-      "utterance_name": "sub011_2drt_18_topic2_video",
-      "hdf5_path": "data/processed/aligned/sub011/sub011_2drt_18_topic2_video.h5",
-      "metadata_path": "data/processed/aligned/sub011/sub011_2drt_18_topic2_video_metadata.json",
-      "alignment_valid": false,
-      "correlation": 0.12818754226132498
-    },
-    {
-      "utterance_name": "sub011_2drt_19_topic3_video",
-      "hdf5_path": "data/processed/aligned/sub011/sub011_2drt_19_topic3_video.h5",
-      "metadata_path": "data/processed/aligned/sub011/sub011_2drt_19_topic3_video_metadata.json",
-      "alignment_valid": false,
-      "correlation": 0.1283038807091941
-    },
-    {
-      "utterance_name": "sub011_2drt_20_topic4_video",
-      "hdf5_path": "data/processed/aligned/sub011/sub011_2drt_20_topic4_video.h5",
-      "metadata_path": "data/processed/aligned/sub011/sub011_2drt_20_topic4_video_metadata.json",
-      "alignment_valid": false,
-      "correlation": 0.15726361212381057
-    },
-    {
-      "utterance_name": "sub011_2drt_21_topic5_video",
-      "hdf5_path": "data/processed/aligned/sub011/sub011_2drt_21_topic5_video.h5",
-      "metadata_path": "data/processed/aligned/sub011/sub011_2drt_21_topic5_video_metadata.json",
-      "alignment_valid": false,
-      "correlation": 0.16171039595265094
+      "error": "Failed to extract audio from video data/raw/usc_timit_data/sub011/2drt/video/sub011_2drt_05_shibboleth_r2_video.mp4: [Errno 2] No such file or directory: 'ffmpeg'"
     }
-  ],
-  "failed_utterances": []
+  ]
 }

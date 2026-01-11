@@ -21,29 +21,29 @@
 
 ## 📊 Current Status
 
-**Current Milestone:** M2 - Baseline Model Development (**Phase 2-B In Progress** 🟡)
-**Current Phase:** Phase 2-B (Advanced Architecture - Transformer Implementation)
+**Current Milestone:** M1 & M2 - Data Pipeline Completion + Transformer Training
+**Current Phase:** Phase 1 Finalization (85%) + Phase 2-B (Transformer Training Prep)
 
 **Progress:**
 - [x] Project structure initialized
 - [x] Requirements defined
-- [x] Git repository created
+- [x] Git repository created and synced (SSH configured)
 - [x] Data downloaded from figshare (468 utterances, 15 subjects)
 - [x] EDA completed
 - [x] Preprocessing pipeline built (alignment, denoising)
 - [x] **U-Net Segmentation Pipeline Complete** (81.8% test Dice score, +16.9% above target)
-- [x] **Segmentation infrastructure ready** (scripts tested and validated)
-- [x] **Selective dataset segmentation** (75 utterances, 186,124 frames - COMPLETE ✅)
-- [x] **Articulatory parameter extraction** (14 geometric + 10 PCA features - COMPLETE ✅)
-- [x] **Audio feature extraction** (Mel-spectrogram + MFCC - COMPLETE ✅)
-- [x] **Train/Val/Test dataset splits** (70/15/15 ratio, subject-level - COMPLETE ✅)
+- [x] **12 subjects aligned data ready** (sub001-sub069)
+- [ ] **Full dataset segmentation** (In Progress - using trained U-Net)
+- [ ] **Articulatory parameter extraction** (Code ready, execution pending)
+- [ ] **Audio feature extraction** (Code ready, execution pending)
+- [ ] **Train/Val/Test dataset splits** (Pending - after feature extraction)
 - [x] **Baseline LSTM model implementation** (Bi-LSTM, 613K params - COMPLETE ✅)
 - [x] **Training pipeline setup** (PyTorch Lightning, TensorBoard - COMPLETE ✅)
 - [x] **Baseline model training** (18 epochs, early stopped - COMPLETE ✅)
 - [x] **Model evaluation and baseline report** (Test RMSE: 1.011, PCC: 0.105 - COMPLETE ✅)
 - [x] **Transformer architecture implementation** (5M params, tested - COMPLETE ✅)
-- [ ] **Transformer model training** (Phase 2-B, Next)
-- [ ] **Conformer architecture implementation** (Phase 2-B, Pending)
+- [ ] **Transformer model training** (Phase 2-B, Next - awaits M1 completion)
+- [ ] **Conformer architecture implementation** (Phase 2-B, Future)
 - [ ] **M2 target achievement** (RMSE < 0.15, PCC > 0.50 - Phase 2-B Goal)
 
 ---
@@ -159,19 +159,19 @@ tensorboard --logdir logs/training/
 
 | Milestone | Target | Status | Completion Criteria | Progress |
 |-----------|--------|--------|---------------------|----------|
-| **M1: Data Pipeline** | Phase 1 | ✅ **100% Complete** | MRI-Audio paired dataset ready | Completed ✅ |
+| **M1: Data Pipeline** | Phase 1 | 🟡 **85% Complete** | MRI-Audio paired dataset ready | Segmentation done, features pending |
 | **M2: Baseline Model** | Phase 2 | 🟡 **50% Complete** | RMSE < 0.15, PCC > 0.50 | Phase 2-A done, 2-B in progress |
-| **M3: Core Goal** | Phase 2 | ⬜ Pending (Jan 2026) | RMSE < 0.10, PCC > 0.70 | - |
+| **M3: Core Goal** | Phase 2 | ⬜ Pending | RMSE < 0.10, PCC > 0.70 | Awaits M2 completion |
 | **M4: Digital Twin** | Phase 3 | ⬜ Future (TBD) | 3D synthesis working | Phase 1-2 완료 후 착수 |
 
 ### Recent Achievements 🎉
+- **Jan 11, 2026**: **Git repository synced** 🔄 - SSH authentication configured, commits pushed
+- **Jan 11, 2026**: **Project status updated** 📊 - Comprehensive status report generated
 - **Nov 30, 2025**: **Transformer Implementation Complete** 🚀 - 5M params, tested and validated
 - **Nov 30, 2025**: **Phase 2-B Started** 🟡 - Advanced architecture development in progress
 - **Nov 30, 2025**: **Phase 2-A COMPLETE** ✅ - Baseline LSTM trained (Test RMSE: 1.011, PCC: 0.105)
 - **Nov 30, 2025**: **Performance analysis complete** 📊 - Comprehensive baseline report generated
 - **Nov 30, 2025**: **Improvement strategy identified** 🎯 - Transformer/Conformer + feature engineering
-- **Nov 30, 2025**: **M1 100% Complete** ✅ - All data pipeline tasks finished
-- **Nov 29, 2025**: Selective segmentation finished (75 utterances, 186K frames, 2.3h, 22.8 fps)
 - **Nov 27, 2025**: U-Net segmentation model trained with **81.8% test Dice score** (target: 70%, **+16.9% above**)
 
 ---
@@ -179,10 +179,10 @@ tensorboard --logdir logs/training/
 ## 📖 Documentation
 
 ### Main Documents
+- **[Project Status Report](PROJECT_STATUS_REPORT.md)** - **[NEW]** Comprehensive current status (Jan 2026) 📊
 - **[Researcher Manual](researcher_manual.md)** - Complete research protocol and guidelines
 - **[Baseline Complete](BASELINE_COMPLETE.md)** - Phase 2-A completion summary ✅
 - **[Baseline Performance Report](docs/BASELINE_PERFORMANCE_REPORT.md)** - Comprehensive analysis and next steps 📊
-- **[M1 Completion Report](docs/M1_COMPLETION_REPORT.md)** - Milestone 1 completion status (100%)
 - **[Next Milestones Plan](docs/NEXT_MILESTONES.md)** - Detailed roadmap for M2, M3, M4
 
 ### Technical Documentation
@@ -314,5 +314,5 @@ Research use only. See USC-TIMIT dataset license for data usage terms.
 
 ---
 
-**Last Updated:** 2025-11-30
-**Version:** 1.2
+**Last Updated:** 2026-01-11
+**Version:** 1.3

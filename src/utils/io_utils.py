@@ -209,6 +209,9 @@ def load_audio(
 
         # Use ffmpeg via subprocess to extract audio
         import subprocess
+        import imageio_ffmpeg
+
+        ffmpeg_exe = imageio_ffmpeg.get_ffmpeg_exe()
 
         # Create temporary WAV file
         with tempfile.NamedTemporaryFile(suffix='.wav', delete=False) as tmp_file:
@@ -217,7 +220,7 @@ def load_audio(
         try:
             # Extract audio using ffmpeg
             subprocess.run(
-                ['ffmpeg', '-i', str(path), '-vn', '-acodec', 'pcm_s16le',
+                [ffmpeg_exe, '-i', str(path), '-vn', '-acodec', 'pcm_s16le',
                  '-ar', '22050', '-ac', '1', tmp_path, '-y'],
                 stdout=subprocess.DEVNULL,
                 stderr=subprocess.DEVNULL,

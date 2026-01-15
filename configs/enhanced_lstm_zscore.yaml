@@ -1,0 +1,80 @@
+# Enhanced Bi-LSTM with Z-Score Normalization (Mean=0, Std=1)
+# Diagnostic test to resolve "Normalization Paradox" and temporal dynamics suppression
+# Configuration: hidden_dim=128, num_layers=2, full utterances, 20 epochs
+
+# Data settings
+data:
+  splits_dir: data/processed/splits
+  audio_feature_dir: data/processed/audio_features
+  parameter_dir: data/processed/parameters
+  audio_feature_type: mel  # 80-dim mel-spectrogram
+  parameter_type: geometric  # 14 geometric parameters
+  sequence_length: null  # Full variable-length utterances (not segmented)
+  normalization_type: zscore  # Z-score normalization (mean=0, std=1) instead of min-max [0,1]
+
+# Model settings
+model:
+  name: BaselineLSTM
+  input_dim: 80  # 80 for mel-spectrogram
+  hidden_dim: 128  # Balanced capacity for faster training
+  num_layers: 2  # Standard depth for good performance
+  output_dim: 14  # 14 geometric parameters
+  dropout: 0.2
+  learning_rate: 0.001
+
+# Training settings
+training:
+  batch_size: 4  # Smaller batch for full utterances
+  num_epochs: 20  # Diagnostic test - 20 epochs
+  num_workers: 0  # Single-threaded for stability
+  accumulate_grad_batches: 2  # Effective batch size = 4 * 2 = 8
+  gradient_clip_val: 1.0
+  precision: 32
+
+# Optimization
+optimization:
+  optimizer: Adam
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  lr_scheduler: ReduceLROnPlateau
+  lr_scheduler_params:
+    mode: min
+    factor: 0.5
+    patience: 7  # Slightly more patient for larger model
+    verbose: true
+
+# Callbacks
+callbacks:
+  early_stopping:
+    monitor: val_loss
+    patience: 5  # Faster convergence detection
+    mode: min
+    verbose: true
+  model_checkpoint:
+    monitor: val_loss
+    mode: min
+    save_top_k: 3
+    save_last: true
+    filename: "enhanced-lstm-zscore-{epoch:02d}-{val_loss:.4f}"
+
+# Logging
+logging:
+  experiment_name: enhanced_lstm_zscore
+  log_dir: logs/training
+  save_dir: models/enhanced_lstm_zscore
+  log_every_n_steps: 10
+
+# Evaluation
+evaluation:
+  metrics:
+    - rmse
+    - mae
+    - pearson_correlation
+  visualize_predictions: true
+  num_samples_to_visualize: 5
+
+# Reproducibility
+seed: 42
+
+# Hardware
+device: cpu

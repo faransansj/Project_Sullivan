@@ -14,6 +14,7 @@ import torch
 from torch.utils.data import Dataset, DataLoader
 import zipfile
 import io
+from scipy import interpolate
 
 
 class ArticulatoryDataset(Dataset):
@@ -49,6 +50,7 @@ class ArticulatoryDataset(Dataset):
         audio_feature_type: str = 'mel',
         parameter_type: str = 'geometric',
         normalize_params: bool = True,
+        normalization_type: str = 'minmax',  # 'minmax' or 'zscore'
         sequence_length: Optional[int] = None,
         streaming: bool = False,
         zip_file_path: Optional[Path] = None
@@ -59,8 +61,7 @@ class ArticulatoryDataset(Dataset):
         self.audio_feature_type = audio_feature_type
         self.parameter_type = parameter_type
         self.normalize_params = normalize_params
-        self.parameter_type = parameter_type
-        self.normalize_params = normalize_params
+        self.normalization_type = normalization_type
         self.sequence_length = sequence_length
         self.streaming = streaming
         self.zip_file_path = Path(zip_file_path) if zip_file_path else None
@@ -81,78 +82,115 @@ class ArticulatoryDataset(Dataset):
         data = []
 
         for utterance_name in self.utterance_list:
-            # Paths
+            # Paths - try NPZ first (legacy), then NPY (current pipeline)
+            audio_file_npz = self.audio_feature_dir / f'{utterance_name}_audio.npz'
+            param_file_npz = self.parameter_dir / f'{utterance_name}_params.npz'
+            
+            # Construct NPY paths
             if self.audio_feature_type == 'mel':
-                audio_file = self.audio_feature_dir / 'mel_spectrogram' / f'{utterance_name}_mel.npy'
-            else:  # mfcc
-                audio_file = self.audio_feature_dir / 'mfcc' / f'{utterance_name}_mfcc.npy'
+                audio_file_npy = self.audio_feature_dir / 'mel_spectrogram' / f'{utterance_name}_mel.npy'
+                # Also check root dir if flattened
+                if not audio_file_npy.exists():
+                    audio_file_npy = self.audio_feature_dir / f'{utterance_name}_mel.npy'
+            else:
+                audio_file_npy = self.audio_feature_dir / 'mfcc' / f'{utterance_name}_mfcc.npy'
+                if not audio_file_npy.exists():
+                    audio_file_npy = self.audio_feature_dir / f'{utterance_name}_mfcc.npy'
 
-            param_file = self.parameter_dir / self.parameter_type / f'{utterance_name}_params.npy'
+            if self.parameter_type == 'geometric':
+                param_file_npy = self.parameter_dir / 'geometric' / f'{utterance_name}_params.npy'
+                if not param_file_npy.exists():
+                    param_file_npy = self.parameter_dir / f'{utterance_name}_params.npy'
+            else:
+                param_file_npy = self.parameter_dir / 'pca' / f'{utterance_name}_params.npy'
+                if not param_file_npy.exists():
+                    param_file_npy = self.parameter_dir / f'{utterance_name}_params.npy'
 
-            # Check files exist (skip check if zip)
-            if self.zip_file_path:
-                # In zip mode, we construct internal paths
-                # Assuming structure: Dataset/audio_features/... if referencing root of zip?
-                # Or just basic relative paths.
-                # Let's assume audio_feature_dir relative to zip root if zip is used.
-                # Actually, if zip is used, audio_feature_dir should be the internal path prefix.
-                pass
-            elif not audio_file.exists():
-                print(f"Warning: Audio file not found: {audio_file}")
+            # Determine which files to use
+            if audio_file_npz.exists():
+                audio_file = audio_file_npz
+                is_npy_audio = False
+            elif audio_file_npy.exists():
+                audio_file = audio_file_npy
+                is_npy_audio = True
+            else:
+                print(f"Warning: Audio file not found: {audio_file_npz} or {audio_file_npy}")
                 continue
-            if not param_file.exists():
-                print(f"Warning: Parameter file not found: {param_file}")
+
+            if param_file_npz.exists():
+                param_file = param_file_npz
+                is_npy_param = False
+            elif param_file_npy.exists():
+                param_file = param_file_npy
+                is_npy_param = True
+            else:
+                print(f"Warning: Parameter file not found: {param_file_npz} or {param_file_npy}")
                 continue
 
             if self.streaming:
-                # Get shape for sequence splitting without loading full data if possible
-                if self.zip_file_path:
-                     # For zip, we might need to load one to get shape, or rely on metadata if available
-                     # To avoid opening zip 1000s times here, we could optimize, but for now:
-                     # Just add metadata entry.
-                     # We assume full file retrieval for shape isn't too expensive once, or we just store metadata.
-                     # WARNING: Opening zip for every item in init is slow. 
-                     # Better to have a metadata file.
-                     # For now, let's assume one-to-one mapping and NO sequence splitting for Zip Streaming 
-                     # UNLESS we read one.
-                     
-                     data.append({
-                        'utterance_name': utterance_name,
-                        'audio_path': f"audio_features/{'mel_spectrogram' if self.audio_feature_type == 'mel' else 'mfcc'}/{utterance_name}_{'mel' if self.audio_feature_type == 'mel' else 'mfcc'}.npy",
-                        'param_path': f"parameters/{self.parameter_type}/{utterance_name}_params.npy",
-                        'start_idx': None,
-                        'end_idx': None
-                     })
-                     continue
-
+                # Streaming mode: store metadata only
                 if self.sequence_length is not None:
-                    # In streaming mode with sequence_length, we still need the length
-                    # We can load just to get shape
-                    audio_features = np.load(audio_file, mmap_mode='r')
-                    num_frames = audio_features.shape[0]
-                    num_sequences = num_frames // self.sequence_length
-                    for i in range(num_sequences):
-                        data.append({
-                            'utterance_name': f"{utterance_name}_seq{i}",
-                            'audio_file': audio_file,
-                            'param_file': param_file,
-                            'start_idx': i * self.sequence_length,
-                            'end_idx': (i + 1) * self.sequence_length
-                        })
+                    # Need to know number of frames to split sequences
+                    try:
+                        if is_npy_param:
+                            # Use mmap_mode to read header only
+                            params_mmap = np.load(param_file, mmap_mode='r')
+                            num_frames = params_mmap.shape[0]
+                        else:
+                            param_data = np.load(param_file)
+                            num_frames = param_data['geometric_features'].shape[0]
+                        
+                        num_sequences = num_frames // self.sequence_length
+                        for i in range(num_sequences):
+                            start_idx = i * self.sequence_length
+                            end_idx = start_idx + self.sequence_length
+                            data.append({
+                                'utterance_name': f"{utterance_name}_seq{i}",
+                                'audio_file': audio_file,
+                                'param_file': param_file,
+                                'is_npy_audio': is_npy_audio,
+                                'is_npy_param': is_npy_param,
+                                'start_idx': start_idx,
+                                'end_idx': end_idx
+                            })
+                    except Exception as e:
+                        print(f"Warning: Could not determine length for {utterance_name}: {e}")
                 else:
                     data.append({
                         'utterance_name': utterance_name,
                         'audio_file': audio_file,
                         'param_file': param_file,
+                        'is_npy_audio': is_npy_audio,
+                        'is_npy_param': is_npy_param,
                         'start_idx': None,
                         'end_idx': None
                     })
-            else:
-                # Non-streaming: load full data
-                audio_features = np.load(audio_file)
-                parameters = np.load(param_file)
+                continue
 
-                assert audio_features.shape[0] == parameters.shape[0]
+            if not self.streaming:
+                # Non-streaming: load full data
+                
+                # Load Audio
+                if is_npy_audio:
+                    audio_features = np.load(audio_file)
+                else:
+                    audio_data = np.load(audio_file)
+                    if self.audio_feature_type == 'mel':
+                        audio_features = audio_data['mel_spectrogram']
+                    else:
+                        audio_features = audio_data['mfcc']
+
+                # Load Parameters
+                if is_npy_param:
+                    parameters = np.load(param_file)
+                else:
+                    param_data = np.load(param_file)
+                    parameters = param_data['geometric_features']
+
+                # Interpolate audio features to match parameter frame count if needed
+                if audio_features.shape[0] != parameters.shape[0]:
+                    # print(f"Info: Interpolating {utterance_name}: audio {audio_features.shape[0]} -> params {parameters.shape[0]} frames")
+                    audio_features = self._interpolate_features(audio_features, parameters.shape[0])
 
                 if self.sequence_length is not None:
                     num_frames = audio_features.shape[0]
@@ -174,14 +212,16 @@ class ArticulatoryDataset(Dataset):
 
         return data
 
+        return data
+
     def _compute_normalization_stats(self):
-        """Compute mean and std for parameter normalization."""
+        """Compute statistics for normalization (min-max or z-score)."""
         if self.streaming:
             # For streaming, we take a subset to estimate stats or load if pre-calculated
             # Here we take up to 100 samples to estimate
             num_samples = min(len(self.data), 100)
             sampled_params = []
-            
+
             if self.zip_file_path:
                  with zipfile.ZipFile(self.zip_file_path, 'r') as z:
                     for i in range(num_samples):
@@ -192,11 +232,16 @@ class ArticulatoryDataset(Dataset):
             else:
                 for i in range(num_samples):
                     item = self.data[i]
-                    params = np.load(item['param_file'])
+                    param_data = np.load(item['param_file'])
+                    if item['is_npy_param']:
+                        params = param_data
+                    else:
+                        params = param_data['geometric_features']
+                    
                     if item['start_idx'] is not None:
                         params = params[item['start_idx']:item['end_idx']]
                     sampled_params.append(params)
-            
+
             if len(sampled_params) > 0:
                 all_params = np.concatenate(sampled_params, axis=0)
             else:
@@ -205,11 +250,58 @@ class ArticulatoryDataset(Dataset):
         else:
             all_params = np.concatenate([item['parameters'] for item in self.data], axis=0)
 
-        self.param_mean = np.mean(all_params, axis=0, keepdims=True)
-        self.param_std = np.std(all_params, axis=0, keepdims=True)
+        if self.normalization_type == 'minmax':
+            # Min-max normalization statistics
+            self.param_min = np.min(all_params, axis=0, keepdims=True)
+            self.param_max = np.max(all_params, axis=0, keepdims=True)
 
-        # Avoid division by zero
-        self.param_std = np.where(self.param_std < 1e-8, 1.0, self.param_std)
+            # Avoid division by zero - if min == max, set range to 1
+            self.param_range = self.param_max - self.param_min
+            self.param_range = np.where(self.param_range < 1e-8, 1.0, self.param_range)
+
+            print(f"Min-Max Normalization: min={self.param_min.flatten()[:3]}, max={self.param_max.flatten()[:3]}")
+
+        elif self.normalization_type == 'zscore':
+            # Z-score normalization statistics
+            self.param_mean = np.mean(all_params, axis=0, keepdims=True)
+            self.param_std = np.std(all_params, axis=0, keepdims=True)
+
+            # Avoid division by zero - if std == 0, set to 1
+            self.param_std = np.where(self.param_std < 1e-8, 1.0, self.param_std)
+
+            print(f"Z-Score Normalization: mean={self.param_mean.flatten()[:3]}, std={self.param_std.flatten()[:3]}")
+
+        else:
+            raise ValueError(f"Unknown normalization_type: {self.normalization_type}. Use 'minmax' or 'zscore'.")
+
+    def _interpolate_features(self, features: np.ndarray, target_length: int) -> np.ndarray:
+        """
+        Interpolate features to target length using linear interpolation.
+
+        Parameters
+        ----------
+        features : np.ndarray
+            Input features of shape (source_length, feature_dim)
+        target_length : int
+            Target number of frames
+
+        Returns
+        -------
+        interpolated : np.ndarray
+            Interpolated features of shape (target_length, feature_dim)
+        """
+        source_length, feature_dim = features.shape
+
+        # Create interpolation functions for each feature dimension
+        source_indices = np.arange(source_length)
+        target_indices = np.linspace(0, source_length - 1, target_length)
+
+        interpolated = np.zeros((target_length, feature_dim))
+        for i in range(feature_dim):
+            f = interpolate.interp1d(source_indices, features[:, i], kind='linear')
+            interpolated[:, i] = f(target_indices)
+
+        return interpolated
 
     def __len__(self) -> int:
         return len(self.data)
@@ -222,15 +314,37 @@ class ArticulatoryDataset(Dataset):
 
         if self.streaming:
             if self.zip_file_path:
-                # Read from zip
+                # Read from zip - NPZ format
                 with zipfile.ZipFile(self.zip_file_path, 'r') as z:
                     with z.open(item['audio_path']) as f:
-                        audio_features = np.load(io.BytesIO(f.read()))
+                        audio_data = np.load(io.BytesIO(f.read()))
+                        if self.audio_feature_type == 'mel':
+                            audio_features = audio_data['mel_spectrogram']
+                        else:
+                            audio_features = audio_data['mfcc']
                     with z.open(item['param_path']) as f:
-                        parameters = np.load(io.BytesIO(f.read()))
+                        param_data = np.load(io.BytesIO(f.read()))
+                        parameters = param_data['geometric_features']
             else:
-                audio_features = np.load(item['audio_file'])
-                parameters = np.load(item['param_file'])
+                audio_data = np.load(item['audio_file'])
+                param_data = np.load(item['param_file'])
+
+                if item['is_npy_audio']:
+                    audio_features = audio_data
+                else:
+                    if self.audio_feature_type == 'mel':
+                        audio_features = audio_data['mel_spectrogram']
+                    else:
+                        audio_features = audio_data['mfcc']
+
+                if item['is_npy_param']:
+                    parameters = param_data
+                else:
+                    parameters = param_data['geometric_features']
+
+            # Interpolate if needed
+            if audio_features.shape[0] != parameters.shape[0]:
+                audio_features = self._interpolate_features(audio_features, parameters.shape[0])
 
             if item['start_idx'] is not None:
                 audio_features = audio_features[item['start_idx']:item['end_idx']]
@@ -244,7 +358,12 @@ class ArticulatoryDataset(Dataset):
 
         # Normalize parameters
         if self.normalize_params:
-            parameters = (parameters - torch.FloatTensor(self.param_mean)) / torch.FloatTensor(self.param_std)
+            if self.normalization_type == 'minmax':
+                # Min-max normalization to [0, 1] range
+                parameters = (parameters - torch.FloatTensor(self.param_min)) / torch.FloatTensor(self.param_range)
+            elif self.normalization_type == 'zscore':
+                # Z-score normalization to mean=0, std=1
+                parameters = (parameters - torch.FloatTensor(self.param_mean)) / torch.FloatTensor(self.param_std)
 
         return audio_features, parameters, item['utterance_name']
 
@@ -255,7 +374,7 @@ class ArticulatoryDataset(Dataset):
         Parameters
         ----------
         normalized_params : torch.Tensor
-            Normalized parameters
+            Normalized parameters (either [0, 1] range for minmax or z-score normalized)
 
         Returns
         -------
@@ -265,7 +384,14 @@ class ArticulatoryDataset(Dataset):
         if not self.normalize_params:
             return normalized_params
 
-        return normalized_params * torch.FloatTensor(self.param_std) + torch.FloatTensor(self.param_mean)
+        if self.normalization_type == 'minmax':
+            # Inverse min-max: x_original = x_normalized * (max - min) + min
+            return normalized_params * torch.FloatTensor(self.param_range) + torch.FloatTensor(self.param_min)
+        elif self.normalization_type == 'zscore':
+            # Inverse z-score: x_original = x_normalized * std + mean
+            return normalized_params * torch.FloatTensor(self.param_std) + torch.FloatTensor(self.param_mean)
+        else:
+            return normalized_params
 
 
 def collate_fn(batch):
@@ -320,6 +446,7 @@ def create_dataloaders(
     batch_size: int = 16,
     num_workers: int = 4,
     sequence_length: Optional[int] = None,
+    normalization_type: str = 'minmax',  # 'minmax' or 'zscore'
     streaming: bool = False,
     zip_file_path: Optional[str] = None
 ) -> Dict[str, DataLoader]:
@@ -353,10 +480,26 @@ def create_dataloaders(
     dataloaders = {}
 
     for split in ['train', 'val', 'test']:
-        # Load utterance list
-        utterance_list_file = splits_dir / split / 'utterance_list.txt'
+        # Load utterance list from JSON file
+        import json
+        utterance_list_file = splits_dir / f'{split}.json'
         with open(utterance_list_file, 'r') as f:
-            utterance_list = [line.strip() for line in f]
+            split_data = json.load(f)
+            # Handle both list format and dict format
+            if isinstance(split_data, list):
+                utterance_list = split_data
+            elif isinstance(split_data, dict) and 'utterances' in split_data:
+                # Extract utterance names from list of dicts
+                utterances = split_data['utterances']
+                if isinstance(utterances, list) and len(utterances) > 0:
+                    if isinstance(utterances[0], dict) and 'utterance_name' in utterances[0]:
+                        utterance_list = [u['utterance_name'] for u in utterances]
+                    else:
+                        utterance_list = utterances
+                else:
+                    utterance_list = utterances
+            else:
+                raise ValueError(f"Unexpected format in {utterance_list_file}")
 
         # Create dataset
         dataset = ArticulatoryDataset(
@@ -366,6 +509,7 @@ def create_dataloaders(
             audio_feature_type=audio_feature_type,
             parameter_type=parameter_type,
             normalize_params=True,
+            normalization_type=normalization_type,
             sequence_length=sequence_length,
             streaming=streaming,
             zip_file_path=zip_file_path

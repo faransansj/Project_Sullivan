@@ -24,7 +24,7 @@ from datetime import datetime
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
-from src.segmentation.unet import UNet
+from src.segmentation.unet_simple import UNet
 from src.utils.logger import setup_logger
 from src.utils.io_utils import ensure_directory
 
@@ -72,7 +72,7 @@ def main():
     parser.add_argument(
         '--model',
         type=str,
-        default='models/unet_scratch/unet_final.pth',
+        default='models/unet_scratch/unet_best.pth',
         help='Path to trained U-Net model'
     )
     parser.add_argument(
@@ -146,11 +146,25 @@ def main():
     # Load model
     logger.info(f"Loading model from {args.model}")
     device = torch.device(args.device)
-    model = UNet(n_classes=4)
-    model.load_state_dict(torch.load(args.model, map_location=device))
-    model.to(device)
-    model.eval()
-    logger.info("Model loaded successfully")
+    model = UNet(n_channels=1, n_classes=1)
+    
+    # Load state dict and handle 'model.' prefix from Lightning checkpoint
+    try:
+        state_dict = torch.load(args.model, map_location=device)
+        new_state_dict = {}
+        for k, v in state_dict.items():
+            if k.startswith('model.'):
+                new_state_dict[k[6:]] = v
+            else:
+                new_state_dict[k] = v
+                
+        model.load_state_dict(new_state_dict)
+        model.to(device)
+        model.eval()
+        logger.info("Model loaded successfully")
+    except Exception as e:
+        logger.error(f"Error loading model: {e}")
+        return
 
     # Segment selected utterances
     logger.info("Starting segmentation...")
@@ -171,6 +185,12 @@ def main():
         # Create utterance output directory
         utt_output_dir = output_dir / utterance_name
         ensure_directory(utt_output_dir)
+        output_path = utt_output_dir / f"{utterance_name}_segmentations.npz"
+
+        # Skip if already exists
+        if output_path.exists():
+            # logger.info(f"Skipping {utterance_name}, already processed")
+            continue
 
         try:
             # Load MRI frames
@@ -188,7 +208,7 @@ def main():
                 # Normalize
                 frame_norm = (frame - frame.mean()) / (frame.std() + 1e-8)
 
-                # Pad to 96x96
+                # Pad to 96x96 (U-Net typically expects power of 2 or divisible by 16)
                 h, w = frame.shape
                 pad_h = (96 - h) // 2
                 pad_w = (96 - w) // 2
@@ -205,13 +225,14 @@ def main():
                 # Inference
                 with torch.no_grad():
                     output = model(frame_tensor)
-                    pred = output.argmax(dim=1).squeeze(0).cpu().numpy()
+                    # Binary segmentation: Sigmoid + threshold
+                    pred = (torch.sigmoid(output) > 0.5).int().squeeze(0).squeeze(0).cpu().numpy()
 
                 # Unpad
                 seg = pred[pad_h:pad_h+h, pad_w:pad_w+w]
 
-                # Class distribution
-                class_dist = np.bincount(seg.flatten(), minlength=4).astype(float)
+                # Class distribution (binary: 0 and 1)
+                class_dist = np.bincount(seg.flatten(), minlength=2).astype(float)
                 class_dist /= seg.size
 
                 segmentations.append(seg)
@@ -229,7 +250,7 @@ def main():
                 utterance_name=utterance_name,
                 hdf5_path=hdf5_path,
                 num_frames=num_frames,
-                class_names=['background', 'tongue', 'jaw', 'lips']
+                class_names=['background', 'airway']
             )
 
             # Stats

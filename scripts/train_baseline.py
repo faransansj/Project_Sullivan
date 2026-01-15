@@ -121,7 +121,8 @@ def main():
         parameter_type=config['data']['parameter_type'],
         batch_size=config['training']['batch_size'],
         num_workers=config['training']['num_workers'],
-        sequence_length=config['data']['sequence_length']
+        sequence_length=config['data']['sequence_length'],
+        normalization_type=config['data'].get('normalization_type', 'minmax')
     )
 
     # Create model

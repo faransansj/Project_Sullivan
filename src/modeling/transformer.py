@@ -75,7 +75,9 @@ class TransformerModel(pl.LightningModule):
         activation: str = 'gelu',
         learning_rate: float = 5e-4,
         weight_decay: float = 0.01,
-        max_seq_len: int = 5000
+        max_seq_len: int = 5000,
+        velocity_weight: float = 1.0,
+        acceleration_weight: float = 0.5
     ):
         super().__init__()
         self.save_hyperparameters()
@@ -90,6 +92,8 @@ class TransformerModel(pl.LightningModule):
         self.dropout = dropout
         self.learning_rate = learning_rate
         self.weight_decay = weight_decay
+        self.velocity_weight = velocity_weight
+        self.acceleration_weight = acceleration_weight
 
         # Input projection
         self.input_projection = nn.Linear(input_dim, d_model)
@@ -125,8 +129,8 @@ class TransformerModel(pl.LightningModule):
         # Dropout for output
         self.dropout_layer = nn.Dropout(dropout)
 
-        # Loss function
-        self.criterion = nn.MSELoss()
+        # Loss function - use 'none' reduction for proper masking
+        self.criterion = nn.MSELoss(reduction='none')
 
         # Print model info
         param_count = count_parameters(self)
@@ -187,7 +191,7 @@ class TransformerModel(pl.LightningModule):
 
     def training_step(self, batch: Tuple, batch_idx: int) -> torch.Tensor:
         """
-        Training step (copied from baseline_lstm.py).
+        Training step with temporal loss (position + velocity + acceleration).
 
         Parameters
         ----------
@@ -206,21 +210,34 @@ class TransformerModel(pl.LightningModule):
         # Forward pass
         pred_params = self(audio, lengths)
 
-        # Compute loss only on non-padded frames
+        # Create mask for valid frames
         mask = self._create_mask(lengths, pred_params.shape[1]).to(pred_params.device)
         mask = mask.unsqueeze(-1)  # (batch, seq_len, 1)
 
-        # Masked loss
-        loss = self.criterion(pred_params * mask, params * mask)
+        # Compute position loss (per-frame MSE)
+        squared_error = self.criterion(pred_params, params)
+        masked_error = squared_error * mask
+        position_loss = masked_error.sum() / mask.sum()
+
+        # Compute temporal losses (velocity + acceleration)
+        temporal_losses = self._compute_temporal_loss(pred_params, params, mask)
+        velocity_loss = temporal_losses['velocity_loss']
+        acceleration_loss = temporal_losses['acceleration_loss']
+
+        # Combined loss
+        loss = position_loss + (self.velocity_weight * velocity_loss) + (self.acceleration_weight * acceleration_loss)
 
         # Logging
         self.log('train_loss', loss, on_step=True, on_epoch=True, prog_bar=True)
+        self.log('train_position_loss', position_loss, on_step=False, on_epoch=True)
+        self.log('train_velocity_loss', velocity_loss, on_step=False, on_epoch=True)
+        self.log('train_acceleration_loss', acceleration_loss, on_step=False, on_epoch=True)
 
         return loss
 
     def validation_step(self, batch: Tuple, batch_idx: int) -> Dict:
         """
-        Validation step (copied from baseline_lstm.py).
+        Validation step with temporal loss.
 
         Parameters
         ----------
@@ -239,17 +256,31 @@ class TransformerModel(pl.LightningModule):
         # Forward pass
         pred_params = self(audio, lengths)
 
-        # Compute loss
+        # Create mask for valid frames
         mask = self._create_mask(lengths, pred_params.shape[1]).to(pred_params.device)
         mask = mask.unsqueeze(-1)
 
-        loss = self.criterion(pred_params * mask, params * mask)
+        # Compute position loss
+        squared_error = self.criterion(pred_params, params)
+        masked_error = squared_error * mask
+        position_loss = masked_error.sum() / mask.sum()
+
+        # Compute temporal losses
+        temporal_losses = self._compute_temporal_loss(pred_params, params, mask)
+        velocity_loss = temporal_losses['velocity_loss']
+        acceleration_loss = temporal_losses['acceleration_loss']
+
+        # Combined loss
+        loss = position_loss + (self.velocity_weight * velocity_loss) + (self.acceleration_weight * acceleration_loss)
 
         # Compute metrics
         metrics = self._compute_metrics(pred_params, params, mask)
 
         # Logging
         self.log('val_loss', loss, on_step=False, on_epoch=True, prog_bar=True)
+        self.log('val_position_loss', position_loss, on_step=False, on_epoch=True)
+        self.log('val_velocity_loss', velocity_loss, on_step=False, on_epoch=True)
+        self.log('val_acceleration_loss', acceleration_loss, on_step=False, on_epoch=True)
         self.log('val_rmse', metrics['rmse'], on_step=False, on_epoch=True, prog_bar=True)
         self.log('val_mae', metrics['mae'], on_step=False, on_epoch=True)
         self.log('val_pearson', metrics['pearson'], on_step=False, on_epoch=True)
@@ -258,7 +289,7 @@ class TransformerModel(pl.LightningModule):
 
     def test_step(self, batch: Tuple, batch_idx: int) -> Dict:
         """
-        Test step (copied from baseline_lstm.py).
+        Test step with temporal loss.
 
         Parameters
         ----------
@@ -277,17 +308,31 @@ class TransformerModel(pl.LightningModule):
         # Forward pass
         pred_params = self(audio, lengths)
 
-        # Compute loss
+        # Create mask for valid frames
         mask = self._create_mask(lengths, pred_params.shape[1]).to(pred_params.device)
         mask = mask.unsqueeze(-1)
 
-        loss = self.criterion(pred_params * mask, params * mask)
+        # Compute position loss
+        squared_error = self.criterion(pred_params, params)
+        masked_error = squared_error * mask
+        position_loss = masked_error.sum() / mask.sum()
+
+        # Compute temporal losses
+        temporal_losses = self._compute_temporal_loss(pred_params, params, mask)
+        velocity_loss = temporal_losses['velocity_loss']
+        acceleration_loss = temporal_losses['acceleration_loss']
+
+        # Combined loss
+        loss = position_loss + (self.velocity_weight * velocity_loss) + (self.acceleration_weight * acceleration_loss)
 
         # Compute metrics
         metrics = self._compute_metrics(pred_params, params, mask)
 
         # Logging
         self.log('test_loss', loss, on_step=False, on_epoch=True)
+        self.log('test_position_loss', position_loss, on_step=False, on_epoch=True)
+        self.log('test_velocity_loss', velocity_loss, on_step=False, on_epoch=True)
+        self.log('test_acceleration_loss', acceleration_loss, on_step=False, on_epoch=True)
         self.log('test_rmse', metrics['rmse'], on_step=False, on_epoch=True)
         self.log('test_mae', metrics['mae'], on_step=False, on_epoch=True)
         self.log('test_pearson', metrics['pearson'], on_step=False, on_epoch=True)
@@ -404,6 +449,60 @@ class TransformerModel(pl.LightningModule):
             'rmse': rmse,
             'mae': mae,
             'pearson': pearson
+        }
+
+    def _compute_temporal_loss(
+        self,
+        pred: torch.Tensor,
+        target: torch.Tensor,
+        mask: torch.Tensor
+    ) -> Dict[str, torch.Tensor]:
+        """
+        Compute temporal loss components (velocity and acceleration matching).
+
+        Parameters
+        ----------
+        pred : torch.Tensor
+            Predicted parameters, shape (batch, seq_len, output_dim)
+        target : torch.Tensor
+            Target parameters, shape (batch, seq_len, output_dim)
+        mask : torch.Tensor
+            Mask for valid frames, shape (batch, seq_len, 1)
+
+        Returns
+        -------
+        losses : dict
+            Dictionary with 'velocity_loss' and 'acceleration_loss'
+        """
+        batch_size, seq_len, output_dim = pred.shape
+
+        # Compute velocity (first-order difference)
+        # velocity[t] = position[t+1] - position[t]
+        pred_velocity = pred[:, 1:, :] - pred[:, :-1, :]  # (batch, seq_len-1, output_dim)
+        target_velocity = target[:, 1:, :] - target[:, :-1, :]
+
+        # Mask for velocity (both frames must be valid)
+        velocity_mask = mask[:, :-1, :] * mask[:, 1:, :]  # (batch, seq_len-1, 1)
+
+        # Velocity loss
+        velocity_error = self.criterion(pred_velocity, target_velocity)
+        velocity_loss = (velocity_error * velocity_mask).sum() / velocity_mask.sum()
+
+        # Compute acceleration (second-order difference)
+        # acceleration[t] = velocity[t+1] - velocity[t] = position[t+2] - 2*position[t+1] + position[t]
+        pred_acceleration = pred_velocity[:, 1:, :] - pred_velocity[:, :-1, :]  # (batch, seq_len-2, output_dim)
+        target_acceleration = target_velocity[:, 1:, :] - target_velocity[:, :-1, :]
+
+        # Mask for acceleration (three frames must be valid)
+        acceleration_mask = velocity_mask[:, :-1, :] * velocity_mask[:, 1:, :]  # (batch, seq_len-2, 1)
+
+        # Acceleration loss
+        acceleration_error = self.criterion(pred_acceleration, target_acceleration)
+        acceleration_loss = (acceleration_error * acceleration_mask).sum() / acceleration_mask.sum()
+
+        return {
+            'velocity_loss': velocity_loss,
+            'acceleration_loss': acceleration_loss
         }
 
     def predict_step(self, batch: Tuple, batch_idx: int) -> Dict:

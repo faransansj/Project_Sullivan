@@ -1,0 +1,54 @@
+# Project Sullivan - Preprocessing Configuration
+# Production configuration for full dataset
+
+# Input/Output paths
+raw_data_path: "/mnt/HDDB/dataset/my_dataset/dataset"
+output_path: "data/processed"
+
+# MRI settings
+mri_target_size: [256, 256]
+mri_fps: 83.28
+denoise_method: "gaussian"
+mri_denoise_method: "gaussian"
+mri_denoise_sigma: 1.0
+mri_temporal_window: 3
+
+# Audio settings
+audio_sr: 16000
+audio_sample_rate: 22050
+audio_denoise: true
+
+# Alignment
+alignment_method: "cross_correlation"
+
+# Segmentation
+segmentation_model: "models/unet_scratch/unet_best.pth"
+segmentation_pretrained: false
+num_classes: 1
+segmentation_batch_size: 8
+segmentation_device: "cuda"
+
+# Parameterization
+parameterization_method: "both"
+pca_components: 10
+autoencoder_latent_dim: 10
+temporal_smoothing: true
+smoothing_method: "savgol"
+smoothing_window: 11
+
+# Audio features
+n_mfcc: 13
+n_mels: 80
+hop_length: 160
+
+# Dataset building
+train_ratio: 0.8
+val_ratio: 0.1
+test_ratio: 0.1
+speaker_level_split: true
+compression: "gzip"
+compression_level: 4
+
+# Validation
+run_validation: true
+generate_visualizations: false

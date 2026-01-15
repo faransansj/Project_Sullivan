@@ -179,9 +179,9 @@ def main():
         audio_feature_type=config['data']['audio_feature_type'],
         parameter_type=config['data']['parameter_type'],
         batch_size=config['training']['batch_size'],
-        num_workers=config['dataloader']['num_workers'],
+        num_workers=config['training']['num_workers'],
         sequence_length=config['data']['sequence_length'],
-        streaming=args.streaming or config['dataloader'].get('streaming', False),
+        streaming=args.streaming or config['training'].get('streaming', False),
         zip_file_path=config['data'].get('zip_file_path', None)
     )
 

@@ -130,36 +130,13 @@ def create_callbacks(config: dict) -> list:
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Train Transformer model")
-    parser.add_argument(
-        '--config',
-        type=str,
-        default='configs/transformer_config.yaml',
-        help='Path to configuration file'
-    )
-    parser.add_argument(
-        '--fast-dev-run',
-        action='store_true',
-        help='Run a fast development run (1 batch per epoch)'
-    )
-    parser.add_argument(
-        '--gpus',
-        type=int,
-        default=0,
-        help='Number of GPUs to use (0 for CPU)'
-    )
-    parser.add_argument(
-        '--overfit-batches',
-        type=int,
-        default=0,
-        help='Overfit on N batches for testing (0 = disabled)'
-    )
-    parser.add_argument(
-        '--streaming',
-        action='store_true',
-        help='Enable dataset streaming'
-    )
-
+    parser = argparse.ArgumentParser(description='Train Transformer for Articulatory Inversion')
+    parser.add_argument('--config', type=str, default='configs/transformer_config.yaml', help='Path to config file')
+    parser.add_argument('--fast-dev-run', action='store_true', help='Run 1 batch for debugging')
+    parser.add_argument('--gpus', type=int, default=0, help='Number of GPUs to use')
+    parser.add_argument('--overfit-batches', type=float, default=0.0, help='Overfit batches')
+    parser.add_argument('--streaming', action='store_true', help='Use streaming dataset')
+    parser.add_argument('--resume_from_checkpoint', type=str, default=None, help='Path to checkpoint to resume from')
     args = parser.parse_args()
 
     # Load configuration
@@ -243,7 +220,8 @@ def main():
     trainer.fit(
         model,
         train_dataloaders=dataloaders['train'],
-        val_dataloaders=dataloaders['val']
+        val_dataloaders=dataloaders['val'],
+        ckpt_path=args.resume_from_checkpoint
     )
 
     print("\n" + "=" * 60)

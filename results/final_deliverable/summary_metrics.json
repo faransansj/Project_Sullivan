@@ -1,0 +1,5 @@
+{
+  "Global RMSE": 0.05065765870870087,
+  "Global PCC": 0.02590043470263481,
+  "Model Path": "Project_Sullivan_Final_Transformer.ckpt"
+}

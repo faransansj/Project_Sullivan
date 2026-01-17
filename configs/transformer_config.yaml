@@ -11,35 +11,18 @@ data:
   sequence_length: 500  # Split utterances into fixed-length sequences
   streaming: true
 
-# Model settings
-model:
-  name: Transformer
-  input_dim: 80  # 80 for mel-spectrogram, 13 for MFCC
-  d_model: 512  # Transformer hidden dimension
-  num_layers: 6  # Number of transformer layers
-  num_heads: 8  # Number of attention heads
-  d_ff: 2048  # Feed-forward network dimension (usually 4*d_model)
-  output_dim: 14  # 14 for geometric, 10 for PCA
-  dropout: 0.1  # Dropout rate
-  pos_encoding: learnable  # 'sinusoidal' or 'learnable'
-  activation: gelu  # Activation function (gelu, relu, swish)
-  learning_rate: 0.0005  # Initial learning rate
-  weight_decay: 0.01  # Weight decay for AdamW
-  max_seq_len: 5000  # Maximum sequence length
-
-# Training settings
 training:
-  batch_size: 16
+  batch_size: 8
   num_epochs: 50
   num_workers: 0
-  accumulate_grad_batches: 1
+  accumulate_grad_batches: 2
   gradient_clip_val: 1.0
   precision: 32
 
 # Optimization
 optimization:
   optimizer: AdamW  # AdamW with decoupled weight decay
-  learning_rate: 0.0005  # Learning rate
+  learning_rate: 0.0002  # Learning rate
   weight_decay: 0.01  # Weight decay
   betas: [0.9, 0.98]  # Beta parameters for AdamW
   lr_scheduler: CosineAnnealingWarmRestarts  # Learning rate scheduler
@@ -58,13 +41,13 @@ callbacks:
   model_checkpoint:
     monitor: val_loss
     mode: min
-    save_top_k: 3  # Save top 3 checkpoints
-    save_last: true  # Save last checkpoint
-    filename: "transformer-{epoch:02d}-{val_loss:.4f}"
+    save_top_k: 1
+    save_last: true
+    filename: "transformer-stageD-{epoch:02d}-{val_loss:.4f}"
 
 # Logging
 logging:
-  experiment_name: transformer_v1
+  experiment_name: transformer_stage_D_full_tract
   log_dir: logs/training
   save_dir: models/transformer
   log_every_n_steps: 10
@@ -83,3 +66,23 @@ seed: 42
 
 # Hardware
 device: cpu  # 'cpu' or 'cuda'
+
+# Model parameters (injected)
+model:
+  name: Transformer
+  input_dim: 80
+  d_model: 512
+  num_layers: 6
+  num_heads: 8
+  d_ff: 2048
+  output_dim: 14
+  dropout: 0.1
+  pos_encoding: learnable
+  activation: gelu
+  learning_rate: 0.0005
+  weight_decay: 0.01
+  max_seq_len: 5000
+  mse_weight: 0.8
+  pcc_weight: 1.0
+  velocity_weight: 1.2
+  acceleration_weight: 0.5

@@ -77,7 +77,9 @@ class TransformerModel(pl.LightningModule):
         weight_decay: float = 0.01,
         max_seq_len: int = 5000,
         velocity_weight: float = 1.0,
-        acceleration_weight: float = 0.5
+        acceleration_weight: float = 0.5,
+        pcc_weight: float = 1.0,
+        mse_weight: float = 1.0
     ):
         super().__init__()
         self.save_hyperparameters()
@@ -94,6 +96,8 @@ class TransformerModel(pl.LightningModule):
         self.weight_decay = weight_decay
         self.velocity_weight = velocity_weight
         self.acceleration_weight = acceleration_weight
+        self.pcc_weight = pcc_weight
+        self.mse_weight = mse_weight
 
         # Input projection
         self.input_projection = nn.Linear(input_dim, d_model)
@@ -189,21 +193,57 @@ class TransformerModel(pl.LightningModule):
 
         return output
 
+    def _compute_pcc_loss(self, pred: torch.Tensor, target: torch.Tensor, mask: torch.Tensor) -> torch.Tensor:
+        """
+        Compute Pearson Correlation Coefficient loss: 1 - PCC
+        Per-Sequence implementation to capture local dynamic trends.
+        """
+        batch_size = pred.shape[0]
+        total_pcc_loss = 0.0
+        valid_sequences = 0
+
+        # mask is (batch, seq_len, 1)
+        mask_bool = mask.squeeze(-1) > 0  # (batch, seq_len)
+
+        for b in range(batch_size):
+            # Extract valid frames for this utterance
+            valid_indices = mask_bool[b]
+
+            # Skip if sequence is too short for correlation
+            if valid_indices.sum() < 2:
+                continue
+
+            p = pred[b][valid_indices]  # (T, num_features)
+            t = target[b][valid_indices]  # (T, num_features)
+
+            # Compute stats per feature for this specific utterance
+            p_mean = torch.mean(p, dim=0)
+            t_mean = torch.mean(t, dim=0)
+            
+            p_std = torch.std(p, dim=0) + 1e-8
+            t_std = torch.std(t, dim=0) + 1e-8
+            
+            # Standardize (Z-score normalization per sequence)
+            p_norm = (p - p_mean) / p_std
+            t_norm = (t - t_mean) / t_std
+            
+            # PCC is now just the mean of the element-wise product of standardized vectors
+            # (equivalent to Cov / (std_p * std_t))
+            # p_norm * t_norm gives correlation contribution per frame
+            pcc = torch.mean(p_norm * t_norm, dim=0)
+            
+            # Loss = 1 - PCC (average across features)
+            total_pcc_loss += torch.mean(1.0 - pcc)
+            valid_sequences += 1
+
+        if valid_sequences > 0:
+            return total_pcc_loss / valid_sequences
+        else:
+            return torch.tensor(0.0, device=pred.device, requires_grad=True)
+
     def training_step(self, batch: Tuple, batch_idx: int) -> torch.Tensor:
         """
-        Training step with temporal loss (position + velocity + acceleration).
-
-        Parameters
-        ----------
-        batch : tuple
-            (audio, params, lengths, utterance_names)
-        batch_idx : int
-            Batch index
-
-        Returns
-        -------
-        loss : torch.Tensor
-            Training loss
+        Training step with Hybrid Loss (MSE + PCC + Temporal).
         """
         audio, params, lengths, _ = batch
 
@@ -224,32 +264,26 @@ class TransformerModel(pl.LightningModule):
         velocity_loss = temporal_losses['velocity_loss']
         acceleration_loss = temporal_losses['acceleration_loss']
 
+        # Compute PCC loss
+        pcc_loss = self._compute_pcc_loss(pred_params, params, mask)
+
         # Combined loss
-        loss = position_loss + (self.velocity_weight * velocity_loss) + (self.acceleration_weight * acceleration_loss)
+        loss = (self.mse_weight * position_loss) + \
+               (self.pcc_weight * pcc_loss) + \
+               (self.velocity_weight * velocity_loss) + \
+               (self.acceleration_weight * acceleration_loss)
 
         # Logging
         self.log('train_loss', loss, on_step=True, on_epoch=True, prog_bar=True)
-        self.log('train_position_loss', position_loss, on_step=False, on_epoch=True)
+        self.log('train_mse', position_loss, on_step=False, on_epoch=True)
+        self.log('train_pcc_loss', pcc_loss, on_step=False, on_epoch=True)
         self.log('train_velocity_loss', velocity_loss, on_step=False, on_epoch=True)
-        self.log('train_acceleration_loss', acceleration_loss, on_step=False, on_epoch=True)
 
         return loss
 
     def validation_step(self, batch: Tuple, batch_idx: int) -> Dict:
         """
-        Validation step with temporal loss.
-
-        Parameters
-        ----------
-        batch : tuple
-            (audio, params, lengths, utterance_names)
-        batch_idx : int
-            Batch index
-
-        Returns
-        -------
-        metrics : dict
-            Validation metrics
+        Validation step with Hybrid Loss.
         """
         audio, params, lengths, _ = batch
 
@@ -270,19 +304,23 @@ class TransformerModel(pl.LightningModule):
         velocity_loss = temporal_losses['velocity_loss']
         acceleration_loss = temporal_losses['acceleration_loss']
 
+        # Compute PCC loss
+        pcc_loss = self._compute_pcc_loss(pred_params, params, mask)
+
         # Combined loss
-        loss = position_loss + (self.velocity_weight * velocity_loss) + (self.acceleration_weight * acceleration_loss)
+        loss = (self.mse_weight * position_loss) + \
+               (self.pcc_weight * pcc_loss) + \
+               (self.velocity_weight * velocity_loss) + \
+               (self.acceleration_weight * acceleration_loss)
 
         # Compute metrics
         metrics = self._compute_metrics(pred_params, params, mask)
 
         # Logging
         self.log('val_loss', loss, on_step=False, on_epoch=True, prog_bar=True)
-        self.log('val_position_loss', position_loss, on_step=False, on_epoch=True)
-        self.log('val_velocity_loss', velocity_loss, on_step=False, on_epoch=True)
-        self.log('val_acceleration_loss', acceleration_loss, on_step=False, on_epoch=True)
+        self.log('val_mse', position_loss, on_step=False, on_epoch=True)
+        self.log('val_pcc_loss', pcc_loss, on_step=False, on_epoch=True)
         self.log('val_rmse', metrics['rmse'], on_step=False, on_epoch=True, prog_bar=True)
-        self.log('val_mae', metrics['mae'], on_step=False, on_epoch=True)
         self.log('val_pearson', metrics['pearson'], on_step=False, on_epoch=True)
 
         return {'val_loss': loss, **metrics}

@@ -170,9 +170,9 @@ def evaluate_model(config_path, model_path, output_dir):
         df_combined.to_csv(Path(output_dir) / f'sample_{i}_{utt_name}.csv', index=False)
         
         # Plot - Select 4 key features to plot to keep it readable
-        # Tongue Tip Y, Jaw Opening, Lip Aperture, Tongue Dorsum Height
-        key_indices = [3, 8, 11, 4] 
-        key_names = ['Tongue Tip Y', 'Jaw Opening', 'Lip Aperture', 'Tongue Dorsum Height']
+        # Tongue Centroid Y (2), Tongue Dorsum Height (4), Constriction Location Y (13), Tongue Area (0)
+        key_indices = [2, 4, 13, 0] 
+        key_names = ['Tongue Centroid Y', 'Tongue Dorsum Height', 'Constriction Location Y', 'Tongue Area']
         
         fig, axes = plt.subplots(4, 1, figsize=(12, 16), sharex=True)
         fig.suptitle(f"Prediction vs Ground Truth: {utt_name}", fontsize=16)
@@ -194,8 +194,8 @@ def evaluate_model(config_path, model_path, output_dir):
 
 if __name__ == "__main__":
     # Hardcoded best model based on previous steps
-    best_model = "models/transformer/checkpoints/transformer-epoch=01-val_loss=0.4420.ckpt"
+    best_model = "Project_Sullivan_Final_Transformer.ckpt"
     config = "configs/transformer_config.yaml"
-    output = "results/final_eval"
+    output = "results/final_deliverable"
     
     evaluate_model(config, best_model, output)

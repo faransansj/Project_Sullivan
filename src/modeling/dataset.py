@@ -185,7 +185,15 @@ class ArticulatoryDataset(Dataset):
                     parameters = np.load(param_file)
                 else:
                     param_data = np.load(param_file)
-                    parameters = param_data['geometric_features']
+                    if self.parameter_type == 'geometric':
+                        parameters = param_data['geometric_features']
+                    elif self.parameter_type == 'pca':
+                         parameters = param_data['pca_features']
+                    elif self.parameter_type in ['combined', 'all']:
+                        parameters = param_data['parameters']
+                    else:
+                        # Fallback
+                        parameters = param_data['geometric_features']
 
                 # Interpolate audio features to match parameter frame count if needed
                 if audio_features.shape[0] != parameters.shape[0]:

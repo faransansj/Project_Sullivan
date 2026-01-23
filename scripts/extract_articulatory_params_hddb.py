@@ -21,7 +21,7 @@ from pathlib import Path
 from tqdm import tqdm
 import argparse
 from datetime import datetime
-from sklearn.decomposition import PCA
+from sklearn.decomposition import PCA, IncrementalPCA
 from scipy import ndimage
 import cv2
 
@@ -139,26 +139,39 @@ class ArtParamExtractor:
 
         return features
 
-    def fit_pca(self, all_masks: list):
+    def fit_pca(self, seg_files: list):
         """
-        Fit PCA model on all training masks
+        Fit IncrementalPCA model on training masks
 
         Args:
-            all_masks: List of (T, H, W) mask arrays
+            seg_files: List of paths to segmentation NPZ files
         """
-        self.logger.info("Fitting PCA model on all masks...")
+        self.logger.info("Fitting IncrementalPCA model...")
 
-        # Flatten all masks
-        flattened = []
-        for masks in tqdm(all_masks, desc="Flattening masks"):
-            for mask in masks:
-                flattened.append(mask.flatten())
+        self.pca = IncrementalPCA(n_components=10, batch_size=1024)
 
-        flattened = np.stack(flattened, axis=0)  # (N, H*W)
+        # Optimization: Use a random subset of files for PCA fitting
+        import random
+        if len(seg_files) > 200:
+            self.logger.info(f"Subsampling 200 files for PCA fitting (from {len(seg_files)})")
+            fit_files = random.sample(seg_files, 200)
+        else:
+            fit_files = seg_files
 
-        # Fit PCA
-        self.pca = PCA(n_components=10)
-        self.pca.fit(flattened)
+        for seg_path in tqdm(fit_files, desc="Fitting PCA"):
+            try:
+                data = np.load(seg_path)
+                masks = data['segmentations'] # (T, H, W)
+                
+                # Flatten masks
+                flattened = masks.reshape(masks.shape[0], -1) # (T, H*W)
+                
+                # Partial fit
+                # Note: IncrementalPCA requires batch_size >= n_components
+                if flattened.shape[0] >= 10:
+                    self.pca.partial_fit(flattened)
+            except Exception as e:
+                self.logger.warning(f"Failed to fit PCA on {seg_path.name}: {e}")
 
         explained_var = self.pca.explained_variance_ratio_.sum()
         self.logger.info(f"PCA fitted. Explained variance: {explained_var:.4f}")
@@ -210,15 +223,16 @@ class ArtParamExtractor:
         # Extract PCA features if requested
         if use_pca and self.pca is not None:
             pca_features = []
-            for i in range(num_frames):
-                feats = self.extract_pca_features(masks[i])
-                pca_features.append(feats)
-            pca_features = np.stack(pca_features, axis=0)  # (T, 10)
-
-            # Combine geometric + PCA
-            all_features = np.concatenate([geometric_features, pca_features], axis=1)  # (T, 24)
+            # Batch transform for speed
+            flattened_masks = masks.reshape(num_frames, -1) # (T, H*W)
+            pca_features = self.pca.transform(flattened_masks) # (T, 10)
         else:
-            all_features = geometric_features  # (T, 14)
+            pca_features = None
+
+        if pca_features is not None:
+             all_features = np.concatenate([geometric_features, pca_features], axis=1)  # (T, 24)
+        else:
+             all_features = geometric_features
 
         # Save parameters
         output_path = self.output_dir / f"{utterance_name}_params.npz"
@@ -226,7 +240,7 @@ class ArtParamExtractor:
             output_path,
             parameters=all_features,
             geometric_features=geometric_features,
-            pca_features=pca_features if use_pca and self.pca is not None else None,
+            pca_features=pca_features,
             utterance_name=utterance_name,
             num_frames=num_frames,
             feature_names=['area', 'cx', 'cy', 'bbox_top', 'bbox_bottom',
@@ -265,13 +279,7 @@ class ArtParamExtractor:
 
         if two_pass:
             # First pass: Fit PCA
-            self.logger.info("First pass: Fitting PCA model...")
-            all_masks = []
-            for seg_path in tqdm(seg_files, desc="Loading masks"):
-                data = np.load(seg_path)
-                all_masks.append(data['segmentations'])
-
-            self.fit_pca(all_masks)
+            self.fit_pca(seg_files)
 
             # Save PCA model
             pca_path = self.output_dir / 'pca_model.npz'

@@ -267,6 +267,18 @@ class TransformerModel(pl.LightningModule):
         # Compute PCC loss
         pcc_loss = self._compute_pcc_loss(pred_params, params, mask)
 
+        # Split Loss Logging for Phase 4-B (Geometric vs PCA)
+        if self.output_dim == 24:
+            # Geometric (0-13)
+            geo_error = self.criterion(pred_params[:, :, :14], params[:, :, :14])
+            geo_loss = (geo_error * mask).sum() / mask.sum()
+            self.log('train_mse_geo', geo_loss, on_step=False, on_epoch=True)
+            
+            # PCA (14-23)
+            pca_error = self.criterion(pred_params[:, :, 14:], params[:, :, 14:])
+            pca_loss = (pca_error * mask).sum() / mask.sum()
+            self.log('train_mse_pca', pca_loss, on_step=False, on_epoch=True)
+
         # Combined loss
         loss = (self.mse_weight * position_loss) + \
                (self.pcc_weight * pcc_loss) + \
@@ -306,6 +318,18 @@ class TransformerModel(pl.LightningModule):
 
         # Compute PCC loss
         pcc_loss = self._compute_pcc_loss(pred_params, params, mask)
+
+        # Split Loss Logging for Phase 4-B (Geometric vs PCA)
+        if self.output_dim == 24:
+            # Geometric (0-13)
+            geo_error = self.criterion(pred_params[:, :, :14], params[:, :, :14])
+            geo_loss = (geo_error * mask).sum() / mask.sum()
+            self.log('val_mse_geo', geo_loss, on_step=False, on_epoch=True)
+            
+            # PCA (14-23)
+            pca_error = self.criterion(pred_params[:, :, 14:], params[:, :, 14:])
+            pca_loss = (pca_error * mask).sum() / mask.sum()
+            self.log('val_mse_pca', pca_loss, on_step=False, on_epoch=True)
 
         # Combined loss
         loss = (self.mse_weight * position_loss) + \

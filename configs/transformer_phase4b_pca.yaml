@@ -1,0 +1,88 @@
+# Transformer Phase 4-B Configuration: High-Resolution PCA Recovery
+# Extension of Phase 2-B for HDDB dataset with PCA features
+
+# Data settings
+data:
+  splits_dir: data/processed/splits
+  audio_feature_dir: data/processed/audio_features
+  parameter_dir: data/processed/parameters
+  audio_feature_type: mel  # 'mel' or 'mfcc'
+  parameter_type: combined  # 'geometric', 'pca', or 'combined'
+  sequence_length: 500  # Split utterances into fixed-length sequences
+  streaming: true
+
+training:
+  batch_size: 8
+  num_epochs: 50
+  num_workers: 0
+  accumulate_grad_batches: 2
+  gradient_clip_val: 1.0
+  precision: 32
+
+# Optimization
+optimization:
+  optimizer: AdamW  # AdamW with decoupled weight decay
+  learning_rate: 0.0002  # Learning rate
+  weight_decay: 0.01  # Weight decay
+  betas: [0.9, 0.98]  # Beta parameters for AdamW
+  lr_scheduler: CosineAnnealingWarmRestarts  # Learning rate scheduler
+  lr_scheduler_params:
+    T_0: 10  # Restart every 10 epochs
+    T_mult: 2  # Double period after each restart
+    eta_min: 0.000001  # Minimum learning rate
+
+# Callbacks
+callbacks:
+  early_stopping:
+    monitor: val_loss
+    patience: 15  # Patience for early stopping
+    mode: min
+    verbose: true
+  model_checkpoint:
+    monitor: val_loss
+    mode: min
+    save_top_k: 1
+    save_last: true
+    filename: "transformer-stage4B-{epoch:02d}-{val_loss:.4f}"
+
+# Logging
+logging:
+  experiment_name: transformer_phase4b_pca
+  log_dir: logs/training
+  save_dir: models/transformer_phase4b
+  log_every_n_steps: 10
+
+# Evaluation
+evaluation:
+  metrics:
+    - rmse
+    - mae
+    - pearson_correlation
+  visualize_predictions: true
+  num_samples_to_visualize: 5
+
+# Reproducibility
+seed: 42
+
+# Hardware
+device: cpu  # 'cpu' or 'cuda'
+
+# Model parameters (injected)
+model:
+  name: Transformer
+  input_dim: 80
+  d_model: 512
+  num_layers: 6
+  num_heads: 8
+  d_ff: 2048
+  output_dim: 24 # 14 Geometric + 10 PCA
+  dropout: 0.1
+  pos_encoding: learnable
+  activation: gelu
+  learning_rate: 0.0005
+  weight_decay: 0.01
+  max_seq_len: 5000
+  mse_weight: 0.8
+  pcc_weight: 1.0
+  velocity_weight: 1.2
+  acceleration_weight: 0.5

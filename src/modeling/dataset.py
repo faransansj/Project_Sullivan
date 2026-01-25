@@ -244,7 +244,14 @@ class ArticulatoryDataset(Dataset):
                     if item['is_npy_param']:
                         params = param_data
                     else:
-                        params = param_data['geometric_features']
+                        if self.parameter_type == 'geometric':
+                            params = param_data['geometric_features']
+                        elif self.parameter_type == 'pca':
+                             params = param_data['pca_features']
+                        elif self.parameter_type in ['combined', 'all']:
+                            params = param_data['parameters']
+                        else:
+                            params = param_data['geometric_features']
                     
                     if item['start_idx'] is not None:
                         params = params[item['start_idx']:item['end_idx']]
@@ -348,7 +355,14 @@ class ArticulatoryDataset(Dataset):
                 if item['is_npy_param']:
                     parameters = param_data
                 else:
-                    parameters = param_data['geometric_features']
+                    if self.parameter_type == 'geometric':
+                        parameters = param_data['geometric_features']
+                    elif self.parameter_type == 'pca':
+                         parameters = param_data['pca_features']
+                    elif self.parameter_type in ['combined', 'all']:
+                        parameters = param_data['parameters']
+                    else:
+                        parameters = param_data['geometric_features']
 
             # Interpolate if needed
             if audio_features.shape[0] != parameters.shape[0]:

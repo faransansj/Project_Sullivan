@@ -22,6 +22,25 @@ We have successfully moved beyond simple geometric tracking to full **High-Resol
 
 ---
 
+## 📚 Documentation Index
+
+To maintain a clean repository, detailed documentation has been organized into the `docs/` directory.
+
+### 📊 Reports & Analysis
+- **[Phase 4 Final Report](docs/reports/PHASE4_FINAL_REPORT.md)**: Detailed analysis of High-Resolution Shape Recovery, Gradient Dilution solutions, and final metrics.
+- **[Current Status](CURRENT_STATUS.md)**: Live tracking of the project's milestones and active tasks.
+
+### 📖 Operational Guides
+- **[Dataset Usage Guide](docs/guides/DATASET_USAGE_GUIDE.md)**: Instructions for handling the HDDB dataset and feature extraction.
+- **[Google Colab Quick Start](docs/guides/COLAB_QUICK_START.md)**: Guide for running training/inference on Google Colab.
+- **[Colab Setup Checklist](docs/guides/COLAB_SETUP_CHECKLIST.md)**: Pre-flight checklist for cloud environments.
+
+### 🤖 System Context
+- **[Project Context (Gemini)](docs/context/GEMINI.md)**: Context file for AI agents.
+- **[Project Context (Claude)](docs/context/CLAUDE.md)**: Context file for AI agents.
+
+---
+
 ## 🛠️ Tech Stack
 
 - **Framework**: PyTorch, PyTorch Lightning
@@ -43,11 +62,12 @@ Project_Sullivan/
 ├── data/                    # Data storage (Git-ignored)
 │   ├── processed/           # Audio features, Parameters, Splits
 │   └── ...
-├── docs/                    # Documentation & Reports
-│   ├── archive/             # Archived progress reports
-│   └── ...
+├── docs/                    # Documentation
+│   ├── reports/             # Milestone Reports (Phase 4 Final, etc.)
+│   ├── guides/              # Operational Guides (Colab, Dataset)
+│   ├── context/             # System Context for AI Agents
+│   └── archive/             # Legacy progress reports
 ├── models/                  # Saved Model Checkpoints
-├── notebooks/               # Jupyter Notebooks for EDA
 ├── results/                 # Evaluation Results & Visualizations
 │   └── final_deliverables/  # Master Animation & Key Metrics
 ├── scripts/                 # Executable Scripts
@@ -100,15 +120,6 @@ python scripts/compare_reconstruction.py
 | **Phase 3** | Transformer Baseline | ✅ Complete | Solved mean-shape collapse (RMSE 0.05). |
 | **Phase 4** | **HDDB High-Res Recovery** | ✅ **Complete** | **Global PCC 0.198**, PCA Shape Reconstruction. |
 | **Phase 5** | Optimization & Clinical | 🚧 Next | Real-time inference & Dysarthria testing. |
-
----
-
-## 📝 Key Reports
-
-For detailed technical insights, please refer to the following reports:
-
-- **[Phase 4 Final Report](PHASE4_FINAL_REPORT.md)**: Detailed analysis of the High-Resolution PCA Recovery, Gradient Dilution solution, and final metrics.
-- **[Current Status](CURRENT_STATUS.md)**: Live tracking of the project's state.
 
 ---
 

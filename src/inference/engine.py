@@ -125,6 +125,7 @@ class InferenceEngine:
         """
         Creates a visualization video of the predicted parameters.
         Generates a bar chart animation.
+        Optimized for speed using numpy slicing and frame skipping.
         """
         # 1. Get Predictions
         params = self.predict(audio_path)
@@ -135,20 +136,26 @@ class InferenceEngine:
         # 2. Setup Video Writer
         # Assume ~80 FPS for MRI data (typical for rtMRI)
         # Audio extraction hop_length=160, sr=16000 => 100 FPS
-        # Check config for true FPS, or approx 100
-        fps = 100 
+        source_fps = 100
+        
+        # Optimize: Cap output FPS at 50 to speed up generation
+        target_fps = 50
+        step = 1
+        if source_fps > target_fps:
+            step = int(source_fps / target_fps)
+            fps = source_fps / step
+        else:
+            fps = source_fps
         
         height, width = 480, 640
         fourcc = cv2.VideoWriter_fourcc(*'mp4v')
         out = cv2.VideoWriter(output_path, fourcc, fps, (width, height))
         
-        # Colors for bars
+        # Colors for bars (BGR format for OpenCV)
         bar_color = (0, 255, 0) # Green
         text_color = (255, 255, 255)
-        bg_color = (0, 0, 0)
         
         # Determine global min/max for plotting scaling
-        # (Use stats if avail, else data min/max)
         if self.stats:
             g_min = self.stats['min']
             g_max = self.stats['max']
@@ -159,37 +166,52 @@ class InferenceEngine:
         n_params = params.shape[1]
         bar_width = width // n_params
         
+        # Pre-compute bar heights for all frames (Vectorization)
+        # Normalize params to [0, 1]
+        val_range = g_max - g_min
+        val_range[val_range == 0] = 1.0 # Avoid div by zero
+        
+        norm_params = (params - g_min) / val_range
+        norm_params = np.clip(norm_params, 0, 1)
+        
+        # Calculate pixel heights: mapped to [0, height-60]
+        # (height - 30 is bottom, leaves 30px margin)
+        # (height - 30 - max_bar_h is top)
+        max_bar_h = height - 60
+        bar_heights = (norm_params * max_bar_h).astype(np.int32)
+        
+        # Pre-allocate background frame
+        bg_frame = np.zeros((height, width, 3), dtype=np.uint8)
+        
+        # Pre-draw static elements (labels)
+        for i in range(n_params):
+            x = i * bar_width
+            cv2.putText(bg_frame, str(i), (x + 5, height - 10), 
+                       cv2.FONT_HERSHEY_SIMPLEX, 0.4, text_color, 1)
+
         # 3. Render Frames
-        for t in range(len(params)):
-            frame = np.zeros((height, width, 3), dtype=np.uint8)
+        # Iterate with step to reduce frame count
+        for t in range(0, len(params), step):
+            # Fast copy of background
+            frame = bg_frame.copy()
             
             # Draw frame info
             cv2.putText(frame, f"Frame: {t}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, text_color, 2)
             
-            current_vals = params[t]
+            # Fast drawing using numpy slicing
+            current_heights = bar_heights[t]
             
-            for i, val in enumerate(current_vals):
-                # Normalize val for display height
-                # mapped [min, max] -> [0, height-50]
-                val_min = g_min[i]
-                val_max = g_max[i]
-                val_range = val_max - val_min if val_max != val_min else 1
-                
-                norm_h = (val - val_min) / val_range
-                bar_h = int(norm_h * (height - 60))
-                bar_h = max(0, min(height-60, bar_h)) # Clip
-                
-                # Draw Bar
-                # Top-Left: (x, height-bar_h-30)
-                # Bottom-Right: (x+w, height-30)
-                x = i * bar_width
-                y_top = height - bar_h - 30
-                y_bottom = height - 30
-                
-                cv2.rectangle(frame, (x, y_top), (x + bar_width - 2, y_bottom), bar_color, -1)
-                
-                # Draw param index
-                cv2.putText(frame, str(i), (x + 5, height - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.4, text_color, 1)
+            for i in range(n_params):
+                h = current_heights[i]
+                if h > 0:
+                    # Coords
+                    x1 = i * bar_width
+                    x2 = x1 + bar_width - 2
+                    y1 = height - 30 - h
+                    y2 = height - 30
+                    
+                    # Numpy slice assignment is faster than cv2.rectangle
+                    frame[y1:y2, x1:x2] = bar_color
 
             out.write(frame)
             

@@ -57,50 +57,81 @@ def process_audio(audio_path):
     timestamp = int(time.time())
     output_video = f"vis_{timestamp}.mp4"
     
+    start_time = time.time()
     try:
         # Generate visualization
-        # Note: generate_video returns the path to the video
         video_path = engine.generate_video(audio_path, output_path=output_video)
+        
+        duration = time.time() - start_time
         
         if not os.path.exists(video_path):
             return None, "Error: Video generation failed (file not found)."
             
-        return video_path, "Reconstruction Successful!"
+        status_msg = f"✅ Reconstruction Successful! (Processed in {duration:.2f}s)"
+        return video_path, status_msg
         
     except Exception as e:
         logger.error(f"Inference failed: {e}")
-        return None, f"Error during inference: {str(e)}"
+        return None, f"❌ Error during inference: {str(e)}"
 
 # --- Interface Definition ---
-with gr.Blocks(title="Project Sullivan Demo") as demo:
+# Use Soft theme for better aesthetics
+with gr.Blocks(theme=gr.themes.Soft(), title="Project Sullivan Demo") as demo:
+    
+    # Header
     gr.Markdown(
         """
         # 🗣️ Project Sullivan: Acoustic-to-Articulatory Inversion
         
-        **Recover vocal tract shapes from speech audio.**
+        **Recover vocal tract shapes directly from speech audio.**
         
-        This demo uses a Transformer model to predict 14 geometric articulatory parameters 
-        (tongue position, jaw opening, etc.) from Mel-spectrogram features.
+        This research prototype uses a **Transformer Encoder** (trained on USC-TIMIT rtMRI data) to predict 14 geometric articulatory parameters from audio.
         """
     )
     
     with gr.Row():
-        with gr.Column(scale=1):
+        # Left Column: Input
+        with gr.Column(scale=1, variant="panel"):
             gr.Markdown("### 1. Input Audio")
+            gr.Markdown("Record your voice or upload a WAV/MP3 file.")
+            
             audio_input = gr.Audio(
                 sources=["microphone", "upload"], 
                 type="filepath", 
-                label="Microphone / Upload"
+                label="Audio Source",
+                waveform_options={"sample_rate": 16000}
             )
-            process_btn = gr.Button("🚀 Reconstruct Articulation", variant="primary")
-            status_output = gr.Textbox(label="Status", interactive=False)
             
+            gr.Markdown("### 2. Run Inference")
+            process_btn = gr.Button("🚀 Reconstruct Articulation", variant="primary", size="lg")
+            
+            # Status Box
+            status_output = gr.Textbox(label="System Status", value="Ready.", interactive=False)
+
+        # Right Column: Output
         with gr.Column(scale=1):
-            gr.Markdown("### 2. Visualization")
-            video_output = gr.Video(label="Predicted Articulation", height=400)
+            gr.Markdown("### 3. Visualization Result")
+            video_output = gr.Video(label="Predicted Articulation Animation", height=400, autoplay=True)
             
+            with gr.Accordion("Technical Details", open=False):
+                gr.Markdown(
+                    """
+                    **Model Architecture:** Transformer Encoder (4 layers, 8 heads, d_model=256)
+                    **Input:** Mel-spectrogram (80 bins, 16kHz audio)
+                    **Output:** 14 Geometric Parameters (Tongue, Jaw, Lips, etc.)
+                    **Visualization:** Green bars represent the normalized activation (0-1) of each parameter over time.
+                    """
+                )
+
+    # Footer
     gr.Markdown("---")
-    gr.Markdown("*Note: This is a research prototype. The visualization shows normalized parameter values.*")
+    gr.Markdown(
+        """
+        <center>
+        Project Sullivan Phase 5 Demo | Powered by Gradio & PyTorch
+        </center>
+        """
+    )
 
     # Event binding
     process_btn.click(

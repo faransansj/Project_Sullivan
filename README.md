@@ -32,6 +32,7 @@ To maintain a clean repository, detailed documentation has been organized into t
 
 ### 📖 Operational Guides
 - **[Dataset Usage Guide](docs/guides/DATASET_USAGE_GUIDE.md)**: Instructions for handling the HDDB dataset and feature extraction.
+- **[Web Demo Guide](docs/guides/WEB_DEMO_GUIDE.md)**: Setup and usage instructions for the interactive Gradio demo.
 - **[Google Colab Quick Start](docs/guides/COLAB_QUICK_START.md)**: Guide for running training/inference on Google Colab.
 - **[Colab Setup Checklist](docs/guides/COLAB_SETUP_CHECKLIST.md)**: Pre-flight checklist for cloud environments.
 
@@ -43,7 +44,7 @@ To maintain a clean repository, detailed documentation has been organized into t
 
 ## 🛠️ Tech Stack
 
-- **Framework**: PyTorch, PyTorch Lightning
+- **Framework**: PyTorch, PyTorch Lightning, Gradio
 - **Architecture**: Transformer Encoder (6 layers, 8 heads, d_model=512)
 - **Data Pipeline**:
     - **Input**: 80-band Mel-spectrograms (Librosa)
@@ -64,17 +65,19 @@ Project_Sullivan/
 │   └── ...
 ├── docs/                    # Documentation
 │   ├── reports/             # Milestone Reports (Phase 4 Final, etc.)
-│   ├── guides/              # Operational Guides (Colab, Dataset)
+│   ├── guides/              # Operational Guides (Colab, Dataset, Web Demo)
 │   ├── context/             # System Context for AI Agents
 │   └── archive/             # Legacy progress reports
 ├── models/                  # Saved Model Checkpoints
 ├── results/                 # Evaluation Results & Visualizations
 │   └── final_deliverables/  # Master Animation & Key Metrics
 ├── scripts/                 # Executable Scripts
+│   ├── app.py                    # Web Demo Application
 │   ├── train_phase4d_joint.py    # Joint Fine-Tuning Script
 │   ├── evaluate_phase4d.py       # Final Evaluation Script
 │   └── compare_reconstruction.py # Visualization Script
 └── src/                     # Source Code
+    ├── inference/           # Inference Engine
     ├── modeling/            # Transformer & Dataset Logic
     └── preprocessing/       # Feature Extraction
 ```
@@ -97,13 +100,20 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 2. Run Inference (Evaluation)
+### 2. Run Interactive Demo (Phase 5)
+To start the Gradio web interface for real-time inference:
+```bash
+python scripts/app.py
+```
+*See **[QUICK_START_DEMO.md](QUICK_START_DEMO.md)** for a 1-minute guide.*
+
+### 3. Run Inference (Evaluation)
 To evaluate the pre-trained Master Model on the HDDB test set:
 ```bash
 python scripts/evaluate_phase4d.py
 ```
 
-### 3. Visualize Reconstruction
+### 4. Visualize Reconstruction
 To generate the side-by-side animation of the vocal tract:
 ```bash
 python scripts/compare_reconstruction.py

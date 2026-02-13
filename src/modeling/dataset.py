@@ -8,6 +8,7 @@ audio features and articulatory parameters.
 import json
 from pathlib import Path
 from typing import Dict, List, Tuple, Optional
+from dataclasses import dataclass
 
 import numpy as np
 import torch
@@ -15,6 +16,16 @@ from torch.utils.data import Dataset, DataLoader
 import zipfile
 import io
 from scipy import interpolate
+
+
+@dataclass
+class DataSample:
+    """Single training/validation sample (Legacy support from Phase 2)"""
+    audio_features: torch.Tensor  # (time, audio_dim)
+    parameters: torch.Tensor  # (time, 10)
+    utterance_name: str
+    subject_id: str
+    duration: float  # seconds
 
 
 class ArticulatoryDataset(Dataset):
@@ -66,10 +77,6 @@ class ArticulatoryDataset(Dataset):
         self.streaming = streaming
         self.zip_file_path = Path(zip_file_path) if zip_file_path else None
         
-        # If using zip, we open it once per worker or on demand
-        # For simplicity in 'streaming', we open on demand or keep open if possible (but pickling issues)
-        # We'll open on demand in getitem for safety with multi-processing workers
-
         # Load data (metadata only if streaming)
         self.data = self._load_data()
 
@@ -89,7 +96,6 @@ class ArticulatoryDataset(Dataset):
             # Construct NPY paths
             if self.audio_feature_type == 'mel':
                 audio_file_npy = self.audio_feature_dir / 'mel_spectrogram' / f'{utterance_name}_mel.npy'
-                # Also check root dir if flattened
                 if not audio_file_npy.exists():
                     audio_file_npy = self.audio_feature_dir / f'{utterance_name}_mel.npy'
             else:
@@ -114,7 +120,6 @@ class ArticulatoryDataset(Dataset):
                 audio_file = audio_file_npy
                 is_npy_audio = True
             else:
-                print(f"Warning: Audio file not found: {audio_file_npz} or {audio_file_npy}")
                 continue
 
             if param_file_npz.exists():
@@ -124,16 +129,13 @@ class ArticulatoryDataset(Dataset):
                 param_file = param_file_npy
                 is_npy_param = True
             else:
-                print(f"Warning: Parameter file not found: {param_file_npz} or {param_file_npy}")
                 continue
 
             if self.streaming:
                 # Streaming mode: store metadata only
                 if self.sequence_length is not None:
-                    # Need to know number of frames to split sequences
                     try:
                         if is_npy_param:
-                            # Use mmap_mode to read header only
                             params_mmap = np.load(param_file, mmap_mode='r')
                             num_frames = params_mmap.shape[0]
                         else:
@@ -167,207 +169,98 @@ class ArticulatoryDataset(Dataset):
                     })
                 continue
 
-            if not self.streaming:
-                # Non-streaming: load full data
-                
-                # Load Audio
-                if is_npy_audio:
-                    audio_features = np.load(audio_file)
-                else:
-                    audio_data = np.load(audio_file)
-                    if self.audio_feature_type == 'mel':
-                        audio_features = audio_data['mel_spectrogram']
-                    else:
-                        audio_features = audio_data['mfcc']
+            # Load full data if not streaming
+            if is_npy_audio:
+                audio_features = np.load(audio_file)
+            else:
+                audio_data = np.load(audio_file)
+                audio_features = audio_data['mel_spectrogram'] if self.audio_feature_type == 'mel' else audio_data['mfcc']
 
-                # Load Parameters
-                if is_npy_param:
-                    parameters = np.load(param_file)
+            if is_npy_param:
+                parameters = np.load(param_file)
+            else:
+                param_data = np.load(param_file)
+                if self.parameter_type == 'geometric':
+                    parameters = param_data['geometric_features']
+                elif self.parameter_type == 'pca':
+                    parameters = param_data['pca_features']
                 else:
-                    param_data = np.load(param_file)
-                    if self.parameter_type == 'geometric':
-                        parameters = param_data['geometric_features']
-                    elif self.parameter_type == 'pca':
-                         parameters = param_data['pca_features']
-                    elif self.parameter_type in ['combined', 'all']:
-                        parameters = param_data['parameters']
-                    else:
-                        # Fallback
-                        parameters = param_data['geometric_features']
+                    parameters = param_data['parameters']
 
-                # Interpolate audio features to match parameter frame count if needed
-                if audio_features.shape[0] != parameters.shape[0]:
-                    # print(f"Info: Interpolating {utterance_name}: audio {audio_features.shape[0]} -> params {parameters.shape[0]} frames")
-                    audio_features = self._interpolate_features(audio_features, parameters.shape[0])
+            if audio_features.shape[0] != parameters.shape[0]:
+                audio_features = self._interpolate_features(audio_features, parameters.shape[0])
 
-                if self.sequence_length is not None:
-                    num_frames = audio_features.shape[0]
-                    num_sequences = num_frames // self.sequence_length
-                    for i in range(num_sequences):
-                        start_idx = i * self.sequence_length
-                        end_idx = start_idx + self.sequence_length
-                        data.append({
-                            'utterance_name': f"{utterance_name}_seq{i}",
-                            'audio_features': audio_features[start_idx:end_idx],
-                            'parameters': parameters[start_idx:end_idx]
-                        })
-                else:
+            if self.sequence_length is not None:
+                num_frames = audio_features.shape[0]
+                num_sequences = num_frames // self.sequence_length
+                for i in range(num_sequences):
+                    start_idx = i * self.sequence_length
+                    end_idx = start_idx + self.sequence_length
                     data.append({
-                        'utterance_name': utterance_name,
-                        'audio_features': audio_features,
-                        'parameters': parameters
+                        'utterance_name': f"{utterance_name}_seq{i}",
+                        'audio_features': audio_features[start_idx:end_idx],
+                        'parameters': parameters[start_idx:end_idx]
                     })
-
-        return data
+            else:
+                data.append({
+                    'utterance_name': utterance_name,
+                    'audio_features': audio_features,
+                    'parameters': parameters
+                })
 
         return data
 
     def _compute_normalization_stats(self):
-        """Compute statistics for normalization (min-max or z-score)."""
+        """Compute statistics for normalization."""
         if self.streaming:
-            # For streaming, we take a subset to estimate stats or load if pre-calculated
-            # Here we take up to 100 samples to estimate
             num_samples = min(len(self.data), 100)
             sampled_params = []
-
-            if self.zip_file_path:
-                 with zipfile.ZipFile(self.zip_file_path, 'r') as z:
-                    for i in range(num_samples):
-                        item = self.data[i]
-                        with z.open(item['param_path']) as f:
-                            params = np.load(io.BytesIO(f.read()))
-                        sampled_params.append(params)
-            else:
-                for i in range(num_samples):
-                    item = self.data[i]
-                    param_data = np.load(item['param_file'])
-                    if item['is_npy_param']:
-                        params = param_data
-                    else:
-                        if self.parameter_type == 'geometric':
-                            params = param_data['geometric_features']
-                        elif self.parameter_type == 'pca':
-                             params = param_data['pca_features']
-                        elif self.parameter_type in ['combined', 'all']:
-                            params = param_data['parameters']
-                        else:
-                            params = param_data['geometric_features']
-                    
-                    if item['start_idx'] is not None:
-                        params = params[item['start_idx']:item['end_idx']]
-                    sampled_params.append(params)
-
-            if len(sampled_params) > 0:
-                all_params = np.concatenate(sampled_params, axis=0)
-            else:
-                 # Fallback if empty
-                all_params = np.zeros((1, 14)) # Dummy shape
+            for i in range(num_samples):
+                item = self.data[i]
+                param_data = np.load(item['param_file'])
+                if item['is_npy_param']:
+                    params = param_data
+                else:
+                    params = param_data['geometric_features'] if self.parameter_type == 'geometric' else param_data['pca_features']
+                
+                if item['start_idx'] is not None:
+                    params = params[item['start_idx']:item['end_idx']]
+                sampled_params.append(params)
+            all_params = np.concatenate(sampled_params, axis=0) if sampled_params else np.zeros((1, 14))
         else:
             all_params = np.concatenate([item['parameters'] for item in self.data], axis=0)
 
         if self.normalization_type == 'minmax':
-            # Min-max normalization statistics
             self.param_min = np.min(all_params, axis=0, keepdims=True)
             self.param_max = np.max(all_params, axis=0, keepdims=True)
-
-            # Avoid division by zero - if min == max, set range to 1
-            self.param_range = self.param_max - self.param_min
-            self.param_range = np.where(self.param_range < 1e-8, 1.0, self.param_range)
-
-            print(f"Min-Max Normalization: min={self.param_min.flatten()[:3]}, max={self.param_max.flatten()[:3]}")
-
+            self.param_range = np.where((self.param_max - self.param_min) < 1e-8, 1.0, self.param_max - self.param_min)
         elif self.normalization_type == 'zscore':
-            # Z-score normalization statistics
             self.param_mean = np.mean(all_params, axis=0, keepdims=True)
-            self.param_std = np.std(all_params, axis=0, keepdims=True)
-
-            # Avoid division by zero - if std == 0, set to 1
-            self.param_std = np.where(self.param_std < 1e-8, 1.0, self.param_std)
-
-            print(f"Z-Score Normalization: mean={self.param_mean.flatten()[:3]}, std={self.param_std.flatten()[:3]}")
-
-        else:
-            raise ValueError(f"Unknown normalization_type: {self.normalization_type}. Use 'minmax' or 'zscore'.")
+            self.param_std = np.where(np.std(all_params, axis=0, keepdims=True) < 1e-8, 1.0, np.std(all_params, axis=0, keepdims=True))
 
     def _interpolate_features(self, features: np.ndarray, target_length: int) -> np.ndarray:
-        """
-        Interpolate features to target length using linear interpolation.
-
-        Parameters
-        ----------
-        features : np.ndarray
-            Input features of shape (source_length, feature_dim)
-        target_length : int
-            Target number of frames
-
-        Returns
-        -------
-        interpolated : np.ndarray
-            Interpolated features of shape (target_length, feature_dim)
-        """
+        """Interpolate features to target length."""
         source_length, feature_dim = features.shape
-
-        # Create interpolation functions for each feature dimension
         source_indices = np.arange(source_length)
         target_indices = np.linspace(0, source_length - 1, target_length)
-
         interpolated = np.zeros((target_length, feature_dim))
         for i in range(feature_dim):
             f = interpolate.interp1d(source_indices, features[:, i], kind='linear')
             interpolated[:, i] = f(target_indices)
-
         return interpolated
 
     def __len__(self) -> int:
         return len(self.data)
 
     def __getitem__(self, idx: int) -> Tuple[torch.Tensor, torch.Tensor, str]:
-        """
-        Get a single data sample.
-        """
         item = self.data[idx]
-
         if self.streaming:
-            if self.zip_file_path:
-                # Read from zip - NPZ format
-                with zipfile.ZipFile(self.zip_file_path, 'r') as z:
-                    with z.open(item['audio_path']) as f:
-                        audio_data = np.load(io.BytesIO(f.read()))
-                        if self.audio_feature_type == 'mel':
-                            audio_features = audio_data['mel_spectrogram']
-                        else:
-                            audio_features = audio_data['mfcc']
-                    with z.open(item['param_path']) as f:
-                        param_data = np.load(io.BytesIO(f.read()))
-                        parameters = param_data['geometric_features']
-            else:
-                audio_data = np.load(item['audio_file'])
-                param_data = np.load(item['param_file'])
-
-                if item['is_npy_audio']:
-                    audio_features = audio_data
-                else:
-                    if self.audio_feature_type == 'mel':
-                        audio_features = audio_data['mel_spectrogram']
-                    else:
-                        audio_features = audio_data['mfcc']
-
-                if item['is_npy_param']:
-                    parameters = param_data
-                else:
-                    if self.parameter_type == 'geometric':
-                        parameters = param_data['geometric_features']
-                    elif self.parameter_type == 'pca':
-                         parameters = param_data['pca_features']
-                    elif self.parameter_type in ['combined', 'all']:
-                        parameters = param_data['parameters']
-                    else:
-                        parameters = param_data['geometric_features']
-
-            # Interpolate if needed
+            audio_data = np.load(item['audio_file'])
+            param_data = np.load(item['param_file'])
+            audio_features = audio_data if item['is_npy_audio'] else audio_data['mel_spectrogram']
+            parameters = param_data if item['is_npy_param'] else param_data['geometric_features']
             if audio_features.shape[0] != parameters.shape[0]:
                 audio_features = self._interpolate_features(audio_features, parameters.shape[0])
-
             if item['start_idx'] is not None:
                 audio_features = audio_features[item['start_idx']:item['end_idx']]
                 parameters = parameters[item['start_idx']:item['end_idx']]
@@ -378,85 +271,41 @@ class ArticulatoryDataset(Dataset):
         audio_features = torch.FloatTensor(audio_features)
         parameters = torch.FloatTensor(parameters)
 
-        # Normalize parameters
         if self.normalize_params:
             if self.normalization_type == 'minmax':
-                # Min-max normalization to [0, 1] range
                 parameters = (parameters - torch.FloatTensor(self.param_min)) / torch.FloatTensor(self.param_range)
             elif self.normalization_type == 'zscore':
-                # Z-score normalization to mean=0, std=1
                 parameters = (parameters - torch.FloatTensor(self.param_mean)) / torch.FloatTensor(self.param_std)
 
         return audio_features, parameters, item['utterance_name']
 
     def denormalize_parameters(self, normalized_params: torch.Tensor) -> torch.Tensor:
-        """
-        Denormalize parameters back to original scale.
-
-        Parameters
-        ----------
-        normalized_params : torch.Tensor
-            Normalized parameters (either [0, 1] range for minmax or z-score normalized)
-
-        Returns
-        -------
-        params : torch.Tensor
-            Parameters in original scale
-        """
         if not self.normalize_params:
             return normalized_params
-
         if self.normalization_type == 'minmax':
-            # Inverse min-max: x_original = x_normalized * (max - min) + min
             return normalized_params * torch.FloatTensor(self.param_range) + torch.FloatTensor(self.param_min)
         elif self.normalization_type == 'zscore':
-            # Inverse z-score: x_original = x_normalized * std + mean
             return normalized_params * torch.FloatTensor(self.param_std) + torch.FloatTensor(self.param_mean)
-        else:
-            return normalized_params
+        return normalized_params
 
 
 def collate_fn(batch):
-    """
-    Custom collate function for variable-length sequences.
-
-    Pads sequences to the same length within a batch.
-    """
+    """Custom collate function for variable-length sequences."""
     audio_features, parameters, utterance_names = zip(*batch)
-
-    # Get max length in batch
     max_len = max(audio.shape[0] for audio in audio_features)
-
-    # Pad sequences
     padded_audio = []
     padded_params = []
     lengths = []
-
     for audio, params in zip(audio_features, parameters):
         seq_len = audio.shape[0]
         lengths.append(seq_len)
-
-        # Pad audio
-        audio_dim = audio.shape[1]
         pad_len = max_len - seq_len
         if pad_len > 0:
-            padding = torch.zeros(pad_len, audio_dim)
-            audio = torch.cat([audio, padding], dim=0)
+            audio = torch.cat([audio, torch.zeros(pad_len, audio.shape[1])], dim=0)
+            params = torch.cat([params, torch.zeros(pad_len, params.shape[1])], dim=0)
         padded_audio.append(audio)
-
-        # Pad parameters
-        param_dim = params.shape[1]
-        if pad_len > 0:
-            padding = torch.zeros(pad_len, param_dim)
-            params = torch.cat([params, padding], dim=0)
         padded_params.append(params)
-
-    # Stack
-    audio_batch = torch.stack(padded_audio, dim=0)  # (batch, max_len, audio_dim)
-    param_batch = torch.stack(padded_params, dim=0)  # (batch, max_len, param_dim)
-    lengths = torch.LongTensor(lengths)
-
-    return audio_batch, param_batch, lengths, utterance_names
+    return torch.stack(padded_audio), torch.stack(padded_params), torch.LongTensor(lengths), utterance_names
 
 
 def create_dataloaders(
@@ -468,62 +317,24 @@ def create_dataloaders(
     batch_size: int = 16,
     num_workers: int = 4,
     sequence_length: Optional[int] = None,
-    normalization_type: str = 'minmax',  # 'minmax' or 'zscore'
+    normalization_type: str = 'minmax',
     streaming: bool = False,
     zip_file_path: Optional[str] = None
 ) -> Dict[str, DataLoader]:
-    """
-    Create train, val, and test dataloaders.
-
-    Parameters
-    ----------
-    splits_dir : Path
-        Directory containing split files
-    audio_feature_dir : Path
-        Directory containing audio features
-    parameter_dir : Path
-        Directory containing parameters
-    audio_feature_type : str
-        Type of audio features ('mel' or 'mfcc')
-    parameter_type : str
-        Type of parameters ('geometric' or 'pca')
-    batch_size : int
-        Batch size
-    num_workers : int
-        Number of data loading workers
-    sequence_length : int, optional
-        Fixed sequence length (None = use full utterances)
-
-    Returns
-    -------
-    dataloaders : dict
-        Dictionary with 'train', 'val', 'test' dataloaders
-    """
     dataloaders = {}
-
     for split in ['train', 'val', 'test']:
-        # Load utterance list from JSON file
-        import json
         utterance_list_file = splits_dir / f'{split}.json'
+        if not utterance_list_file.exists():
+            continue
         with open(utterance_list_file, 'r') as f:
             split_data = json.load(f)
-            # Handle both list format and dict format
             if isinstance(split_data, list):
                 utterance_list = split_data
             elif isinstance(split_data, dict) and 'utterances' in split_data:
-                # Extract utterance names from list of dicts
-                utterances = split_data['utterances']
-                if isinstance(utterances, list) and len(utterances) > 0:
-                    if isinstance(utterances[0], dict) and 'utterance_name' in utterances[0]:
-                        utterance_list = [u['utterance_name'] for u in utterances]
-                    else:
-                        utterance_list = utterances
-                else:
-                    utterance_list = utterances
+                utterance_list = [u['utterance_name'] if isinstance(u, dict) else u for u in split_data['utterances']]
             else:
-                raise ValueError(f"Unexpected format in {utterance_list_file}")
+                continue
 
-        # Create dataset
         dataset = ArticulatoryDataset(
             utterance_list=utterance_list,
             audio_feature_dir=audio_feature_dir,
@@ -536,20 +347,8 @@ def create_dataloaders(
             streaming=streaming,
             zip_file_path=zip_file_path
         )
-
-        # Create dataloader
-        shuffle = (split == 'train')
-        dataloader = DataLoader(
-            dataset,
-            batch_size=batch_size,
-            shuffle=shuffle,
-            num_workers=num_workers,
-            collate_fn=collate_fn,
-            pin_memory=True
+        dataloaders[split] = DataLoader(
+            dataset, batch_size=batch_size, shuffle=(split == 'train'),
+            num_workers=num_workers, collate_fn=collate_fn, pin_memory=True
         )
-
-        dataloaders[split] = dataloader
-
-        print(f"{split.capitalize()} dataset: {len(dataset)} samples")
-
     return dataloaders

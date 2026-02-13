@@ -1,0 +1,42 @@
+[
+  {
+    "audio_path": "data/processed/phase2_test/test/sub001_utt0000_audio_mel.npy",
+    "param_path": "data/processed/phase2_test/test/sub001_utt0000_parameters.npy",
+    "utterance_name": "sub001_utt0000",
+    "subject_id": "sub001",
+    "duration": 2.424737227171608,
+    "num_frames": 121
+  },
+  {
+    "audio_path": "data/processed/phase2_test/test/sub002_utt0001_audio_mel.npy",
+    "param_path": "data/processed/phase2_test/test/sub002_utt0001_parameters.npy",
+    "utterance_name": "sub002_utt0001",
+    "subject_id": "sub002",
+    "duration": 1.9728516700521435,
+    "num_frames": 98
+  },
+  {
+    "audio_path": "data/processed/phase2_test/test/sub003_utt0002_audio_mel.npy",
+    "param_path": "data/processed/phase2_test/test/sub003_utt0002_parameters.npy",
+    "utterance_name": "sub003_utt0002",
+    "subject_id": "sub003",
+    "duration": 1.6807243518294275,
+    "num_frames": 84
+  },
+  {
+    "audio_path": "data/processed/phase2_test/test/sub004_utt0003_audio_mel.npy",
+    "param_path": "data/processed/phase2_test/test/sub004_utt0003_parameters.npy",
+    "utterance_name": "sub004_utt0003",
+    "subject_id": "sub004",
+    "duration": 1.208445975896397,
+    "num_frames": 60
+  },
+  {
+    "audio_path": "data/processed/phase2_test/test/sub005_utt0004_audio_mel.npy",
+    "param_path": "data/processed/phase2_test/test/sub005_utt0004_parameters.npy",
+    "utterance_name": "sub005_utt0004",
+    "subject_id": "sub005",
+    "duration": 2.015354923879209,
+    "num_frames": 100
+  }
+]

@@ -47,14 +47,14 @@ SimpleITK>=2.3.0  # Medical image processing
 # 3D Processing (for Phase 3 - Future)
 # ============================================
 trimesh>=3.23.0
-open3d>=0.17.0
+# open3d>=0.17.0
 # vtk>=9.2.0  # Uncomment if needed for 3D visualization
 
 # ============================================
 # Evaluation Metrics
 # ============================================
-pesq>=0.0.4
-pystoi>=0.3.3
+# pesq>=0.0.4
+# pystoi>=0.3.3
 
 # ============================================
 # Utilities & Visualization
@@ -63,6 +63,7 @@ tqdm>=4.65.0
 matplotlib>=3.7.0
 seaborn>=0.12.0
 plotly>=5.16.0
+gradio>=4.0.0
 
 # ============================================
 # Configuration & Logging

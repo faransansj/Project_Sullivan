@@ -14,13 +14,18 @@
 
 ---
 
-## 🔄 Active Tasks (Phase 5)
+## 🔄 Active Tasks (Phase 5 & 6)
 
-### M1: Inference Engine Wrapper
+### M1: Inference Engine Wrapper (Phase 5)
 - **Status**: ⏳ Pending
 - **Goal**: Build `src/inference/engine.py` to handle model loading and prediction logic cleanly.
 
-### M2: Gradio UI
+### M2: A100 Hyper-Performance Raid (Phase 6) 🚀
+- **Status**: 🟢 In Progress (Config Created)
+- **Goal**: Achieve PCC > 0.4 using A100 GPU and HuBERT features.
+- **Task**: Implement `src/audio_features/hubert_extractor.py` and upgrade model to Conformer.
+
+### M3: Gradio UI
 - **Status**: ⏳ Pending
 - **Goal**: Create `scripts/app.py` for the web interface.
 

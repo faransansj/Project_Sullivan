@@ -5,7 +5,7 @@ This module provides configuration loading and validation using Pydantic.
 """
 
 from pathlib import Path
-from typing import Any
+from typing import Union, Any
 
 import yaml
 from pydantic import BaseModel, Field, field_validator
@@ -123,7 +123,7 @@ class PreprocessConfig(BaseModel):
         return v
 
     @classmethod
-    def from_yaml(cls, yaml_path: str | Path) -> "PreprocessConfig":
+    def from_yaml(cls, yaml_path: Union[str, Path]) -> "PreprocessConfig":
         """
         Load configuration from YAML file.
 
@@ -147,7 +147,7 @@ class PreprocessConfig(BaseModel):
 
         return cls(**config_dict)
 
-    def to_yaml(self, yaml_path: str | Path) -> None:
+    def to_yaml(self, yaml_path: Union[str, Path]) -> None:
         """
         Save configuration to YAML file.
 
@@ -176,7 +176,7 @@ class PreprocessConfig(BaseModel):
         return self.model_dump()
 
 
-def load_config(config_path: str | Path) -> PreprocessConfig:
+def load_config(config_path: Union[str, Path]) -> PreprocessConfig:
     """
     Load configuration from file.
 
@@ -196,7 +196,7 @@ def load_config(config_path: str | Path) -> PreprocessConfig:
     return PreprocessConfig.from_yaml(config_path)
 
 
-def create_default_config(output_path: str | Path) -> PreprocessConfig:
+def create_default_config(output_path: Union[str, Path]) -> PreprocessConfig:
     """
     Create a default configuration and save to file.
 

@@ -6,7 +6,7 @@ This module provides a data loader for the USC-TIMIT Speech MRI dataset.
 
 import json
 from pathlib import Path
-from typing import Optional, Dict, List, Any
+from typing import Union, Optional, Dict, List, Any
 
 import numpy as np
 from scipy.io import loadmat
@@ -34,7 +34,7 @@ class USCTIMITLoader:
         subjects: List of discovered subjects with metadata
     """
 
-    def __init__(self, data_root: str | Path):
+    def __init__(self, data_root: Union[str, Path]):
         """
         Initialize USC-TIMIT dataset loader.
 

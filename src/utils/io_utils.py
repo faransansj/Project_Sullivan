@@ -6,7 +6,7 @@ This module provides file I/O operations for various data formats.
 
 import json
 from pathlib import Path
-from typing import Any, Optional
+from typing import Union, Any, Optional
 
 import cv2
 import h5py
@@ -21,7 +21,7 @@ import soundfile as sf
 # ============================================================================
 
 
-def load_mri_frame(path: str | Path, normalize: bool = True) -> np.ndarray:
+def load_mri_frame(path: Union[str, Path], normalize: bool = True) -> np.ndarray:
     """
     Load a single MRI frame from various formats.
 
@@ -73,7 +73,7 @@ def load_mri_frame(path: str | Path, normalize: bool = True) -> np.ndarray:
 
 
 def load_mri_sequence(
-    directory: str | Path,
+    directory: Union[str, Path],
     pattern: str = "*.png",
     start_idx: int = 0,
     end_idx: Optional[int] = None,
@@ -121,7 +121,7 @@ def load_mri_sequence(
 
 
 def load_mri_from_video(
-    video_path: str | Path, normalize: bool = True
+    video_path: Union[str, Path], normalize: bool = True
 ) -> np.ndarray:
     """
     Load MRI frames from video file (MP4, AVI, etc.).
@@ -175,7 +175,7 @@ def load_mri_from_video(
 
 
 def load_audio(
-    path: str | Path, sr: Optional[int] = None
+    path: Union[str, Path], sr: Optional[int] = None
 ) -> tuple[np.ndarray, int]:
     """
     Load audio file with optional resampling.
@@ -257,7 +257,7 @@ def load_audio(
 
 
 def save_audio(
-    path: str | Path, audio: np.ndarray, sr: int
+    path: Union[str, Path], audio: np.ndarray, sr: int
 ) -> None:
     """
     Save audio to WAV file.
@@ -279,8 +279,8 @@ def save_audio(
 
 
 def save_hdf5(
-    data: dict[str, np.ndarray | Any],
-    filepath: str | Path,
+    data: dict[str, Union[np.ndarray, Any]],
+    filepath: Union[str, Path],
     compression: str = "gzip",
     compression_opts: int = 4,
 ) -> None:
@@ -323,8 +323,8 @@ def save_hdf5(
 
 
 def load_hdf5(
-    filepath: str | Path, keys: Optional[list[str]] = None
-) -> dict[str, np.ndarray | Any]:
+    filepath: Union[str, Path], keys: Optional[list[str]] = None
+) -> dict[str, Union[np.ndarray, Any]]:
     """
     Load data from HDF5 file.
 
@@ -368,7 +368,7 @@ def load_hdf5(
 # ============================================================================
 
 
-def save_json(data: dict, filepath: str | Path, indent: int = 2) -> None:
+def save_json(data: dict, filepath: Union[str, Path], indent: int = 2) -> None:
     """
     Save dictionary to JSON file.
 
@@ -399,7 +399,7 @@ def save_json(data: dict, filepath: str | Path, indent: int = 2) -> None:
         json.dump(data_converted, f, indent=indent, ensure_ascii=False)
 
 
-def load_json(filepath: str | Path) -> dict:
+def load_json(filepath: Union[str, Path]) -> dict:
     """
     Load dictionary from JSON file.
 
@@ -425,7 +425,7 @@ def load_json(filepath: str | Path) -> dict:
 # ============================================================================
 
 
-def save_numpy(data: np.ndarray, filepath: str | Path) -> None:
+def save_numpy(data: np.ndarray, filepath: Union[str, Path]) -> None:
     """
     Save numpy array to .npy file.
 
@@ -438,7 +438,7 @@ def save_numpy(data: np.ndarray, filepath: str | Path) -> None:
     np.save(filepath, data)
 
 
-def load_numpy(filepath: str | Path) -> np.ndarray:
+def load_numpy(filepath: Union[str, Path]) -> np.ndarray:
     """
     Load numpy array from .npy file.
 
@@ -487,7 +487,7 @@ def normalize_array(arr: np.ndarray, min_val: float = 0.0, max_val: float = 1.0)
     return normalized.astype(np.float32)
 
 
-def ensure_directory(directory: str | Path) -> Path:
+def ensure_directory(directory: Union[str, Path]) -> Path:
     """
     Ensure directory exists, create if not.
 
@@ -502,7 +502,7 @@ def ensure_directory(directory: str | Path) -> Path:
     return directory
 
 
-def list_files(directory: str | Path, pattern: str = "*", recursive: bool = False) -> list[Path]:
+def list_files(directory: Union[str, Path], pattern: str = "*", recursive: bool = False) -> list[Path]:
     """
     List files in directory matching pattern.
 

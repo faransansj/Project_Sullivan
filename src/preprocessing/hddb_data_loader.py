@@ -7,7 +7,7 @@ import h5py
 import soundfile as sf
 import numpy as np
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple, Any
+from typing import Union, Dict, List, Optional, Tuple, Any
 from src.utils.logger import get_logger
 
 logger = get_logger(__name__)
@@ -31,7 +31,7 @@ class HDDBLoader:
         └── ...
     """
 
-    def __init__(self, data_root: str | Path):
+    def __init__(self, data_root: Union[str, Path]):
         """
         Initialize HDDB dataset loader.
 

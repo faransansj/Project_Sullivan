@@ -7,7 +7,7 @@ This module provides structured logging for the project.
 import logging
 import sys
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Union, Any
 
 from datetime import datetime
 
@@ -63,10 +63,10 @@ class ColoredFormatter(logging.Formatter):
 
 def setup_logger(
     name: str = "project_sullivan",
-    level: str | int = "INFO",
-    log_file: Optional[str | Path] = None,
+    level: Union[str, int] = "INFO",
+    log_file: Optional[Union[str, Path]] = None,
     console: bool = True,
-    file_level: Optional[str | int] = None,
+    file_level: Optional[Union[str, int]] = None,
 ) -> logging.Logger:
     """
     Set up a logger with console and/or file handlers.
@@ -161,7 +161,7 @@ def get_logger(name: str = "project_sullivan") -> logging.Logger:
 
 def create_experiment_logger(
     experiment_name: str,
-    log_dir: str | Path = "logs",
+    log_dir: Union[str, Path] = "logs",
     level: str = "INFO",
 ) -> logging.Logger:
     """
@@ -201,7 +201,7 @@ def create_experiment_logger(
 class LoggerContext:
     """Context manager for temporary log level changes."""
 
-    def __init__(self, logger: logging.Logger, level: str | int):
+    def __init__(self, logger: logging.Logger, level: Union[str, int]):
         """
         Initialize context manager.
 

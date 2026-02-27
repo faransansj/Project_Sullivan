@@ -1,0 +1,46 @@
+# ============================================
+# Project Sullivan: SSH Config Template
+# ============================================
+# Phase 5-1: GPU 서버 SSH 접속 설정
+#
+# 사용법:
+#   1. 아래 설정을 ~/.ssh/config 에 추가
+#   2. <gpu-server-ip>, <username> 등을 실제 값으로 변경
+#   3. ssh sullivan-gpu 로 접속
+#
+# 포트 포워딩:
+#   - 6006: TensorBoard
+#   - 7860: Gradio Web Demo
+#   - 8888: Jupyter Notebook (optional)
+# ============================================
+
+# GPU Training Server (A100 / A6000)
+Host sullivan-gpu
+    HostName <gpu-server-ip>
+    User <username>
+    Port 22
+    IdentityFile ~/.ssh/id_rsa
+
+    # Port Forwarding (local → remote)
+    LocalForward 6006 localhost:6006    # TensorBoard
+    LocalForward 7860 localhost:7860    # Gradio Demo
+    LocalForward 8888 localhost:8888    # Jupyter (optional)
+
+    # Keep-alive (학습 중 연결 유지)
+    ServerAliveInterval 60
+    ServerAliveCountMax 120
+
+    # Performance
+    Compression yes
+    TCPKeepAlive yes
+
+# NAS Storage Server
+Host sullivan-nas
+    HostName <nas-server-ip>
+    User <username>
+    Port 22
+    IdentityFile ~/.ssh/id_rsa
+
+    # Data transfer optimization
+    Compression yes
+    TCPKeepAlive yes

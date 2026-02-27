@@ -1,7 +1,7 @@
 # Phase 5-1: 외부 GPU 서버 학습 환경 구성
 
 **Phase**: 5-1
-**Status**: ⬜ Planning
+**Status**: 🔄 In Progress
 **Last Update**: 2026-02-27
 **Estimated Duration**: 1–2주
 

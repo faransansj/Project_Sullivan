@@ -62,6 +62,14 @@ dev = [
     "ipykernel>=6.25.0",
 ]
 
+# GPU 서버용 추가 의존성 (Phase 5-1)
+gpu = [
+    "transformers>=4.30.0",        # HuBERT 등 사전학습 모델
+    "wandb>=0.15.0",               # 원격 실험 추적 (optional)
+    "tensorboard>=2.14.0",         # 학습 모니터링
+    "gradio>=4.0.0",               # 웹 데모
+]
+
 [project.urls]
 Homepage = "https://github.com/midori/Project_Sullivan"
 Repository = "https://github.com/midori/Project_Sullivan"

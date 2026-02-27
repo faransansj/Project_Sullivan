@@ -5,11 +5,11 @@
 **Goal:** Infer articulatory parameters (tongue position, jaw opening, etc.) directly from speech audio, using real-time MRI (rtMRI) data as ground truth.
 
 **Current Status (Feb 2026):**
-- **Phase 1–4:** Complete (Data Pipeline, Baseline LSTM, Full-Scale Training, High-Res Shape Recovery)
-- **Phase 5/6:** Active (Inference Engine, A100 HuBERT training, Gradio UI)
-- **Phase 7:** Planning (외부 GPU 서버 환경, NAS 데이터 연계, 웹 데모)
-- **Key Achievement:** Phase 4 — Global PCC 0.1982, 21.5M param Transformer, 24-dim output
-- **Immediate Focus:** Phase 7 infrastructure setup
+- **Phase 1–3:** Complete (Data Pipeline, Baseline LSTM, Core Goal & Shape Recovery)
+- **Phase 4:** Active (정확도 개선 — Inference Engine, HuBERT, Conformer, A100 Training)
+- **Phase 5:** Planning (인프라 — 외부 GPU 서버 환경, NAS 데이터 연계, 웹 데모)
+- **Key Achievement:** Phase 3 — Global PCC 0.1982, 21.5M param Transformer, 24-dim output
+- **Immediate Focus:** Phase 4 accuracy improvement pipeline
 
 ## 2. Technical Architecture
 
@@ -82,22 +82,21 @@ tensorboard --logdir logs/training
 - **Path:** `/mnt/HDDB/dataset/my_dataset/dataset/`
 - **Compute:** 780M GPU — **insufficient for training**, storage only
 
-### External GPU Servers (Phase 7 Target)
+### External GPU Servers (Phase 5 Target)
 - **A100 / A6000** servers for training
 - UV-based pipeline for reproducible environments
 - Data transfer strategy: NAS → GPU server (rsync / NFS / streaming)
 
-## 7. Phase 7 Roadmap
+## 7. Phase Roadmap
 
-### 7-1: 외부 GPU 서버 환경 (A100/A6000)
-- UV 기반 재현 가능한 학습 환경
-- SSH 원격 학습 워크플로우
+### Phase 1–3: ✅ Complete
+- Data Pipeline, Baseline LSTM, Core Goal & Shape Recovery (PCC 0.1982)
 
-### 7-2: 대용량 데이터 학습 (NAS 600GB+)
-- Streaming DataLoader 구현
-- NAS ↔ GPU 서버 데이터 연계
+### Phase 4: 정확도 개선 파이프라인 (Active)
+- Inference Engine, HuBERT Features, Conformer, A100 Training
+- 목표: PCC > 0.4
 
-### 7-3: 웹 기반 데모 & 모니터링
-- 데이터셋 품질 검증 뷰어
-- 학습 진행 모니터링 대시보드
-- 추론 데모 페이지
+### Phase 5: 인프라 구축 & 프로덕션 (Planning)
+- 5-1: 외부 GPU 서버 (A100/A6000) + UV
+- 5-2: NAS 600GB+ 데이터 연계
+- 5-3: 웹 데모 & 모니터링 대시보드

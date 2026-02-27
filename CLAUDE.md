@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **Project Sullivan** is a research project developing AI models that infer articulatory parameters (tongue position, jaw opening, lip shape, etc.) from audio signals alone using the USC-TIMIT Speech MRI Dataset.
 
-**Current Status**: Phase 5/6 Active, Phase 7 Planning
+**Current Status**: Phase 4 (정확도 개선) Active, Phase 5 (인프라) Planning
 - Phase 2-A (Baseline LSTM) complete: Test RMSE 1.011, PCC 0.105
 - Phase 2-B (Advanced architectures) in progress: Transformer implemented, training next
 - M2 Target: RMSE < 0.15, PCC > 0.50
@@ -409,15 +409,13 @@ results = trainer.test(model, test_loader)
 |-------|--------|-------------|
 | **Phase 1: Data Pipeline** | ✅ Complete | MRI segmentation (81.8% Dice), 468 utterances |
 | **Phase 2: Baseline Model** | ✅ Complete | Bi-LSTM: RMSE 1.011, PCC 0.105 |
-| **Phase 3: Full-Scale Training** | ✅ Complete | Scaled dataset, RMSE optimization |
-| **Phase 4: Shape Recovery** | ✅ Complete | **Global PCC 0.1982**, 21.5M param Transformer |
-| **Phase 5: Inference Engine** | 🔄 Active | Web demo & real-time optimization |
-| **Phase 6: A100 Training** | 🔄 Active | HuBERT features, Conformer upgrade |
-| **Phase 7-1: GPU 서버 환경** | ⬜ Planning | A100/A6000 + UV pipeline |
-| **Phase 7-2: NAS 데이터 연계** | ⬜ Planning | 600GB+ streaming DataLoader |
-| **Phase 7-3: 웹 데모 & 모니터링** | ⬜ Planning | Dataset viewer, training dashboard |
+| **Phase 3: Core Goal & Shape Recovery** | ✅ Complete | **Global PCC 0.1982**, 21.5M param Transformer, 24-dim |
+| **Phase 4: 정확도 개선** | 🔄 Active | Inference Engine, HuBERT, Conformer, A100 |
+| **Phase 5-1: GPU 서버 환경** | ⬜ Planning | A100/A6000 + UV pipeline |
+| **Phase 5-2: NAS 데이터 연계** | ⬜ Planning | 600GB+ streaming DataLoader |
+| **Phase 5-3: 웹 데모 & 모니터링** | ⬜ Planning | Dataset viewer, training dashboard |
 
-**Current Focus**: Phase 5/6 completion, Phase 7 infrastructure planning.
+**Current Focus**: Phase 4 accuracy improvement pipeline.
 
 ---
 
@@ -529,7 +527,11 @@ trainer.test(model, loaders['test'])
 
 5. **Attention Visualization**: Transformer attention weights could provide insights into which audio features drive specific articulatory movements
 
-6. **Phase 7 Infrastructure** (Active Planning):
+6. **Phase 4 — 정확도 개선** (Active):
+   - Inference Engine, HuBERT Features, Conformer Architecture
+   - A100 GPU 대규모 학습 (목표: PCC > 0.4)
+
+7. **Phase 5 — 인프라 구축 & 프로덕션** (Planning):
    - **외부 GPU 서버**: A100/A6000에서 UV 기반 학습 환경 구축
    - **NAS 데이터 연계**: 600GB+ 데이터셋 streaming 전략 (NAS 780M → GPU 서버)
    - **웹 데모 & 모니터링**: 데이터셋 뷰어, 학습 대시보드, 추론 데모

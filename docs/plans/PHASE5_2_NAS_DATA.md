@@ -1,10 +1,10 @@
-# Phase 7-2: 대용량 데이터 학습 전략 (NAS 600GB+ 연계)
+# Phase 5-2: 대용량 데이터 학습 전략 (NAS 600GB+ 연계)
 
-**Phase**: 7-2
+**Phase**: 5-2
 **Status**: ⬜ Planning
 **Last Update**: 2026-02-27
 **Estimated Duration**: 2–3주
-**Dependency**: Phase 7-1 (GPU 서버 환경) 완료 후 진행
+**Dependency**: Phase 5-1 (GPU 서버 환경) 완료 후 진행
 
 ---
 

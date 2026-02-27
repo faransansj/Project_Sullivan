@@ -93,11 +93,11 @@ python scripts/evaluate_phase4d.py
 | :--- | :--- | :--- | :--- |
 | **M1: Data Pipeline** | Phase 1 | ✅ Complete | MRI segmentation complete (81.8% Dice). |
 | **M2: Baseline Model** | Phase 2 | ✅ Complete | Bi-LSTM infrastructure & initial mapping. |
-| **M3: Core Goal** | Phase 3/4 | ✅ Complete | **Global PCC 0.198**, PCA Reconstruction. |
-| **M4: Application** | Phase 5/6 | 🚧 Active | Web Demo & A100 High Performance. |
-| **M5: GPU 서버 환경** | Phase 7-1 | ⬜ Planned | A100/A6000 + UV pipeline. |
-| **M6: NAS 데이터 연계** | Phase 7-2 | ⬜ Planned | 600GB+ streaming DataLoader. |
-| **M7: 웹 모니터링** | Phase 7-3 | ⬜ Planned | Dataset viewer & training dashboard. |
+| **M3: Core Goal & Shape Recovery** | Phase 3 | ✅ Complete | **Global PCC 0.198**, PCA Reconstruction. |
+| **M4: 정확도 개선** | Phase 4 | 🚧 Active | HuBERT, Conformer, A100 Training. |
+| **M5: GPU 서버 환경** | Phase 5-1 | ⬜ Planned | A100/A6000 + UV pipeline. |
+| **M6: NAS 데이터 연계** | Phase 5-2 | ⬜ Planned | 600GB+ streaming DataLoader. |
+| **M7: 웹 모니터링** | Phase 5-3 | ⬜ Planned | Dataset viewer & training dashboard. |
 
 ---
 

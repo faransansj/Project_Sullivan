@@ -1,6 +1,6 @@
-# Phase 7-3: 웹 기반 데모 & 모니터링 대시보드
+# Phase 5-3: 웹 기반 데모 & 모니터링 대시보드
 
-**Phase**: 7-3
+**Phase**: 5-3
 **Status**: ⬜ Planning
 **Last Update**: 2026-02-27
 **Estimated Duration**: 2–3주

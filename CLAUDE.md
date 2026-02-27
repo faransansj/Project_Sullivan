@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **Project Sullivan** is a research project developing AI models that infer articulatory parameters (tongue position, jaw opening, lip shape, etc.) from audio signals alone using the USC-TIMIT Speech MRI Dataset.
 
-**Current Status**: Phase 2-B (Transformer Implementation)
+**Current Status**: Phase 5/6 Active, Phase 7 Planning
 - Phase 2-A (Baseline LSTM) complete: Test RMSE 1.011, PCC 0.105
 - Phase 2-B (Advanced architectures) in progress: Transformer implemented, training next
 - M2 Target: RMSE < 0.15, PCC > 0.50
@@ -405,14 +405,19 @@ results = trainer.test(model, test_loader)
 
 ## Project Milestones and Targets
 
-| Milestone | Status | Target Metrics | Notes |
-|-----------|--------|----------------|-------|
-| **M1: Data Pipeline** | ✅ Complete (100%) | Dataset ready | 75 utterances, 186K frames processed |
-| **M2: Baseline Model** | 🟡 50% (Phase 2-B) | RMSE < 0.15, PCC > 0.50 | Baseline: RMSE 1.011, PCC 0.105 |
-| **M3: Core Goal** | ⬜ Pending | RMSE < 0.10, PCC > 0.70 | Target: Jan 2026 |
-| **M4: Digital Twin** | ⬜ Future | 3D synthesis working | After M2/M3 complete |
+| Phase | Status | Key Outcome |
+|-------|--------|-------------|
+| **Phase 1: Data Pipeline** | ✅ Complete | MRI segmentation (81.8% Dice), 468 utterances |
+| **Phase 2: Baseline Model** | ✅ Complete | Bi-LSTM: RMSE 1.011, PCC 0.105 |
+| **Phase 3: Full-Scale Training** | ✅ Complete | Scaled dataset, RMSE optimization |
+| **Phase 4: Shape Recovery** | ✅ Complete | **Global PCC 0.1982**, 21.5M param Transformer |
+| **Phase 5: Inference Engine** | 🔄 Active | Web demo & real-time optimization |
+| **Phase 6: A100 Training** | 🔄 Active | HuBERT features, Conformer upgrade |
+| **Phase 7-1: GPU 서버 환경** | ⬜ Planning | A100/A6000 + UV pipeline |
+| **Phase 7-2: NAS 데이터 연계** | ⬜ Planning | 600GB+ streaming DataLoader |
+| **Phase 7-3: 웹 데모 & 모니터링** | ⬜ Planning | Dataset viewer, training dashboard |
 
-**Current Focus**: Train Transformer model to achieve M2 targets.
+**Current Focus**: Phase 5/6 completion, Phase 7 infrastructure planning.
 
 ---
 
@@ -524,7 +529,7 @@ trainer.test(model, loaders['test'])
 
 5. **Attention Visualization**: Transformer attention weights could provide insights into which audio features drive specific articulatory movements
 
-6. **Phase 3 Preparation**: Digital twin will require:
-   - 3D mesh reconstruction from segmentation masks
-   - Physical simulation of vocal tract acoustics
-   - Integration with acoustic synthesis models
+6. **Phase 7 Infrastructure** (Active Planning):
+   - **외부 GPU 서버**: A100/A6000에서 UV 기반 학습 환경 구축
+   - **NAS 데이터 연계**: 600GB+ 데이터셋 streaming 전략 (NAS 780M → GPU 서버)
+   - **웹 데모 & 모니터링**: 데이터셋 뷰어, 학습 대시보드, 추론 데모

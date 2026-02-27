@@ -1,55 +1,49 @@
 # Project Sullivan: Project Overview & Status Report
 
 **Project**: Acoustic-to-Articulatory Parameter Inference
-**Current Status**: Phase 1 (100% Complete), Phase 2 (Baseline Complete, Transformer in Progress)
-**Last Update**: 2025-12-23
+**Current Status**: Phase 1–4 Complete, Phase 5/6 Active, Phase 7 Planning
+**Last Update**: 2026-02-27
 
 ---
 
 ## 1. Project Goal
-Project Sullivan aims to synthesize low-dimensional articulatory parameters (tongue, jaw, lips) from speech audio by leveraging real-time MRI (rtMRI) data from the USC-TIMIT dataset.
+Project Sullivan aims to synthesize low-dimensional articulatory parameters (tongue, jaw, lips) from speech audio by leveraging real-time MRI (rtMRI) data from the USC-TIMIT and HDDB datasets.
 
-## 2. Phase 1: Data Preprocessing & Segmentation (COMPLETE)
-### 2.1 Preprocessing Pipeline
-- **MRI/Audio Alignment**: Successfully synchronized audio with MRI frames.
-- **Denoising**: Implemented spatial-temporal denoising for MRI and background noise reduction for audio.
-- **Batch Processing**: All 15 recommended subjects (468 utterances) have been processed.
+## 2. Phase 1: Data Preprocessing & Segmentation ✅
+- **MRI/Audio Alignment**: Synchronized audio with MRI frames for 468 utterances.
+- **U-Net Segmentation**: **81.8% Mean Dice Score**, **96.5% tongue region**.
 
-### 2.2 U-Net Segmentation
-- **Hybrid Approach**: Used traditional CV for pseudo-labeling and trained U-Net from scratch.
-- **Performance**: Achieved **81.8% Mean Dice Score** on the test set, with **96.5% for the tongue region**.
-- **Result**: Production-ready segmentation model (`models/unet_scratch/unet_final.pth`).
+## 3. Phase 2: Baseline Model ✅
+- **Bi-LSTM Baseline**: RMSE 1.011, PCC 0.105 — proved task feasibility.
+- **Transformer**: Encoder architecture implemented and training infrastructure set up.
 
----
+## 4. Phase 3: Full-Scale Training ✅
+- Scaled to full dataset with RMSE optimization and data augmentation strategies.
 
-## 3. Phase 2: Audio-to-Parameter Model (IN PROGRESS)
-### 3.1 Feature Extraction
-- **Articulatory Parameters**: Implemented extraction of 14-dimensional geometric features (tongue height, jaw opening, lip aperture, etc.).
-- **Audio Features**: Implemented extraction of 80-dimensional Mel-spectrogram and MFCC features.
+## 5. Phase 4: High-Resolution Shape Recovery ✅
+- **Global PCC 0.1982** (7.6x improvement over Phase 2 baseline).
+- 21.5M parameter Transformer Encoder, 24-dim output (14 Geometric + 10 PCA).
+- High-fidelity tracking: Jaw Opening PCC 0.50, Tongue Fronting PCC 0.46.
 
-### 3.2 Baseline Performance (LSTM)
-- **Model**: Bidirectional LSTM.
-- **Performance**: RMSE 1.011, Pearson Correlation 0.105.
-- **Status**: Completed as a reference baseline. Proved the task is learnable but needs more complex architecture.
-
-### 3.3 Transformer Implementation
-- **Status**: Transformer architecture has been added and training infrastructure is set up.
-- **Improvements**: Includes positional encoding and self-attention for better temporal modeling.
+## 6. Phase 5/6: Inference & High Performance 🔄
+- **Phase 5**: Inference Engine (`src/inference/engine.py`) + Gradio web demo.
+- **Phase 6**: A100 GPU training with HuBERT features and Conformer upgrade.
 
 ---
 
-## 4. Git Update Summary (Pulled Dec 23, 2025)
-The following key updates were synchronized from the remote repository:
-- **Phase 2 Infrastructure**: Added articulatory and audio feature extraction scripts.
-- **Model Implementations**: Added `BaselineLSTM` and `Transformer` models in `src/modeling/`.
-- **Colab Support**: Added Google Colab training infrastructure and setup guides.
-- **Sequence Handling**: Optimized from fixed-length sequence splitting back to full utterance processing for better context.
-- **Milestone Documentation**: New reports and plans added to `docs/`.
+## 7. Phase 7 Roadmap (Next Steps)
 
----
+### 7-1: 외부 GPU 서버 환경 (A100/A6000)
+- [ ] UV 기반 재현 가능한 학습 환경 구축 (`uv sync` + `uv.lock`)
+- [ ] SSH 원격 학습 워크플로우 및 자동화 스크립트
+- [ ] CUDA 호환 `pyproject.toml` 업데이트
 
-## 5. Next Milestones
-- [ ] **M2 Target Achievement**: Reach RMSE < 0.15 and PCC > 0.50 using Transformer or Conformer models.
-- [ ] **Data Expansion**: Utilize full dataset for training to improve generalization.
-- [ ] **Feature Engineering**: Experiment with learnable audio features (wav2vec 2.0).
-- [ ] **Digital Twin (Phase 3)**: Planning for 3D vocal tract synthesis.
+### 7-2: 대용량 데이터 학습 (NAS 600GB+)
+- [ ] NAS → GPU 서버 데이터 전송 전략 (rsync / NFS / streaming)
+- [ ] Streaming DataLoader 구현 (전체 복사 불필요)
+- [ ] NAS 컴퓨팅(780M) 한계로 인한 전처리 분리 전략
+
+### 7-3: 웹 기반 데모 & 모니터링
+- [ ] 데이터셋 품질 검증 뷰어 (MRI + segmentation 시각화)
+- [ ] 학습 진행 모니터링 대시보드 (Loss/PCC 그래프)
+- [ ] 추론 데모 페이지 (오디오 → articulatory 파라미터)

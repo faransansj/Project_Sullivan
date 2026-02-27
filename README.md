@@ -17,14 +17,13 @@ Using the **HDDB (Haskins IEEE-DB)** and **USC-TIMIT** datasets, the system reco
 
 ## 🚀 Key Achievements
 
-We have successfully progressed from initial infrastructure to full **High-Resolution Shape Recovery**.
+We have successfully progressed from initial infrastructure to full **High-Resolution Shape Recovery** and are currently enhancing accuracy.
 
-- **Phase 4 Master Model**: A 21.5M parameter Transformer Encoder.
-- **Output**: 24 Dimensions (14 Geometric Features + 10 PCA Components).
-- **Performance**:
+- **Phase 4 Accuracy Pipeline (Current)**: High-performance Conformer architecture (12 layers, d_model=512) with HuBERT self-supervised features and full hybrid loss. Optimized for A100 training.
+- **Phase 3 Master Model (Legacy)**: A 21.5M parameter Transformer Encoder.
+- **Performance (Phase 3)**:
     - **Global PCC**: **0.1982** (7.6x improvement over Phase 2 baseline).
     - **High-Fidelity Tracking**: Successfully recovers critical articulatory gestures like Jaw Opening (PCC 0.50) and Tongue Fronting (PCC 0.46).
-- **Phase 2 Baseline (Legacy)**: Bi-LSTM architecture established the feasibility of the mapping (RMSE 1.011).
 
 ---
 
@@ -34,11 +33,10 @@ Detailed documentation is organized by research phase and operational needs into
 
 ### 📖 Operational Guides (`docs/guides/`)
 Everything you need to set up, run, and understand the project at a technical level.
-- 🚀 **[Google Colab Quick Start](docs/guides/COLAB_QUICK_START.md)** - Training in cloud environments.
+- 🚀 **[Phase 5 GPU Quick Start](docs/guides/PHASE5_GPU_QUICKSTART.md)** - Training on external GPU servers (A100/A6000) with UV.
+- 🎯 **[Phase 4 Accuracy Guide](docs/guides/PHASE4_ACCURACY_GUIDE.md)** - Using the Conformer model and HuBERT features.
 - 💻 **[Environment Setup Required](docs/guides/ENVIRONMENT_SETUP_REQUIRED.md)** - Local setup instructions.
 - 📊 **[Dataset Usage Guide](docs/guides/DATASET_USAGE_GUIDE.md)** - Handling HDDB and USC-TIMIT features.
-- 🌐 **[Web Demo Guide](docs/guides/QUICK_START_DEMO.md)** - Setup and usage for the interactive Phase 5 demo.
-- 🧑‍🔬 **[Researcher Manual](docs/guides/researcher_manual.md)** - Comprehensive technical manual for the pipeline.
 
 ### 📊 Reports & Analysis (`docs/reports/`)
 Historical records, milestone completions, and status updates.
@@ -52,37 +50,36 @@ Historical records, milestone completions, and status updates.
 ## 🛠️ Tech Stack
 
 ### Core Technologies
-- **Framework**: PyTorch, PyTorch Lightning, Gradio (Phase 5)
-- **Architecture**: Transformer Encoder (6 layers, 8 heads, d_model=512)
+- **Package Manager**: UV (`uv run`, `uv sync`)
+- **Framework**: PyTorch, PyTorch Lightning
+- **Architecture**: Conformer (Phase 4), Transformer Encoder (Phase 3)
 
 ### Data Pipeline
-- **Input**: 80-band Mel-spectrograms (Librosa)
+- **Input**: HuBERT-Large (1024-dim, Phase 4), 80-band Mel-spectrograms (Phase 3)
 - **Target**: 14 Geometric Features (OpenCV) + 10 PCA Components (Scikit-Learn)
-- **Optimization**: AdamW, Staged Curriculum Learning, Hybrid Loss (MSE + PCC)
+- **Optimization**: AdamW, OneCycleLR, Hybrid Loss (MSE + PCC + Temporal)
 
 ---
 
 ## 🚦 Quick Start
 
-### 1. Environment Setup
+### 1. Environment Setup (UV)
 ```bash
 git clone https://github.com/faransansj/Project_Sullivan.git
 cd Project_Sullivan
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
+curl -LsSf https://astral.sh/uv/install.sh | sh
+uv sync --extra gpu
 ```
 
-### 2. Run Interactive Demo (Phase 5)
-Experience the system in real-time using your microphone:
+### 2. Train Conformer Model (Phase 4)
 ```bash
-python scripts/app.py
+uv run python scripts/train_conformer.py --config configs/conformer_a100_config.yaml --gpus 1
 ```
-*See **[QUICK_START_DEMO.md](docs/guides/QUICK_START_DEMO.md)** for more details.*
 
-### 3. Evaluate Master Model
+### 3. Remote GPU Server Execution (Phase 5-1)
+Deploy code, start training in background, and view logs across SSH.
 ```bash
-python scripts/evaluate_phase4d.py
+./scripts/infra/remote_train.sh user@gpu-server configs/conformer_a100_config.yaml train_conformer.py
 ```
 
 ---
@@ -94,10 +91,10 @@ python scripts/evaluate_phase4d.py
 | **M1: Data Pipeline** | Phase 1 | ✅ Complete | MRI segmentation complete (81.8% Dice). |
 | **M2: Baseline Model** | Phase 2 | ✅ Complete | Bi-LSTM infrastructure & initial mapping. |
 | **M3: Core Goal & Shape Recovery** | Phase 3 | ✅ Complete | **Global PCC 0.198**, PCA Reconstruction. |
-| **M4: 정확도 개선** | Phase 4 | 🚧 Active | HuBERT, Conformer, A100 Training. |
-| **M5: GPU 서버 환경** | Phase 5-1 | ⬜ Planned | A100/A6000 + UV pipeline. |
-| **M6: NAS 데이터 연계** | Phase 5-2 | ⬜ Planned | 600GB+ streaming DataLoader. |
-| **M7: 웹 모니터링** | Phase 5-3 | ⬜ Planned | Dataset viewer & training dashboard. |
+| **M4: 정확도 개선 (Conformer)** | Phase 4 | ✅ Complete | HuBERT, Conformer 코드/가이드 완료. |
+| **M5: GPU 서버 구축/UV** | Phase 5-1 | ✅ Complete | 원격 학습 스크립트, UV 환경 초기화 완. |
+| **M6: NAS 데이터 연계** | Phase 5-2 | ⬜ Planned | 600GB+ 하이브리드 전송 전략 (rsync+streaming). |
+| **M7: 웹 모니터링 / 데모** | Phase 5-3 | ⬜ Planned | Gradio 기반 대시보드 구조 및 데모 기획. |
 
 ---
 

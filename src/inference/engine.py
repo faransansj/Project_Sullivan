@@ -1,219 +1,235 @@
+"""
+Inference Engine for Project Sullivan
+
+Provides a unified interface for loading trained models (Transformer or Conformer)
+and running end-to-end audio → articulatory parameter prediction.
+
+Phase 4: Supports both Mel-spectrogram and HuBERT features.
+"""
+
 import sys
 import json
 from pathlib import Path
+from typing import Optional, Union
+
 import yaml
 import torch
 import numpy as np
 import librosa
-import cv2
 
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 
 from src.modeling.transformer import TransformerModel
+from src.modeling.conformer_model import ConformerInversionModel
+
 
 class InferenceEngine:
-    def __init__(self, model_path, config_path, stats_path=None):
+    """
+    Unified inference engine for articulatory inversion models.
+
+    Supports:
+    - Transformer (Phase 3 baseline)
+    - Conformer (Phase 4 accuracy improvement)
+    - Mel-spectrogram and HuBERT feature extraction
+
+    Parameters
+    ----------
+    model_path : str
+        Path to trained model checkpoint (.ckpt)
+    config_path : str
+        Path to YAML config used during training
+    stats_path : str, optional
+        Path to normalization statistics (JSON)
+    model_type : str
+        'transformer' or 'conformer'
+    feature_type : str
+        'mel' or 'hubert'
+    device : str
+        'cpu' or 'cuda'
+    """
+
+    def __init__(
+        self,
+        model_path: str,
+        config_path: str,
+        stats_path: Optional[str] = None,
+        model_type: str = "transformer",
+        feature_type: str = "mel",
+        device: str = "cpu",
+    ):
         print("Initializing Inference Engine...")
-        self.device = torch.device('cpu') # Force CPU for inference
-        
-        # Load config to get model and data params
+        self.device = torch.device(device)
+        self.feature_type = feature_type
+
+        # Load config
         print(f"Loading config from {config_path}")
         with open(config_path, 'r') as f:
             self.config = yaml.safe_load(f)
 
-        # Load Normalization Stats
+        # Load normalization stats
         self.stats = None
         if stats_path:
             print(f"Loading statistics from {stats_path}")
             with open(stats_path, 'r') as f:
                 self.stats = json.load(f)
-                # Convert to numpy for fast ops
                 self.stats['min'] = np.array(self.stats['min'])
                 self.stats['max'] = np.array(self.stats['max'])
-                self.stats['mean'] = np.array(self.stats['mean'])
-                self.stats['std'] = np.array(self.stats['std'])
+                if 'mean' in self.stats:
+                    self.stats['mean'] = np.array(self.stats['mean'])
+                    self.stats['std'] = np.array(self.stats['std'])
 
-        # Load trained Transformer model
-        print(f"Loading Master Transformer from {model_path}")
-        # We need to instantiate the model with the same args as training
-        # But load_from_checkpoint usually handles this if hparams were saved
-        self.model = TransformerModel.load_from_checkpoint(model_path, map_location=self.device)
+        # Load model
+        print(f"Loading {model_type} model from {model_path}")
+        ModelClass = (
+            TransformerModel if model_type == "transformer"
+            else ConformerInversionModel
+        )
+        self.model = ModelClass.load_from_checkpoint(
+            model_path, map_location=self.device
+        )
         self.model.eval()
-        print("Inference Engine Ready.")
 
-    def _preprocess_audio(self, audio_path):
-        """Load, resample, and extract Mel spectrogram."""
-        # Defaults from typical config if missing
+        # Initialize HuBERT extractor lazily (heavy import)
+        self._hubert_extractor = None
+
+        print(f"Inference Engine Ready ({model_type}, {feature_type} features).")
+
+    def _get_hubert_extractor(self):
+        """Lazy-load HuBERT extractor."""
+        if self._hubert_extractor is None:
+            from src.audio_features.hubert_extractor import HuBERTExtractor
+            self._hubert_extractor = HuBERTExtractor(device=str(self.device))
+        return self._hubert_extractor
+
+    def _extract_mel(self, audio: np.ndarray, sr: int) -> np.ndarray:
+        """Extract Mel-spectrogram features."""
         data_conf = self.config.get('data', {})
-        sr = data_conf.get('sr', 16000)
+        model_conf = self.config.get('model', {})
         n_fft = data_conf.get('n_fft', 512)
         hop_length = data_conf.get('hop_length', 160)
-        
-        # Model config usually has input_dim (n_mels)
-        model_conf = self.config.get('model', {})
         n_mels = model_conf.get('input_dim', 80)
 
-        # Load and Resample
-        try:
-            audio, original_sr = librosa.load(audio_path, sr=None)
-        except Exception as e:
-            raise ValueError(f"Failed to load audio file {audio_path}: {e}")
-            
-        if original_sr != sr:
-            audio = librosa.resample(audio, orig_sr=original_sr, target_sr=sr)
-
-        # Extract Mels
         mel_spec = librosa.feature.melspectrogram(
             y=audio, sr=sr, n_fft=n_fft, hop_length=hop_length, n_mels=n_mels
         )
         mel_spec_db = librosa.power_to_db(mel_spec, ref=np.max)
-        
-        # Transpose to (Time, Mels)
-        return mel_spec_db.T
+        return mel_spec_db.T  # (Time, Mels)
 
-    def _denormalize(self, predictions):
+    def _extract_hubert(self, audio: np.ndarray, sr: int) -> np.ndarray:
+        """Extract HuBERT features."""
+        if sr != 16000:
+            audio = librosa.resample(audio, orig_sr=sr, target_sr=16000)
+        extractor = self._get_hubert_extractor()
+        # Estimate num frames based on audio length
+        duration = len(audio) / 16000
+        num_frames = int(duration * 83.3)  # ~83 fps MRI
+        features = extractor.extract(audio, num_frames, mri_fps=83.3)
+        return features  # (Time, 1024)
+
+    def _preprocess_audio(self, audio_path: str) -> np.ndarray:
+        """Load audio and extract features."""
+        data_conf = self.config.get('data', {})
+        sr = data_conf.get('sr', 16000)
+
+        try:
+            audio, original_sr = librosa.load(audio_path, sr=None)
+        except Exception as e:
+            raise ValueError(f"Failed to load audio file {audio_path}: {e}")
+
+        if original_sr != sr:
+            audio = librosa.resample(audio, orig_sr=original_sr, target_sr=sr)
+
+        if self.feature_type == "hubert":
+            return self._extract_hubert(audio, sr)
+        else:
+            return self._extract_mel(audio, sr)
+
+    def _denormalize(self, predictions: np.ndarray) -> np.ndarray:
         """Denormalize predictions using loaded statistics."""
         if self.stats is None:
-            # Fallback: assume output is already in reasonable range or return as is
             return predictions
-        
-        # Assume MinMax normalization as default for this project
-        # val_denorm = val_norm * (max - min) + min
-        
-        # Ensure stats match dimension
+
         if len(self.stats['min']) != predictions.shape[1]:
-            print(f"Warning: Stats dimension ({len(self.stats['min'])}) matches not pred dimension ({predictions.shape[1]})")
-            # Try to match common subset if possible, or just return
+            print(
+                f"Warning: Stats dim ({len(self.stats['min'])}) != "
+                f"pred dim ({predictions.shape[1]})"
+            )
             return predictions
 
         p_min = self.stats['min']
         p_max = self.stats['max']
         p_range = p_max - p_min
-        
-        # Handle zero range
         p_range[p_range == 0] = 1.0
-        
-        denormalized = predictions * p_range + p_min
-        return denormalized
 
-    def predict(self, audio_path):
+        return predictions * p_range + p_min
+
+    def predict(self, audio_path: str) -> np.ndarray:
         """
         Run full inference pipeline.
-        Returns:
-            np.ndarray: Denormalized parameters (Time, 14)
+
+        Parameters
+        ----------
+        audio_path : str
+            Path to audio file (WAV)
+
+        Returns
+        -------
+        np.ndarray
+            Denormalized articulatory parameters, shape (Time, output_dim)
         """
-        # Preprocess audio
-        mel_features = self._preprocess_audio(audio_path)
-        
-        # Convert to tensor and add batch dimension
-        audio_tensor = torch.FloatTensor(mel_features).unsqueeze(0).to(self.device)
-        
-        # Inference
+        features = self._preprocess_audio(audio_path)
+
+        audio_tensor = (
+            torch.FloatTensor(features).unsqueeze(0).to(self.device)
+        )
+
         with torch.no_grad():
             preds_norm = self.model(audio_tensor)
-        
-        # Remove batch dimension
-        preds_norm_np = preds_norm.squeeze(0).cpu().numpy()
-        
-        # Denormalize
-        preds_denorm = self._denormalize(preds_norm_np)
-        
+
+        preds_np = preds_norm.squeeze(0).cpu().numpy()
+        preds_denorm = self._denormalize(preds_np)
+
         return preds_denorm
 
-    def generate_video(self, audio_path, output_path="output.mp4"):
+    def predict_with_details(self, audio_path: str) -> dict:
         """
-        Creates a visualization video of the predicted parameters.
-        Generates a bar chart animation.
-        Optimized for speed using numpy slicing and frame skipping.
+        Predict with additional detail (features, raw predictions, denormalized).
+
+        Returns
+        -------
+        dict
+            'features': input features
+            'predictions_raw': normalized predictions
+            'predictions': denormalized predictions
+            'param_names': list of parameter names
         """
-        # 1. Get Predictions
-        params = self.predict(audio_path)
-        
-        if params is None or len(params) == 0:
-            return None
+        features = self._preprocess_audio(audio_path)
+        audio_tensor = (
+            torch.FloatTensor(features).unsqueeze(0).to(self.device)
+        )
 
-        # 2. Setup Video Writer
-        # Assume ~80 FPS for MRI data (typical for rtMRI)
-        # Audio extraction hop_length=160, sr=16000 => 100 FPS
-        source_fps = 100
-        
-        # Optimize: Cap output FPS at 50 to speed up generation
-        target_fps = 50
-        step = 1
-        if source_fps > target_fps:
-            step = int(source_fps / target_fps)
-            fps = source_fps / step
-        else:
-            fps = source_fps
-        
-        height, width = 480, 640
-        fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-        out = cv2.VideoWriter(output_path, fourcc, fps, (width, height))
-        
-        # Colors for bars (BGR format for OpenCV)
-        bar_color = (0, 255, 0) # Green
-        text_color = (255, 255, 255)
-        
-        # Determine global min/max for plotting scaling
-        if self.stats:
-            g_min = self.stats['min']
-            g_max = self.stats['max']
-        else:
-            g_min = np.min(params, axis=0)
-            g_max = np.max(params, axis=0)
-            
-        n_params = params.shape[1]
-        bar_width = width // n_params
-        
-        # Pre-compute bar heights for all frames (Vectorization)
-        # Normalize params to [0, 1]
-        val_range = g_max - g_min
-        val_range[val_range == 0] = 1.0 # Avoid div by zero
-        
-        norm_params = (params - g_min) / val_range
-        norm_params = np.clip(norm_params, 0, 1)
-        
-        # Calculate pixel heights: mapped to [0, height-60]
-        # (height - 30 is bottom, leaves 30px margin)
-        # (height - 30 - max_bar_h is top)
-        max_bar_h = height - 60
-        bar_heights = (norm_params * max_bar_h).astype(np.int32)
-        
-        # Pre-allocate background frame
-        bg_frame = np.zeros((height, width, 3), dtype=np.uint8)
-        
-        # Pre-draw static elements (labels)
-        for i in range(n_params):
-            x = i * bar_width
-            cv2.putText(bg_frame, str(i), (x + 5, height - 10), 
-                       cv2.FONT_HERSHEY_SIMPLEX, 0.4, text_color, 1)
+        with torch.no_grad():
+            preds_norm = self.model(audio_tensor)
 
-        # 3. Render Frames
-        # Iterate with step to reduce frame count
-        for t in range(0, len(params), step):
-            # Fast copy of background
-            frame = bg_frame.copy()
-            
-            # Draw frame info
-            cv2.putText(frame, f"Frame: {t}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, text_color, 2)
-            
-            # Fast drawing using numpy slicing
-            current_heights = bar_heights[t]
-            
-            for i in range(n_params):
-                h = current_heights[i]
-                if h > 0:
-                    # Coords
-                    x1 = i * bar_width
-                    x2 = x1 + bar_width - 2
-                    y1 = height - 30 - h
-                    y2 = height - 30
-                    
-                    # Numpy slice assignment is faster than cv2.rectangle
-                    frame[y1:y2, x1:x2] = bar_color
+        preds_np = preds_norm.squeeze(0).cpu().numpy()
+        preds_denorm = self._denormalize(preds_np)
 
-            out.write(frame)
-            
-        out.release()
-        return output_path
+        # Standard articulatory parameter names
+        output_dim = preds_np.shape[1]
+        geo_names = [
+            'tongue_area', 'tongue_cx', 'tongue_cy', 'tongue_tip',
+            'tongue_dorsum', 'tongue_curvature', 'jaw_opening',
+            'jaw_position', 'lip_aperture', 'lip_protrusion',
+            'constriction_degree', 'constriction_loc',
+            'velum_height', 'hyoid_position',
+        ]
+        pca_names = [f'pca_{i}' for i in range(10)]
+        param_names = (geo_names + pca_names)[:output_dim]
+
+        return {
+            'features': features,
+            'predictions_raw': preds_np,
+            'predictions': preds_denorm,
+            'param_names': param_names,
+        }

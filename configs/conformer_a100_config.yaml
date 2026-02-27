@@ -1,0 +1,82 @@
+# Conformer A100 Training Configuration — Phase 4 정확도 개선
+# High-performance config for A100/A6000 GPU training
+# Target: PCC > 0.4
+
+# Data settings
+data:
+  splits_dir: data/processed/splits
+  audio_feature_dir: data/processed/audio_features
+  parameter_dir: data/processed/parameters
+  audio_feature_type: mel          # 'mel' or 'hubert'
+  parameter_type: geometric        # 'geometric', 'pca', or 'joint'
+  sequence_length: 500
+  streaming: true
+
+training:
+  batch_size: 32                   # A100: 32–64 가능
+  num_epochs: 100                  # 충분한 학습
+  num_workers: 8                   # A100 서버 CPU 코어 활용
+  accumulate_grad_batches: 1       # A100에서는 accumulate 불필요
+  gradient_clip_val: 1.0
+  precision: "16-mixed"            # BF16/FP16 mixed precision
+
+# Optimization
+optimization:
+  optimizer: AdamW
+  learning_rate: 0.0005
+  weight_decay: 0.01
+  betas: [0.9, 0.98]
+
+# Model — Conformer
+model:
+  name: Conformer
+  input_dim: 80                    # Mel: 80, HuBERT: 1024
+  d_model: 512
+  num_layers: 12
+  num_heads: 8
+  d_ff: 2048
+  depthwise_conv_kernel_size: 31
+  output_dim: 24                   # 14 Geometric + 10 PCA
+  dropout: 0.1
+  learning_rate: 0.0005
+  weight_decay: 0.01
+  mse_weight: 0.8
+  pcc_weight: 2.0
+  velocity_weight: 1.2
+  acceleration_weight: 0.5
+
+# Callbacks
+callbacks:
+  early_stopping:
+    monitor: val_loss
+    patience: 20
+    mode: min
+    verbose: true
+  model_checkpoint:
+    monitor: val_loss
+    mode: min
+    save_top_k: 3
+    save_last: true
+    filename: "conformer-{epoch:02d}-{val_loss:.4f}"
+
+# Logging
+logging:
+  experiment_name: conformer_phase4_accuracy
+  log_dir: logs/training
+  save_dir: models/conformer
+  log_every_n_steps: 10
+
+# Evaluation
+evaluation:
+  metrics:
+    - rmse
+    - mae
+    - pearson_correlation
+  visualize_predictions: true
+  num_samples_to_visualize: 10
+
+# Reproducibility
+seed: 42
+
+# Hardware
+device: cuda

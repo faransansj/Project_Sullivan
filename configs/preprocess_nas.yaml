@@ -1,0 +1,77 @@
+# Project Sullivan - NAS Server Preprocessing Configuration
+# CPU-only config for Midori Lab NAS (780M GPU — insufficient for training)
+# Usage: uv run python scripts/batch_preprocess.py --config configs/preprocess_nas.yaml --all
+
+# ============================================
+# NAS Data Paths
+# ============================================
+# Primary: NAS 마운트 경로
+raw_data_path: "/mnt/HDDB/dataset/my_dataset/dataset"
+# Fallback: 로컬 개발 경로 (Mac)
+# raw_data_path: "/home/midori/Develop/Project_Sullivan/data/raw/usc_timit_data"
+
+output_path: "/home/midori/Develop/Project_Sullivan/data/processed"
+
+# ============================================
+# MRI Settings
+# ============================================
+mri_target_size: [256, 256]
+mri_fps: 83.28
+denoise_method: "gaussian"
+mri_denoise_method: "gaussian"
+mri_denoise_sigma: 1.0
+mri_temporal_window: 3
+
+# ============================================
+# Audio Settings
+# ============================================
+audio_sr: 16000
+audio_sample_rate: 22050
+audio_denoise: true
+
+# ============================================
+# Alignment
+# ============================================
+alignment_method: "cross_correlation"
+
+# ============================================
+# Segmentation (CPU-only for NAS 780M)
+# ============================================
+segmentation_model: "unet_resnet50"
+segmentation_pretrained: true
+num_classes: 5                    # background, tongue, jaw, lips, velum
+segmentation_batch_size: 2        # CPU: 작은 배치 (메모리 절약)
+segmentation_device: "cpu"        # NAS 780M GPU → CPU fallback
+
+# ============================================
+# Parameterization
+# ============================================
+parameterization_method: "both"   # geometric + pca 모두 추출
+pca_components: 10
+autoencoder_latent_dim: 10
+temporal_smoothing: true
+smoothing_method: "savgol"
+smoothing_window: 11
+
+# ============================================
+# Audio Features
+# ============================================
+n_mfcc: 13
+n_mels: 80
+hop_length: 160                   # 10ms at 16kHz
+
+# ============================================
+# Dataset Building
+# ============================================
+train_ratio: 0.7
+val_ratio: 0.15
+test_ratio: 0.15
+speaker_level_split: true
+compression: "gzip"
+compression_level: 4
+
+# ============================================
+# Validation
+# ============================================
+run_validation: true
+generate_visualizations: false     # NAS에서는 시각화 불필요 (속도 우선)

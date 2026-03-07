@@ -53,6 +53,14 @@ env/
 # ============================================
 # Data Files (IMPORTANT: Do not commit large data files)
 # ============================================
+
+# Raw dataset (MP4 videos, MRI, audio — never commit)
+dl_data/
+
+# Pseudo-labels (generated PNG images/masks — large, reproducible)
+data/pseudo_labels/
+
+# Processed intermediate data
 data/raw/**/*.h5
 data/raw/**/*.hdf5
 data/raw/**/*.mat
@@ -67,6 +75,7 @@ data/processed/**/*.npy
 data/processed/**/*.npz
 data/processed/**/*.pkl
 data/processed/**/*.h5
+data/processed/**/*.json
 data/experiments/
 
 # Exception: Keep small example files (if needed)
@@ -135,3 +144,4 @@ credentials/
 
 # Exception: Keep Colab data archives (< 100MB each)
 !colab_data_archives/*.tar.gz
+models/**/events.out.tfevents.*

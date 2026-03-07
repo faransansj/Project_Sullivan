@@ -1,0 +1,6 @@
+bce_weight: 0.5
+bilinear: true
+dice_weight: 0.5
+lr: 0.0003
+n_channels: 1
+n_classes: 1

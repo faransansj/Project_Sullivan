@@ -79,18 +79,35 @@ def extract_video_frames(video_path: Path) -> tuple[np.ndarray, float]:
     return np.stack(frames, axis=0), fps
 
 
+def _get_ffmpeg_binary() -> str:
+    """Return ffmpeg binary path: system ffmpeg or imageio-ffmpeg fallback."""
+    import shutil
+    if shutil.which("ffmpeg"):
+        return "ffmpeg"
+    try:
+        import imageio_ffmpeg
+        return imageio_ffmpeg.get_ffmpeg_exe()
+    except ImportError:
+        raise RuntimeError(
+            "ffmpeg not found in PATH and imageio-ffmpeg not installed. "
+            "Run: uv pip install 'imageio[ffmpeg]'"
+        )
+
+
 def extract_audio_ffmpeg(video_path: Path, target_sr: int = 22050) -> tuple[np.ndarray, int]:
     """
     Extract audio from a video file using ffmpeg piped directly to numpy.
     Uses raw PCM output — no libsndfile dependency.
+    Falls back to imageio-ffmpeg bundled binary if ffmpeg is not in PATH.
 
     Returns
     -------
     audio : np.ndarray  shape (N,) float32
     sr    : int         sample rate
     """
+    ffmpeg_bin = _get_ffmpeg_binary()
     cmd = [
-        "ffmpeg", "-y", "-loglevel", "error",
+        ffmpeg_bin, "-y", "-loglevel", "error",
         "-i", str(video_path),
         "-vn",                   # no video
         "-ar", str(target_sr),   # resample

@@ -28,7 +28,7 @@ import json
 import logging
 import subprocess
 import sys
-import tempfile
+
 from concurrent.futures import ProcessPoolExecutor, as_completed
 from datetime import datetime
 from pathlib import Path
@@ -37,7 +37,7 @@ from typing import Optional
 import cv2
 import h5py
 import numpy as np
-import soundfile as sf
+
 from tqdm import tqdm
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
@@ -81,37 +81,31 @@ def extract_video_frames(video_path: Path) -> tuple[np.ndarray, float]:
 
 def extract_audio_ffmpeg(video_path: Path, target_sr: int = 22050) -> tuple[np.ndarray, int]:
     """
-    Extract audio from a video file using ffmpeg (stdout pipe).
+    Extract audio from a video file using ffmpeg piped directly to numpy.
+    Uses raw PCM output — no libsndfile dependency.
 
     Returns
     -------
     audio : np.ndarray  shape (N,) float32
     sr    : int         sample rate
     """
-    with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as tmp:
-        tmp_path = tmp.name
+    cmd = [
+        "ffmpeg", "-y", "-loglevel", "error",
+        "-i", str(video_path),
+        "-vn",                   # no video
+        "-ar", str(target_sr),   # resample
+        "-ac", "1",              # mono
+        "-f", "f32le",           # raw 32-bit float little-endian PCM → stdout
+        "pipe:1",
+    ]
+    result = subprocess.run(cmd, capture_output=True)
+    if result.returncode != 0:
+        raise RuntimeError(
+            f"ffmpeg failed for {video_path}: {result.stderr.decode()}"
+        )
 
-    try:
-        cmd = [
-            "ffmpeg", "-y", "-loglevel", "error",
-            "-i", str(video_path),
-            "-vn",                          # no video
-            "-ar", str(target_sr),          # resample
-            "-ac", "1",                     # mono
-            "-f", "wav",
-            tmp_path,
-        ]
-        result = subprocess.run(cmd, capture_output=True)
-        if result.returncode != 0:
-            raise RuntimeError(
-                f"ffmpeg failed for {video_path}: {result.stderr.decode()}"
-            )
-
-        audio, sr = sf.read(tmp_path, dtype="float32")
-    finally:
-        Path(tmp_path).unlink(missing_ok=True)
-
-    return audio, sr
+    audio = np.frombuffer(result.stdout, dtype=np.float32).copy()
+    return audio, target_sr
 
 
 # ---------------------------------------------------------------------------

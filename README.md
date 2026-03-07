@@ -85,12 +85,67 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 uv sync --extra gpu   # GPU 환경 설치 (개발시에는 uv sync)
 ```
 
-### 🧠 2. Conformer 모델 학습 시작 (Phase 4)
+### 🎬 2. 데이터 전처리 (MP4 → 학습 데이터)
+
+USC-TIMIT `dataset_2drt_video_only` (2,371개 MP4, 75명)를 사용하는 파이프라인입니다.
+`dl_data/dataset_2drt_video_only/` 폴더가 있으면 바로 실행할 수 있습니다.
+
+**전체 파이프라인 한 번에 실행:**
+```bash
+bash scripts/run_pipeline_mp4.sh
+```
+
+**일부 피험자만 테스트:**
+```bash
+bash scripts/run_pipeline_mp4.sh sub001,sub002,sub003
+```
+
+**GPU 서버에서 (병렬 추출 + CUDA 세그멘테이션):**
+```bash
+# 인자 순서: subjects(빈칸=all), workers, device
+bash scripts/run_pipeline_mp4.sh "" 8 cuda
+```
+
+파이프라인은 5단계로 구성됩니다:
+
+| 단계 | 스크립트 | 출력 |
+|:---:|:---|:---|
+| 1 | `extract_frames_from_mp4.py` | `data/processed/aligned/*.h5` |
+| 2 | `segment_mp4_dataset.py` | `data/processed/segmentations/*.npz` |
+| 3 | `extract_articulatory_params.py` | `data/processed/parameters/*.npy` |
+| 4 | `extract_audio_features.py` | `data/processed/audio_features/*.npy` |
+| 5 | `create_dataset_splits.py` | `data/processed/splits/` |
+
+> **주의**: Step 2는 U-Net 체크포인트가 필요합니다. 기본 경로: `models/unet_scratch/unet_best.pth`
+
+**단계별 개별 실행도 가능합니다:**
+```bash
+# Step 1: MP4 → HDF5 (병렬 처리)
+uv run python scripts/extract_frames_from_mp4.py \
+    --data-root dl_data/dataset_2drt_video_only \
+    --workers 4 --skip-existing
+
+# Step 2: HDF5 → 세그멘테이션 NPZ
+uv run python scripts/segment_mp4_dataset.py \
+    --model models/unet_scratch/unet_best.pth \
+    --device cuda --skip-existing
+
+# Step 3: 세그멘테이션 → 조음 파라미터
+uv run python scripts/extract_articulatory_params.py --method geometric
+
+# Step 4: MP4 오디오 → Mel-spectrogram
+uv run python scripts/extract_audio_features.py --features mel
+
+# Step 5: 학습/검증/테스트 분할 생성
+uv run python scripts/create_dataset_splits.py
+```
+
+### 🧠 3. Conformer 모델 학습 시작 (Phase 4)
 ```bash
 uv run python scripts/train_conformer.py --config configs/conformer_a100_config.yaml --gpus 1
 ```
 
-### 📡 3. 외부 GPU 서버로 원격 전송 및 학습 (Phase 5-1)
+### 📡 4. 외부 GPU 서버로 원격 전송 및 학습 (Phase 5-1)
 ```bash
 # 코드 동기화 후 백그라운드에서 학습 시작
 ./scripts/infra/remote_train.sh user@sullivan-gpu configs/conformer_a100_config.yaml train_conformer.py

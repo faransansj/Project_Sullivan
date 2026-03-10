@@ -19,8 +19,12 @@ data/
 └── experiments/          # Experiment-specific data
 ```
 
-## Download Data
+## Data Setup & Preprocessing
 
-See: `../docs/DATA_DOWNLOAD_GUIDE.md`
+See: [`DATA_PREPROCESSING_GUIDE.md`](./DATA_PREPROCESSING_GUIDE.md)
 
-**Quick Link:** https://doi.org/10.6084/m9.figshare.13725546.v1
+This comprehensive guide explains how to:
+1. Download the raw USC-TIMIT database
+2. Run the full automated pipeline to generate aligned features and target parameters.
+
+**Quick Dataset Link:** https://doi.org/10.6084/m9.figshare.13725546.v1

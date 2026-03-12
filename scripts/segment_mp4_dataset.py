@@ -22,6 +22,7 @@ import json
 import sys
 from datetime import datetime
 from pathlib import Path
+from typing import Optional
 
 import h5py
 import numpy as np
@@ -41,9 +42,9 @@ from src.utils.io_utils import ensure_directory
 
 def discover_hdf5_files(
     aligned_dir: Path,
-    subjects: list[str] | None,
-    max_per_subject: int | None,
-) -> list[dict]:
+    subjects: Optional[list],
+    max_per_subject: Optional[int],
+) -> list:
     """Walk aligned_dir and collect HDF5 file info."""
     items = []
 

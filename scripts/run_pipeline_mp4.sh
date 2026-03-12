@@ -25,9 +25,16 @@ MODEL="models/unet_scratch/unet_best.pth"
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$PROJECT_ROOT"
 
-# Activate venv if present
-if [ -f "venv_sullivan/bin/activate" ]; then
+# Use uv run if available, otherwise fall back to venv or system python
+if command -v uv &>/dev/null; then
+    PYTHON="uv run python"
+elif [ -f ".venv/bin/python" ]; then
+    PYTHON=".venv/bin/python"
+elif [ -f "venv_sullivan/bin/python" ]; then
     source venv_sullivan/bin/activate
+    PYTHON="python"
+else
+    PYTHON="python"
 fi
 
 echo "============================================================"
@@ -51,7 +58,7 @@ fi
 # ------------------------------------------------------------
 echo ""
 echo "[1/5] Extracting frames and audio from MP4..."
-python scripts/extract_frames_from_mp4.py \
+$PYTHON scripts/extract_frames_from_mp4.py \
     --data-root dl_data/dataset_2drt_video_only \
     --output-dir data/processed/aligned \
     --workers "$WORKERS" \
@@ -63,7 +70,7 @@ python scripts/extract_frames_from_mp4.py \
 # ------------------------------------------------------------
 echo ""
 echo "[2/5] Segmenting vocal tract..."
-python scripts/segment_mp4_dataset.py \
+$PYTHON scripts/segment_mp4_dataset.py \
     --aligned-dir data/processed/aligned \
     --output-dir data/processed/segmentations \
     --model "$MODEL" \
@@ -76,7 +83,7 @@ python scripts/segment_mp4_dataset.py \
 # ------------------------------------------------------------
 echo ""
 echo "[3/5] Extracting articulatory parameters..."
-python scripts/extract_articulatory_params.py \
+$PYTHON scripts/extract_articulatory_params.py \
     --segmentation-dir data/processed/segmentations \
     --output-dir data/processed/parameters \
     --method geometric
@@ -86,7 +93,7 @@ python scripts/extract_articulatory_params.py \
 # ------------------------------------------------------------
 echo ""
 echo "[4/5] Extracting audio features..."
-python scripts/extract_audio_features.py \
+$PYTHON scripts/extract_audio_features.py \
     --aligned-dir data/processed/aligned \
     --segmentation-dir data/processed/segmentations \
     --output-dir data/processed/audio_features \
@@ -97,7 +104,7 @@ python scripts/extract_audio_features.py \
 # ------------------------------------------------------------
 echo ""
 echo "[5/5] Creating dataset splits..."
-python scripts/create_dataset_splits.py \
+$PYTHON scripts/create_dataset_splits.py \
     --segmentation-dir data/processed/segmentations \
     --parameter-dir data/processed/parameters \
     --audio-feature-dir data/processed/audio_features \

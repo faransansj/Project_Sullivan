@@ -36,7 +36,7 @@ model:
   num_heads: 8
   d_ff: 2048
   depthwise_conv_kernel_size: 31
-  output_dim: 24                   # 14 Geometric + 10 PCA
+  output_dim: 14                   # 14 Geometric features
   dropout: 0.1
   learning_rate: 0.0005
   weight_decay: 0.01

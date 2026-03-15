@@ -19,7 +19,7 @@ training:
   num_workers: 8
   accumulate_grad_batches: 1
   gradient_clip_val: 1.0
-  precision: "16-mixed"            # FP16 mixed precision (필수 — 없으면 OOM)
+  precision: "bf16-mixed"           # BF16: FP16보다 안정적, A100에서 지원
 
 # Optimization — larger model needs lower LR with warmup
 optimization:

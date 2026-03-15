@@ -14,7 +14,7 @@ data:
 
 training:
   batch_size: 32                   # A100: 32–64 가능
-  num_epochs: 100                  # 충분한 학습
+  num_epochs: 150                  # pcc_loss 수렴까지 충분히
   num_workers: 8                   # A100 서버 CPU 코어 활용
   accumulate_grad_batches: 1       # A100에서는 accumulate 불필요
   gradient_clip_val: 1.0
@@ -49,7 +49,7 @@ model:
 callbacks:
   early_stopping:
     monitor: val_loss
-    patience: 20
+    patience: 35                   # pcc_loss 수렴 느림
     mode: min
     verbose: true
   model_checkpoint:

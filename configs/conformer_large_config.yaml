@@ -15,7 +15,7 @@ data:
 
 training:
   batch_size: 64                   # 4x medium → major VRAM consumer
-  num_epochs: 100
+  num_epochs: 200                  # large 모델은 수렴 느림 — 충분히 확보
   num_workers: 8
   accumulate_grad_batches: 1
   gradient_clip_val: 1.0
@@ -50,7 +50,7 @@ model:
 callbacks:
   early_stopping:
     monitor: val_loss
-    patience: 20
+    patience: 40                   # medium(20)보다 2배 — pcc_loss 수렴 느림
     mode: min
     verbose: true
   model_checkpoint:

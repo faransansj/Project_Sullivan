@@ -98,6 +98,8 @@ class ArticulatoryDataset(Dataset):
                 audio_file_npy = self.audio_feature_dir / 'mel_spectrogram' / f'{utterance_name}_mel.npy'
                 if not audio_file_npy.exists():
                     audio_file_npy = self.audio_feature_dir / f'{utterance_name}_mel.npy'
+            elif self.audio_feature_type == 'hubert':
+                audio_file_npy = self.audio_feature_dir / 'hubert' / f'{utterance_name}_hubert.npy'
             else:
                 audio_file_npy = self.audio_feature_dir / 'mfcc' / f'{utterance_name}_mfcc.npy'
                 if not audio_file_npy.exists():

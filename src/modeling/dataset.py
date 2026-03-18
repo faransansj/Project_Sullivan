@@ -18,6 +18,66 @@ import io
 from scipy import interpolate
 
 
+class AudioAugmentation:
+    """SpecAugment-style augmentation for audio features (HuBERT or Mel).
+
+    Applies time masking, feature masking, and Gaussian noise.
+    Only intended for training — do not apply to val/test.
+
+    Parameters
+    ----------
+    time_mask_max_len : int
+        Maximum number of consecutive time frames to zero out per mask.
+    time_mask_num : int
+        Number of independent time masks to apply.
+    freq_mask_max_len : int
+        Maximum number of consecutive feature dims to zero out per mask.
+    freq_mask_num : int
+        Number of independent feature masks to apply.
+    noise_std : float
+        Std of Gaussian noise added to features (0 = disabled).
+    """
+
+    def __init__(
+        self,
+        time_mask_max_len: int = 30,
+        time_mask_num: int = 2,
+        freq_mask_max_len: int = 64,
+        freq_mask_num: int = 2,
+        noise_std: float = 0.01,
+    ):
+        self.time_mask_max_len = time_mask_max_len
+        self.time_mask_num = time_mask_num
+        self.freq_mask_max_len = freq_mask_max_len
+        self.freq_mask_num = freq_mask_num
+        self.noise_std = noise_std
+
+    def __call__(self, features: torch.Tensor) -> torch.Tensor:
+        """Apply augmentation to feature tensor of shape (T, F)."""
+        T, F = features.shape
+        features = features.clone()
+
+        # Time masking
+        for _ in range(self.time_mask_num):
+            if self.time_mask_max_len > 0 and T > 1:
+                t = np.random.randint(1, max(2, min(self.time_mask_max_len, T)))
+                t0 = np.random.randint(0, max(1, T - t))
+                features[t0:t0 + t, :] = 0.0
+
+        # Feature masking
+        for _ in range(self.freq_mask_num):
+            if self.freq_mask_max_len > 0 and F > 1:
+                f = np.random.randint(1, max(2, min(self.freq_mask_max_len, F)))
+                f0 = np.random.randint(0, max(1, F - f))
+                features[:, f0:f0 + f] = 0.0
+
+        # Gaussian noise
+        if self.noise_std > 0:
+            features = features + torch.randn_like(features) * self.noise_std
+
+        return features
+
+
 @dataclass
 class DataSample:
     """Single training/validation sample (Legacy support from Phase 2)"""
@@ -64,7 +124,8 @@ class ArticulatoryDataset(Dataset):
         normalization_type: str = 'minmax',  # 'minmax' or 'zscore'
         sequence_length: Optional[int] = None,
         streaming: bool = False,
-        zip_file_path: Optional[Path] = None
+        zip_file_path: Optional[Path] = None,
+        augmentation: Optional['AudioAugmentation'] = None,
     ):
         self.utterance_list = utterance_list
         self.audio_feature_dir = Path(audio_feature_dir)
@@ -76,7 +137,8 @@ class ArticulatoryDataset(Dataset):
         self.sequence_length = sequence_length
         self.streaming = streaming
         self.zip_file_path = Path(zip_file_path) if zip_file_path else None
-        
+        self.augmentation = augmentation
+
         # Load data (metadata only if streaming)
         self.data = self._load_data()
 
@@ -273,6 +335,9 @@ class ArticulatoryDataset(Dataset):
         audio_features = torch.FloatTensor(audio_features)
         parameters = torch.FloatTensor(parameters)
 
+        if self.augmentation is not None:
+            audio_features = self.augmentation(audio_features)
+
         if self.normalize_params:
             if self.normalization_type == 'minmax':
                 parameters = (parameters - torch.FloatTensor(self.param_min)) / torch.FloatTensor(self.param_range)
@@ -321,7 +386,8 @@ def create_dataloaders(
     sequence_length: Optional[int] = None,
     normalization_type: str = 'minmax',
     streaming: bool = False,
-    zip_file_path: Optional[str] = None
+    zip_file_path: Optional[str] = None,
+    train_augmentation: Optional['AudioAugmentation'] = None,
 ) -> Dict[str, DataLoader]:
     dataloaders = {}
     for split in ['train', 'val', 'test']:
@@ -347,7 +413,8 @@ def create_dataloaders(
             normalization_type=normalization_type,
             sequence_length=sequence_length,
             streaming=streaming,
-            zip_file_path=zip_file_path
+            zip_file_path=zip_file_path,
+            augmentation=train_augmentation if split == 'train' else None,
         )
         dataloaders[split] = DataLoader(
             dataset, batch_size=batch_size, shuffle=(split == 'train'),

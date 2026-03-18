@@ -1,0 +1,91 @@
+# Conformer Small + HuBERT + SpecAugment — Phase 4 데이터 증강
+# 기반: Small v1 (test_PCC 0.121), 증강 추가
+# SpecAugment: time masking + feature masking + Gaussian noise
+
+# Data settings
+data:
+  splits_dir: data/processed/splits
+  audio_feature_dir: data/processed/audio_features
+  parameter_dir: data/processed/parameters
+  audio_feature_type: hubert
+  parameter_type: geometric
+  sequence_length: 500
+  streaming: true
+
+training:
+  batch_size: 32
+  num_epochs: 300
+  num_workers: 8
+  accumulate_grad_batches: 1
+  gradient_clip_val: 1.0
+  precision: "32-true"
+
+# Optimization
+optimization:
+  optimizer: AdamW
+  learning_rate: 0.0003
+  weight_decay: 0.1
+  betas: [0.9, 0.98]
+
+# Data Augmentation (train only, val/test 미적용)
+augmentation:
+  enabled: true
+  time_mask_max_len: 30        # 최대 30 프레임 마스킹 (약 0.6초 @ 50Hz)
+  time_mask_num: 2             # 독립적 time mask 2개
+  freq_mask_max_len: 128       # HuBERT 1024-dim의 12.5% 마스킹
+  freq_mask_num: 2             # 독립적 feature mask 2개
+  noise_std: 0.01              # Gaussian noise std
+
+# Model — Conformer Small (Small v1과 동일)
+model:
+  name: ConformerHuBERT
+  input_dim: 1024
+  d_model: 256
+  num_layers: 6
+  num_heads: 4
+  d_ff: 512
+  depthwise_conv_kernel_size: 31
+  output_dim: 14
+  dropout: 0.3
+  learning_rate: 0.0003
+  weight_decay: 0.1
+  mse_weight: 1.0
+  pcc_weight: 0.3
+  velocity_weight: 0.2
+  acceleration_weight: 0.1
+
+# Callbacks
+callbacks:
+  early_stopping:
+    monitor: val_loss
+    patience: 40
+    mode: min
+    verbose: true
+  model_checkpoint:
+    monitor: val_loss
+    mode: min
+    save_top_k: 3
+    save_last: true
+    filename: "conformer-hubert-small-aug-{epoch:02d}-{val_loss:.4f}"
+
+# Logging
+logging:
+  experiment_name: conformer_hubert_small_aug_phase4
+  log_dir: logs/training
+  save_dir: models/conformer_hubert_small_aug
+  log_every_n_steps: 10
+
+# Evaluation
+evaluation:
+  metrics:
+    - rmse
+    - mae
+    - pearson_correlation
+  visualize_predictions: true
+  num_samples_to_visualize: 10
+
+# Reproducibility
+seed: 42
+
+# Hardware
+device: cuda

@@ -14,16 +14,16 @@ data:
 
 training:
   batch_size: 32                   # A100: 32–64 가능
-  num_epochs: 100                  # 충분한 학습
+  num_epochs: 150                  # 충분한 학습 (100 → 150)
   num_workers: 8                   # A100 서버 CPU 코어 활용
   accumulate_grad_batches: 1       # A100에서는 accumulate 불필요
   gradient_clip_val: 1.0
-  precision: "16-mixed"            # BF16/FP16 mixed precision
+  precision: "32-true"             # NaN 방지: bf16-mixed → fp32
 
 # Optimization
 optimization:
   optimizer: AdamW
-  learning_rate: 0.0005
+  learning_rate: 0.0001            # 0.0005 → 0.0001 (resume 없이 안정적 수렴)
   weight_decay: 0.01
   betas: [0.9, 0.98]
 
@@ -38,12 +38,12 @@ model:
   depthwise_conv_kernel_size: 31
   output_dim: 14                   # 14 Geometric features
   dropout: 0.1
-  learning_rate: 0.0005
+  learning_rate: 0.0001            # 0.0005 → 0.0001
   weight_decay: 0.01
-  mse_weight: 0.8
-  pcc_weight: 2.0
-  velocity_weight: 1.2
-  acceleration_weight: 0.5
+  mse_weight: 1.0                  # 0.8 → 1.0 (MSE 비중 높임)
+  pcc_weight: 0.3                  # 2.0 → 0.3 (PCC 지배 방지)
+  velocity_weight: 0.2             # 1.2 → 0.2 (temporal loss 축소)
+  acceleration_weight: 0.1         # 0.5 → 0.1
 
 # Callbacks
 callbacks:

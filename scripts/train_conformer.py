@@ -28,7 +28,7 @@ from pytorch_lightning.loggers import TensorBoardLogger
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent.parent / 'src'))
 
-from modeling.dataset import create_dataloaders
+from modeling.dataset import create_dataloaders, AudioAugmentation
 from modeling.conformer_model import ConformerInversionModel
 
 # Reuse config loader from train_transformer
@@ -86,6 +86,23 @@ def main():
 
     pl.seed_everything(config['seed'])
 
+    # Create augmentation (train only)
+    train_augmentation = None
+    aug_cfg = config.get('augmentation', {})
+    if aug_cfg.get('enabled', False):
+        train_augmentation = AudioAugmentation(
+            time_mask_max_len=aug_cfg.get('time_mask_max_len', 30),
+            time_mask_num=aug_cfg.get('time_mask_num', 2),
+            freq_mask_max_len=aug_cfg.get('freq_mask_max_len', 64),
+            freq_mask_num=aug_cfg.get('freq_mask_num', 2),
+            noise_std=aug_cfg.get('noise_std', 0.01),
+        )
+        print(f"\n🎲 Augmentation enabled: time_mask×{aug_cfg.get('time_mask_num',2)}"
+              f"(max {aug_cfg.get('time_mask_max_len',30)}), "
+              f"freq_mask×{aug_cfg.get('freq_mask_num',2)}"
+              f"(max {aug_cfg.get('freq_mask_max_len',64)}), "
+              f"noise_std={aug_cfg.get('noise_std',0.01)}")
+
     # Create dataloaders
     print("\nCreating dataloaders...")
     dataloaders = create_dataloaders(
@@ -97,7 +114,8 @@ def main():
         batch_size=config['training']['batch_size'],
         num_workers=config['training']['num_workers'],
         sequence_length=config['data']['sequence_length'],
-        streaming=config['training'].get('streaming', False),
+        streaming=config['data'].get('streaming', False),
+        train_augmentation=train_augmentation,
     )
 
     # Create model

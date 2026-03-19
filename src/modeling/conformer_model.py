@@ -80,7 +80,9 @@ class ConformerInversionModel(pl.LightningModule):
         mse_weight: float = 1.0,
         pcc_weight: float = 2.0,
         velocity_weight: float = 1.0,
-        acceleration_weight: float = 0.5
+        acceleration_weight: float = 0.5,
+        curriculum_warmup_epochs: int = 0,
+        curriculum_ramp_epochs: int = 0,
     ):
         super().__init__()
         self.save_hyperparameters()
@@ -121,7 +123,11 @@ class ConformerInversionModel(pl.LightningModule):
         print(f"  Parameters: {format_parameter_count(param_count)} ({param_count:,})")
         print(f"  Layers: {num_layers}, Heads: {num_heads}, d_model: {d_model}")
         print(f"  Input: {input_dim}, Output: {output_dim}")
-        print(f"  Conv kernel: {depthwise_conv_kernel_size}\n")
+        print(f"  Conv kernel: {depthwise_conv_kernel_size}")
+        if curriculum_warmup_epochs > 0:
+            print(f"  Curriculum: MSE-only for {curriculum_warmup_epochs} epochs, "
+                  f"ramp PCC/vel/acc over {curriculum_ramp_epochs} epochs")
+        print()
 
     def forward(
         self,
@@ -193,18 +199,21 @@ class ConformerInversionModel(pl.LightningModule):
             self.log('train_mse_pca', (pca_error * mask).sum() / mask.sum(),
                      on_step=False, on_epoch=True)
 
-        # Combined hybrid loss
+        # Combined hybrid loss (curriculum-weighted)
+        pcc_w, vel_w, acc_w = self._get_curriculum_weights()
         loss = (
             self.hparams.mse_weight * position_loss
-            + self.hparams.pcc_weight * pcc_loss
-            + self.hparams.velocity_weight * velocity_loss
-            + self.hparams.acceleration_weight * acceleration_loss
+            + pcc_w * pcc_loss
+            + vel_w * velocity_loss
+            + acc_w * acceleration_loss
         )
 
         self.log('train_loss', loss, on_step=True, on_epoch=True, prog_bar=True)
         self.log('train_mse', position_loss, on_step=False, on_epoch=True)
         self.log('train_pcc_loss', pcc_loss, on_step=False, on_epoch=True)
         self.log('train_velocity_loss', velocity_loss, on_step=False, on_epoch=True)
+        self.log('curriculum_pcc_scale', pcc_w / max(self.hparams.pcc_weight, 1e-8),
+                 on_step=False, on_epoch=True)
 
         return loss
 
@@ -227,11 +236,12 @@ class ConformerInversionModel(pl.LightningModule):
             self.log('val_mse_pca', (pca_error * mask).sum() / mask.sum(),
                      on_step=False, on_epoch=True)
 
+        pcc_w, vel_w, acc_w = self._get_curriculum_weights()
         loss = (
             self.hparams.mse_weight * position_loss
-            + self.hparams.pcc_weight * pcc_loss
-            + self.hparams.velocity_weight * temporal['velocity_loss']
-            + self.hparams.acceleration_weight * temporal['acceleration_loss']
+            + pcc_w * pcc_loss
+            + vel_w * temporal['velocity_loss']
+            + acc_w * temporal['acceleration_loss']
         )
 
         metrics = self._compute_metrics(pred, params, mask)
@@ -299,6 +309,38 @@ class ConformerInversionModel(pl.LightningModule):
     # =========================================================================
     # Shared Utilities (matching TransformerModel interface)
     # =========================================================================
+
+    def _get_curriculum_weights(self) -> Tuple[float, float, float]:
+        """
+        Returns (pcc_w, vel_w, acc_w) scaled by curriculum schedule.
+
+        Schedule:
+          epoch < warmup                    → scale = 0.0 (MSE only)
+          warmup <= epoch < warmup + ramp   → scale linearly 0 → 1
+          epoch >= warmup + ramp            → scale = 1.0 (full loss)
+        """
+        warmup = self.hparams.curriculum_warmup_epochs
+        ramp = self.hparams.curriculum_ramp_epochs
+        if warmup == 0 and ramp == 0:
+            return (
+                self.hparams.pcc_weight,
+                self.hparams.velocity_weight,
+                self.hparams.acceleration_weight,
+            )
+
+        epoch = self.current_epoch
+        if epoch < warmup:
+            scale = 0.0
+        elif ramp > 0 and epoch < warmup + ramp:
+            scale = (epoch - warmup) / ramp
+        else:
+            scale = 1.0
+
+        return (
+            self.hparams.pcc_weight * scale,
+            self.hparams.velocity_weight * scale,
+            self.hparams.acceleration_weight * scale,
+        )
 
     def _create_mask(self, lengths: torch.Tensor, max_len: int) -> torch.Tensor:
         """Create mask: 1 for valid frames, 0 for padding."""

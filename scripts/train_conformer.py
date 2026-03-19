@@ -53,6 +53,8 @@ def create_model(config: dict) -> ConformerInversionModel:
         pcc_weight=mc.get('pcc_weight', 2.0),
         velocity_weight=mc.get('velocity_weight', 1.0),
         acceleration_weight=mc.get('acceleration_weight', 0.5),
+        curriculum_warmup_epochs=mc.get('curriculum_warmup_epochs', 0),
+        curriculum_ramp_epochs=mc.get('curriculum_ramp_epochs', 0),
     )
 
 

@@ -20,6 +20,7 @@
 | HuBERT Medium | Conformer | HuBERT 1024 | 21.5M | 32-true | 0.2 | 0.05 | 2e-4 | 0.1219 | 0.1097 |
 | HuBERT Small v2 | Conformer | HuBERT 1024 | 6.3M | 32-true | 0.4 | 0.15 | 2e-4 | — | — |
 | HuBERT Small aug | Conformer+Aug | HuBERT 1024 | 6.3M | 32-true | 0.3 | 0.1 | 3e-4 | 0.2099 | 0.1151 |
+| HuBERT Small curriculum | Conformer+CL | HuBERT 1024 | 6.3M | 32-true | 0.3 | 0.1 | 3e-4 | 0.2086 | 0.1068 |
 
 ---
 
@@ -162,6 +163,37 @@
 
 ---
 
+### 8. HuBERT Small Curriculum — Curriculum Loss 스케줄링 (완료)
+
+**설정 (Small v1 기반 + curriculum)**
+- curriculum_warmup_epochs: 30 (MSE only)
+- curriculum_ramp_epochs: 30 (PCC/vel/acc 선형 0→1)
+- patience: 50, num_epochs: 300
+
+**결과**
+- test_loss: 0.653, test_RMSE: **0.2086**, test_PCC: **0.1068**
+- val_loss best: 0.427 (MSE-only 구간인 epoch ~15에서 달성)
+- Early stop: epoch 65 (patience=50)
+
+**실패 원인 분석**
+
+```
+epoch  0-29 (MSE only):  val_loss 0.427까지 하락 → best checkpoint 저장
+epoch 30-59 (PCC 추가):  val_loss 정의 변경 → 0.791로 상승
+epoch 65:               patience=50 소진 → stop
+```
+
+- `val_loss` monitor가 curriculum 단계에 따라 **의미가 달라짐**: MSE-only 구간의 0.427과 Full-loss 구간의 0.791은 다른 척도
+- Best checkpoint가 PCC 학습 전에 저장됨 → test 시 PCC 최적화 전 모델 사용
+- 결과: Small v1(0.1212) 대비 PCC 0.014 하락
+
+**교훈**
+- Curriculum loss에는 단계별로 다른 monitor가 필요 (warmup: val_mse, full: val_pearson)
+- 또는 checkpoint monitor를 `val_pearson` (mode=max)으로 변경해야 전 구간에서 공정한 비교 가능
+- 소규모 데이터(~330발화)에서 curriculum이 효과를 내기 어려울 수 있음
+
+---
+
 ## 핵심 발견 요약
 
 ### 1. Loss 불균형 문제
@@ -219,15 +251,15 @@ RMSE는 M2 목표 달성. PCC는 아직 0.50에 한참 미치지 못함.
 
 1. ~~**Small v2 결과 확인**~~ — 완료 (결과 기록 필요)
 2. ~~**SpecAugment 데이터 증강**~~ — 완료, HuBERT에 부적합 확인
-3. **Curriculum Loss** — MSE만으로 초기 학습 후 PCC 항 점진적 추가
+3. ~~**Curriculum Loss**~~ — 완료, Small v1보다 낮음 (구조적 문제 확인)
 4. **Speaker normalization** — inter-speaker variance 감소로 PCC 향상 가능성
-5. **더 많은 데이터** — USC-TIMIT 추가 피험자 데이터 확보 (Phase 5)
+5. **더 많은 데이터** — USC-TIMIT 추가 피험자 데이터 확보 (Phase 5) ← 가장 근본적 해결책
 6. **Mel+HuBERT 병렬 입력** — 두 피처를 연결(concat)하여 상호보완 정보 활용
-7. **CTC/Connectionist 기반 alignment loss** — 음소 레벨 supervision 추가
+7. **val_pearson monitor 전환** — val_loss 대신 val_pearson으로 checkpoint 기준 변경 시도
 
 ---
 
 *실험 환경: NVIDIA A100-SXM4-80GB, PyTorch Lightning, torchaudio Conformer*
 *로그 위치: `logs/conformer_*.log`*
 *체크포인트: `models/conformer*/checkpoints/`*
-*마지막 업데이트: 2026-03-19 (Small aug 완료)*
+*마지막 업데이트: 2026-03-19 (Small curriculum 완료)*

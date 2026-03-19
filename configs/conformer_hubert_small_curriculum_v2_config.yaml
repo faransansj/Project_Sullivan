@@ -1,0 +1,87 @@
+# Conformer Small + HuBERT + Curriculum Loss v2 — Phase 4
+# 변경점: val_loss → val_pearson monitor로 전환
+#
+# v1 실패 원인:
+#   - val_loss monitor가 MSE-only(epoch 0-29)에서 best 달성 → PCC 학습 전 checkpoint 저장
+#   - curriculum 단계에 따라 loss 척도가 달라지므로 단일 monitor로 전 구간 비교 불가
+#
+# v2 수정:
+#   - monitor: val_pearson (mode=max) → 어느 단계든 PCC 기준으로 best 선택
+#   - patience: 50 → 80 (warmup 30 + ramp 30 = 60 epoch 이후에도 충분한 탐색)
+#   - 그 외 모든 설정 v1과 동일
+
+# Data
+data:
+  splits_dir: data/processed/splits
+  audio_feature_dir: data/processed/audio_features
+  parameter_dir: data/processed/parameters
+  audio_feature_type: hubert
+  parameter_type: geometric
+  sequence_length: 500
+  streaming: true
+
+training:
+  batch_size: 32
+  num_epochs: 300
+  num_workers: 8
+  accumulate_grad_batches: 1
+  gradient_clip_val: 1.0
+  precision: "32-true"
+
+optimization:
+  optimizer: AdamW
+  learning_rate: 0.0003
+  weight_decay: 0.1
+  betas: [0.9, 0.98]
+
+augmentation:
+  enabled: false
+
+model:
+  name: ConformerHuBERT
+  input_dim: 1024
+  d_model: 256
+  num_layers: 6
+  num_heads: 4
+  d_ff: 512
+  depthwise_conv_kernel_size: 31
+  output_dim: 14
+  dropout: 0.3
+  learning_rate: 0.0003
+  weight_decay: 0.1
+  mse_weight: 1.0
+  pcc_weight: 0.3
+  velocity_weight: 0.2
+  acceleration_weight: 0.1
+  curriculum_warmup_epochs: 30
+  curriculum_ramp_epochs: 30
+
+callbacks:
+  early_stopping:
+    monitor: val_pearson   # val_loss → val_pearson으로 변경
+    patience: 80           # warmup(30)+ramp(30) 이후 충분한 탐색
+    mode: max              # min → max
+    verbose: true
+  model_checkpoint:
+    monitor: val_pearson   # val_loss → val_pearson으로 변경
+    mode: max              # min → max
+    save_top_k: 3
+    save_last: true
+    filename: "conformer-hubert-small-curriculum-v2-{epoch:02d}-{val_pearson:.4f}"
+
+logging:
+  experiment_name: conformer_hubert_small_curriculum_v2_phase4
+  log_dir: logs/training
+  save_dir: models/conformer_hubert_small_curriculum_v2
+  log_every_n_steps: 10
+
+evaluation:
+  metrics:
+    - rmse
+    - mae
+    - pearson_correlation
+  visualize_predictions: true
+  num_samples_to_visualize: 10
+
+seed: 42
+device: cuda

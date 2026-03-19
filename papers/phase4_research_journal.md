@@ -146,7 +146,11 @@ v1의 구조적 문제를 수정:
 
 `val_pearson`은 curriculum 단계에 관계없이 의미가 일정하게 유지되므로 어느 epoch의 checkpoint가 저장되어도 공정한 비교가 가능함. patience=80은 warmup(30)+ramp(30) 구간이 완전히 끝난 후에도 충분한 탐색 시간을 보장.
 
-**현재 학습 중** — 결과 대기
+**결과**: test_PCC 0.0992, test_RMSE 0.2160 — 역대 최저 성능
+
+**분석**: monitor를 val_pearson으로 바꿨음에도 불구하고 오히려 악화. val_pearson을 최대화하는 checkpoint가 test 일반화로 이어지지 않음. val→test gap 심화.
+
+**Phase 4 최종 결론**: Curriculum Loss 접근 자체가 ~330 발화 규모에서 효과가 없음. 데이터가 너무 적어 두 단계 학습 전략이 의미 있는 이득을 주지 못함.
 
 ---
 
@@ -162,7 +166,7 @@ v1의 구조적 문제를 수정:
 | **HuBERT Small** | **HuBERT 1024** | **6.3M** | **0.1212** | **0.1200** | **현재 최고** |
 | HuBERT Small aug | HuBERT 1024 | 6.3M | 0.1151 | 0.2099 | 증강 역효과 |
 | HuBERT Small curriculum v1 | HuBERT 1024 | 6.3M | 0.1068 | 0.2086 | monitor 문제 |
-| HuBERT Small curriculum v2 | HuBERT 1024 | 6.3M | — | — | 진행 중 |
+| HuBERT Small curriculum v2 | HuBERT 1024 | 6.3M | 0.0992 | 0.2160 | 역대 최저 |
 
 ---
 
@@ -225,4 +229,10 @@ RMSE는 M2 목표(< 0.15) 달성. PCC는 0.121로 목표(> 0.50)에 크게 미�
 *실험 환경: NVIDIA A100-SXM4-80GB (80GB), PyTorch Lightning 2.x, torchaudio Conformer*
 *데이터: USC-TIMIT Speech MRI Dataset, ~468 발화 (330 train / 69 val / 69 test)*
 *로그: `logs/conformer_*.log` | 체크포인트: `models/conformer*/checkpoints/`*
-*작성일: 2026-03-19*
+### Phase 4 최종 판단
+
+총 9개 실험 변형을 거쳐 **HuBERT Small (6.3M, dropout=0.3, wd=0.1)이 최고 성능(test_PCC 0.1212)** 임을 확인했다. 이후 시도한 SpecAugment, Curriculum Loss(v1/v2)는 모두 Small v1보다 낮은 성능을 기록했다.
+
+알고리즘적 개선의 한계에 도달했다는 판단 하에 Phase 4 실험을 종결하고, 데이터 확보를 통한 근본적 성능 향상을 위해 Phase 5로 전환을 권장한다.
+
+*작성일: 2026-03-20 (Phase 4 종결)*

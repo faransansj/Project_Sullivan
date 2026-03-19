@@ -21,6 +21,7 @@
 | HuBERT Small v2 | Conformer | HuBERT 1024 | 6.3M | 32-true | 0.4 | 0.15 | 2e-4 | — | — |
 | HuBERT Small aug | Conformer+Aug | HuBERT 1024 | 6.3M | 32-true | 0.3 | 0.1 | 3e-4 | 0.2099 | 0.1151 |
 | HuBERT Small curriculum | Conformer+CL | HuBERT 1024 | 6.3M | 32-true | 0.3 | 0.1 | 3e-4 | 0.2086 | 0.1068 |
+| HuBERT Small curriculum v2 | Conformer+CL | HuBERT 1024 | 6.3M | 32-true | 0.3 | 0.1 | 3e-4 | 0.2160 | 0.0992 |
 
 ---
 
@@ -163,6 +164,23 @@
 
 ---
 
+### 9. HuBERT Small Curriculum v2 — val_pearson monitor (완료)
+
+**설정 (Curriculum v1 대비)**
+- monitor: val_loss → **val_pearson** (mode=max)
+- patience: 50 → **80**
+
+**결과**
+- test_loss: 0.694, test_RMSE: **0.2160**, test_PCC: **0.0992**
+- 역대 최저 성능 (curriculum v1 0.1068보다도 낮음)
+
+**분석**
+- val_pearson monitor로 바꿨음에도 불구하고 성능 하락 지속
+- val_pearson을 maximize하는 방향으로 checkpoint 선택이 이루어졌으나, validation set에서의 PCC 최대화가 test 일반화로 이어지지 않음 (val→test gap 심화)
+- **결론**: Curriculum Loss 접근 자체가 ~330 발화 규모에서 효과가 없음. 데이터가 너무 적어 두 단계 학습 전략이 의미 있는 이득을 주지 못함.
+
+---
+
 ### 8. HuBERT Small Curriculum — Curriculum Loss 스케줄링 (완료)
 
 **설정 (Small v1 기반 + curriculum)**
@@ -253,13 +271,16 @@ RMSE는 M2 목표 달성. PCC는 아직 0.50에 한참 미치지 못함.
 2. ~~**SpecAugment 데이터 증강**~~ — 완료, HuBERT에 부적합 확인
 3. ~~**Curriculum Loss**~~ — 완료, Small v1보다 낮음 (구조적 문제 확인)
 4. **Speaker normalization** — inter-speaker variance 감소로 PCC 향상 가능성
-5. **더 많은 데이터** — USC-TIMIT 추가 피험자 데이터 확보 (Phase 5) ← 가장 근본적 해결책
+5. **더 많은 데이터** — USC-TIMIT 추가 피험자 데이터 확보 (Phase 5) ← **유일한 근본 해결책**
 6. **Mel+HuBERT 병렬 입력** — 두 피처를 연결(concat)하여 상호보완 정보 활용
-7. **val_pearson monitor 전환** — val_loss 대신 val_pearson으로 checkpoint 기준 변경 시도
+7. ~~**val_pearson monitor 전환**~~ — 완료, curriculum v2에서 시도했으나 역효과
+
+**Phase 4 결론**: 알고리즘 최적화만으로는 PCC 0.50 달성 불가. ~330 발화 데이터 한계 도달.
+→ Phase 5 데이터 확보로 전환 권장.
 
 ---
 
 *실험 환경: NVIDIA A100-SXM4-80GB, PyTorch Lightning, torchaudio Conformer*
 *로그 위치: `logs/conformer_*.log`*
 *체크포인트: `models/conformer*/checkpoints/`*
-*마지막 업데이트: 2026-03-19 (Small curriculum 완료)*
+*마지막 업데이트: 2026-03-20 (Small curriculum v2 완료, Phase 4 실험 종결)*

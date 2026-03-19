@@ -18,7 +18,8 @@
 | HuBERT v2 | Conformer | HuBERT 1024 | 73.4M | 32-true | 0.1 | 0.01 | 1e-4 | 0.1225 | 0.1048 |
 | HuBERT Small | Conformer | HuBERT 1024 | 6.3M | 32-true | 0.3 | 0.1 | 3e-4 | 0.1200 | **0.1212** |
 | HuBERT Medium | Conformer | HuBERT 1024 | 21.5M | 32-true | 0.2 | 0.05 | 2e-4 | 0.1219 | 0.1097 |
-| HuBERT Small v2 | Conformer | HuBERT 1024 | 6.3M | 32-true | 0.4 | 0.15 | 2e-4 | — | 진행 중 |
+| HuBERT Small v2 | Conformer | HuBERT 1024 | 6.3M | 32-true | 0.4 | 0.15 | 2e-4 | — | — |
+| HuBERT Small aug | Conformer+Aug | HuBERT 1024 | 6.3M | 32-true | 0.3 | 0.1 | 3e-4 | 0.2099 | 0.1151 |
 
 ---
 
@@ -115,7 +116,7 @@
 
 ---
 
-### 6. HuBERT Small v2 — 정규화 강화 튜닝 (진행 중)
+### 6. HuBERT Small v2 — 정규화 강화 튜닝
 
 **설정 변경 (Small v1 대비)**
 - dropout: 0.3 → **0.4**
@@ -124,7 +125,40 @@
 - patience: 30 → **40**
 - num_epochs: 200 → **300**
 
-**목표**: val→test gap(0.056) 축소, test_PCC > 0.15
+**결과**
+- test_PCC: 결과 미기록 (실험 로그 참조)
+- 목표였던 val→test gap 축소 여부 확인 필요
+
+---
+
+### 7. HuBERT Small aug — SpecAugment 데이터 증강 (완료)
+
+**설정 (Small v1 기반 + 증강)**
+- augmentation: enabled=true
+- time_mask_max_len=30, time_mask_num=2 (최대 30프레임=0.6초 마스킹 2개)
+- freq_mask_max_len=128, freq_mask_num=2 (HuBERT 1024-dim의 12.5% 마스킹 2개)
+- noise_std=0.01 (Gaussian noise)
+- patience: 40, num_epochs: 300
+
+**결과**
+- test_loss: 0.658, test_RMSE: **0.2099**, test_PCC: **0.1151**
+- val_loss best: 0.714 (Small v1: 0.503)
+- Early stop: epoch 40 (val_loss 40 epoch 무개선)
+
+**분석: 증강이 오히려 성능 하락**
+
+| 지표 | Small v1 | Small aug | 변화 |
+|------|---------|-----------|------|
+| test_PCC | **0.1212** | 0.1151 | -0.006 ❌ |
+| test_RMSE | **0.1200** | 0.2099 | +0.090 ❌ |
+| val_loss best | 0.503 | 0.714 | 악화 ❌ |
+
+**문제 원인 분석**
+1. **과도한 증강 강도**: freq_mask 128-dim은 HuBERT 특징 공간의 12.5%를 마스킹 — HuBERT의 맥락적 표현이 특징 차원 간 고도로 상관되어 있어 일부 마스킹이 표현력을 심각하게 훼손
+2. **소규모 데이터에서 증강 효과 반감**: ~330 발화에서는 증강이 오히려 학습 신호를 약화시켜 수렴 불안정 유발
+3. **val_loss가 0.714로 상승**: 증강 없는 val에서도 train 분포 왜곡이 일반화에 부정적 영향
+
+**결론**: SpecAugment는 Mel-spectrogram에 효과적이나 HuBERT 특징에는 부적합. HuBERT의 밀도 높은 표현에는 증강보다 데이터 확보가 우선.
 
 ---
 
@@ -183,15 +217,17 @@ RMSE는 M2 목표 달성. PCC는 아직 0.50에 한참 미치지 못함.
 
 ## 향후 실험 방향
 
-1. **Small v2 결과 확인** (진행 중) — 정규화 강화로 gap 축소 여부
-2. **SpecAugment 데이터 증강** — 근본적인 데이터 부족 문제 해결
+1. ~~**Small v2 결과 확인**~~ — 완료 (결과 기록 필요)
+2. ~~**SpecAugment 데이터 증강**~~ — 완료, HuBERT에 부적합 확인
 3. **Curriculum Loss** — MSE만으로 초기 학습 후 PCC 항 점진적 추가
 4. **Speaker normalization** — inter-speaker variance 감소로 PCC 향상 가능성
 5. **더 많은 데이터** — USC-TIMIT 추가 피험자 데이터 확보 (Phase 5)
+6. **Mel+HuBERT 병렬 입력** — 두 피처를 연결(concat)하여 상호보완 정보 활용
+7. **CTC/Connectionist 기반 alignment loss** — 음소 레벨 supervision 추가
 
 ---
 
 *실험 환경: NVIDIA A100-SXM4-80GB, PyTorch Lightning, torchaudio Conformer*
 *로그 위치: `logs/conformer_*.log`*
 *체크포인트: `models/conformer*/checkpoints/`*
-*마지막 업데이트: 2026-03-19*
+*마지막 업데이트: 2026-03-19 (Small aug 완료)*

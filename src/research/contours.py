@@ -41,17 +41,18 @@ class ContourSample:
     speaker_id: str
     utterance_id: str
     frame_index: int
-    timestamp: float
+    timestamp: Optional[float]
     audio_path: str
     mri_path: str
     articulators: Dict[str, ArticulatorContour]
     pixel_spacing: Optional[PixelSpacing] = None
     coordinate_convention: str = "image_xy_anterior_unspecified"
+    source_provenance: Optional[dict] = None
 
     def __post_init__(self) -> None:
         if not self.sample_id or not self.speaker_id or not self.utterance_id:
             raise ValueError("sample, speaker, and utterance IDs are required")
-        if self.frame_index < 0 or self.timestamp < 0:
+        if self.frame_index < 0 or (self.timestamp is not None and self.timestamp < 0):
             raise ValueError("frame_index and timestamp must be non-negative")
         if not self.articulators:
             raise ValueError("at least one articulator is required")
@@ -84,7 +85,7 @@ class JsonContourLoader:
             speaker_id=record["speaker_id"],
             utterance_id=record["utterance_id"],
             frame_index=int(record["frame_index"]),
-            timestamp=float(record["timestamp"]),
+            timestamp=(float(record["timestamp"]) if record.get("timestamp") is not None else None),
             audio_path=record["audio_path"],
             mri_path=record["mri_path"],
             articulators={
@@ -97,6 +98,7 @@ class JsonContourLoader:
             coordinate_convention=record.get(
                 "coordinate_convention", "image_xy_anterior_unspecified"
             ),
+            source_provenance=record.get("source_provenance"),
         )
 
 

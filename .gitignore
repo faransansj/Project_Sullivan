@@ -77,6 +77,7 @@ data/processed/**/*.pkl
 data/processed/**/*.h5
 data/processed/**/*.json
 data/experiments/
+data/annot16/
 
 # Exception: Keep small example files (if needed)
 !data/raw/README.md

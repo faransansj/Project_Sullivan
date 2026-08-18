@@ -12,6 +12,7 @@ Usage:
 """
 
 import argparse
+import hashlib
 import json
 import logging
 import os
@@ -28,6 +29,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent / 'src'))
 
 from parameter_extraction.geometric_features import GeometricFeatureExtractor
 from parameter_extraction.pca_features import PCAFeatureExtractor
+from research.split_manifest import SplitManifest
 from utils.logger import setup_logger
 
 
@@ -45,12 +47,14 @@ class ArticulatoryParameterExtractor:
         output_dir: str,
         method: str = 'geometric',
         n_pca_components: int = 10,
+        split_manifest: str = None,
         logger: logging.Logger = None
     ):
         self.segmentation_dir = Path(segmentation_dir)
         self.output_dir = Path(output_dir)
         self.method = method
         self.n_pca_components = n_pca_components
+        self.split_manifest = Path(split_manifest) if split_manifest else None
         self.logger = logger or logging.getLogger(__name__)
 
         # Initialize extractors
@@ -142,20 +146,29 @@ class ArticulatoryParameterExtractor:
         """Extract PCA features from all utterances."""
         self.logger.info("Extracting PCA features...")
 
-        # Step 1: Collect all segmentations for PCA fitting
-        self.logger.info("Loading all segmentations for PCA fitting...")
+        # Step 1: Fit only on utterances assigned to the train split.
+        if self.split_manifest is None:
+            raise ValueError("PCA extraction requires --split-manifest to prevent held-out leakage")
+        manifest = SplitManifest.load(self.split_manifest)
+        train_utterances = {
+            (sample.speaker_id, sample.utterance_id)
+            for sample in manifest.samples
+            if sample.assignment == 'train'
+        }
+        if not train_utterances:
+            raise ValueError("Split manifest contains no training utterances")
+
+        self.logger.info("Loading train-split segmentations for PCA fitting...")
         all_segmentations = []
-        utterance_info = []
+        for utterance_name, seg_file in tqdm(segmentation_files, desc="Loading train segmentations"):
+            speaker_id = utterance_name.split('_', 1)[0]
+            if (speaker_id, utterance_name) in train_utterances:
+                all_segmentations.append(np.load(seg_file)['segmentations'])
+        if not all_segmentations:
+            raise ValueError("No segmentation files match training utterances in the manifest")
 
-        for utterance_name, seg_file in tqdm(segmentation_files, desc="Loading segmentations"):
-            data = np.load(seg_file)
-            segmentations = data['segmentations']
-            all_segmentations.append(segmentations)
-            utterance_info.append((utterance_name, len(segmentations)))
-
-        # Concatenate all segmentations
         all_segmentations = np.concatenate(all_segmentations, axis=0)
-        self.logger.info(f"Total segmentations for PCA: {all_segmentations.shape[0]}")
+        self.logger.info(f"Training segmentations for PCA: {all_segmentations.shape[0]}")
 
         # Step 2: Fit PCA
         self.logger.info(f"Fitting PCA with {self.n_pca_components} components...")
@@ -175,6 +188,12 @@ class ArticulatoryParameterExtractor:
             'n_components': self.n_pca_components,
             'explained_variance_ratio': self.pca_extractor.explained_variance_ratio.tolist(),
             'total_explained_variance': float(self.pca_extractor.total_explained_variance),
+            'fit_split': 'train',
+            'fit_frame_count': int(all_segmentations.shape[0]),
+            'split_manifest': str(self.split_manifest),
+            'split_manifest_sha256': hashlib.sha256(
+                self.split_manifest.read_bytes()
+            ).hexdigest(),
             'utterances': {}
         }
 
@@ -288,6 +307,12 @@ def main():
         help='Number of PCA components (only for PCA method)'
     )
     parser.add_argument(
+        '--split-manifest',
+        type=str,
+        default=None,
+        help='Canonical speaker-disjoint manifest (required for PCA fitting)'
+    )
+    parser.add_argument(
         '--log-file',
         type=str,
         default='logs/parameter_extraction.log',
@@ -320,6 +345,7 @@ def main():
         output_dir=args.output_dir,
         method=args.method,
         n_pca_components=args.n_components,
+        split_manifest=args.split_manifest,
         logger=logger
     )
 

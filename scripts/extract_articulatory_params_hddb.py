@@ -29,6 +29,7 @@ import cv2
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
+from src.research.split_manifest import SplitManifest
 from src.utils.logger import setup_logger
 
 
@@ -46,7 +47,7 @@ class ArtParamExtractor:
         self.output_dir.mkdir(parents=True, exist_ok=True)
         self.logger = setup_logger("ArtParamExtractor")
 
-        # PCA model (will be fitted on all training data)
+        # PCA model (fit on canonical-manifest training data only)
         self.pca = None
 
     def extract_geometric_features(self, mask: np.ndarray) -> np.ndarray:
@@ -150,15 +151,7 @@ class ArtParamExtractor:
 
         self.pca = IncrementalPCA(n_components=10, batch_size=1024)
 
-        # Optimization: Use a random subset of files for PCA fitting
-        import random
-        if len(seg_files) > 200:
-            self.logger.info(f"Subsampling 200 files for PCA fitting (from {len(seg_files)})")
-            fit_files = random.sample(seg_files, 200)
-        else:
-            fit_files = seg_files
-
-        for seg_path in tqdm(fit_files, desc="Fitting PCA"):
+        for seg_path in tqdm(seg_files, desc="Fitting PCA"):
             try:
                 data = np.load(seg_path)
                 masks = data['segmentations'] # (T, H, W)
@@ -258,7 +251,9 @@ class ArtParamExtractor:
 
         return stats
 
-    def process_dataset(self, segmentation_dir: Path, two_pass: bool = True):
+    def process_dataset(
+        self, segmentation_dir: Path, two_pass: bool = True, split_manifest: Path = None
+    ):
         """
         Process entire dataset
 
@@ -277,9 +272,26 @@ class ArtParamExtractor:
 
         self.logger.info(f"Found {len(seg_files)} utterances")
 
+        manifest = None
         if two_pass:
-            # First pass: Fit PCA
-            self.fit_pca(seg_files)
+            if split_manifest is None:
+                raise ValueError("PCA extraction requires --split-manifest")
+            manifest = SplitManifest.load(split_manifest)
+            train_pairs = {
+                (sample.speaker_id, sample.utterance_id)
+                for sample in manifest.samples
+                if sample.assignment == 'train'
+            }
+            fit_files = []
+            for path in seg_files:
+                utterance_id = path.stem.removesuffix('_segmentations')
+                speaker_id = utterance_id.split('_', 1)[0]
+                if (speaker_id, utterance_id) in train_pairs:
+                    fit_files.append(path)
+            if not fit_files:
+                raise ValueError("No HDDB segmentation files match train manifest entries")
+            # First pass: Fit PCA on training speakers only.
+            self.fit_pca(fit_files)
 
             # Save PCA model
             pca_path = self.output_dir / 'pca_model.npz'
@@ -318,6 +330,9 @@ class ArtParamExtractor:
             'num_features': all_stats[0]['num_features'] if all_stats else 0,
             'two_pass': two_pass,
             'pca_fitted': self.pca is not None,
+            'pca_fit_split': 'train' if two_pass else None,
+            'split_manifest': str(split_manifest) if split_manifest else None,
+            'split_manifest_hash': manifest.sha256 if manifest else None,
             'output_dir': str(self.output_dir),
             'utterance_stats': all_stats
         }
@@ -348,6 +363,12 @@ def main():
         help='Output directory for parameters'
     )
     parser.add_argument(
+        '--split-manifest',
+        type=str,
+        default=None,
+        help='Canonical speaker-disjoint manifest (required unless --no-pca)'
+    )
+    parser.add_argument(
         '--no-pca',
         action='store_true',
         help='Skip PCA feature extraction (geometric only)'
@@ -361,7 +382,8 @@ def main():
     # Process dataset
     extractor.process_dataset(
         segmentation_dir=Path(args.segmentation_dir),
-        two_pass=not args.no_pca
+        two_pass=not args.no_pca,
+        split_manifest=Path(args.split_manifest) if args.split_manifest else None,
     )
 
 

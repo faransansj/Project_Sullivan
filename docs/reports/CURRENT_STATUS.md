@@ -1,7 +1,7 @@
 # Current Status
 
-**Last Update**: 2026-02-27 (Phase 구조 재편성)
-**Current Phase**: Phase 4 (정확도 개선) Active, Phase 5 (인프라) Planning
+**Last Update**: 2026-03-20 (Phase 4 종결)
+**Current Phase**: Phase 4 Complete, Phase 5 data expansion recommended
 
 ---
 
@@ -21,50 +21,20 @@
 
 ---
 
-## 🔄 Phase 4: 정확도 개선 파이프라인 (Active)
+## ✅ Phase 4: 정확도 개선 파이프라인 (Complete)
 
-Core Goal 달성 이후, 모델 정확도를 더 높이기 위한 파이프라인 구축.
+HuBERT, Conformer, SpecAugment, Curriculum Loss를 포함한 9개 변형을 A100에서 비교했습니다.
 
-### 4-1: Inference Engine Wrapper
-- **Status**: ⏳ Pending
-- **Goal**: `src/inference/engine.py`로 모델 로딩 및 예측 로직 정리
-- **Tasks**:
-  - [ ] 모델 체크포인트 로딩 추상화
-  - [ ] 배치/단일 추론 인터페이스
-  - [ ] 오디오 → 파라미터 end-to-end 파이프라인
+| 모델 | 파라미터 | Test RMSE | Test PCC |
+|------|---------:|----------:|---------:|
+| Phase 3 Transformer | 21.5M | — | **0.1982** |
+| Phase 4 HuBERT Small Conformer | 6.3M | **0.1200** | **0.1212** |
 
-### 4-2: 고성능 오디오 피처 (HuBERT)
-- **Status**: ⏳ Pending
-- **Goal**: HuBERT 사전학습 모델로 기존 Mel-spectrogram 대체
-- **Tasks**:
-  - [ ] `src/audio_features/hubert_extractor.py` 구현
-  - [ ] HuBERT feature 추출 + 캐싱
-  - [ ] 기존 파이프라인과 통합
-
-### 4-3: Conformer Architecture Upgrade
-- **Status**: ⏳ Pending
-- **Goal**: Transformer → Conformer (Conv + Attention)로 아키텍처 개선
-- **Tasks**:
-  - [ ] `src/modeling/conformer.py` 구현
-  - [ ] Conformer config 작성
-  - [ ] Transformer 대비 성능 비교 실험
-
-### 4-4: A100 High-Performance Training 🚀
-- **Status**: 🟢 Config Created
-- **Goal**: A100 GPU에서 대규모 학습으로 PCC > 0.4 달성
-- **Tasks**:
-  - [ ] Mixed precision (FP16/BF16) 학습
-  - [ ] 대규모 배치 사이즈 실험
-  - [ ] Learning rate schedule 최적화
-  - [ ] 목표: **PCC > 0.4** (Phase 3 대비 2x 개선)
-
-### Phase 4 성능 목표
-
-| 지표 | Phase 3 (현재) | Phase 4 목표 |
-|------|---------------|-------------|
-| Global PCC | 0.1982 | > 0.40 |
-| Jaw Opening PCC | 0.50 | > 0.70 |
-| Tongue Fronting PCC | 0.46 | > 0.65 |
+- RMSE M2 목표(< 0.15)는 달성했습니다.
+- PCC M2 목표(> 0.50)는 달성하지 못했습니다.
+- 대형 모델, SpecAugment, Curriculum Loss는 일반화를 개선하지 못했습니다.
+- 현재 병목은 모델 구조보다 약 330개인 훈련 발화 규모입니다.
+- 상세 결과: `papers/phase4_research_journal.md`
 
 ---
 
@@ -126,12 +96,8 @@ Core Goal 달성 이후, 모델 정확도를 더 높이기 위한 파이프라�
 Phase 1: Data Pipeline              ✅ Complete
 Phase 2: Baseline Model             ✅ Complete
 Phase 3: Core Goal & Shape Recovery  ✅ Complete (PCC 0.1982)
-Phase 4: 정확도 개선 파이프라인       🔄 Active
-  ├── 4-1: Inference Engine
-  ├── 4-2: HuBERT Features
-  ├── 4-3: Conformer Upgrade
-  └── 4-4: A100 Training (PCC > 0.4)
-Phase 5: 인프라 구축 & 프로덕션       ⬜ Planning
+Phase 4: 정확도 개선 파이프라인       ✅ Complete (RMSE 0.1200, PCC 0.1212)
+Phase 5: 데이터 확장 & 프로덕션        ⬜ Planning
   ├── 5-1: 외부 GPU 서버 (A100/A6000)
   ├── 5-2: NAS 600GB 데이터 연계
   └── 5-3: 웹 데모 & 모니터링

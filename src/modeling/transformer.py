@@ -256,8 +256,7 @@ class TransformerModel(pl.LightningModule):
 
         # Compute position loss (per-frame MSE)
         squared_error = self.criterion(pred_params, params)
-        masked_error = squared_error * mask
-        position_loss = masked_error.sum() / mask.sum()
+        position_loss = self._masked_mean(squared_error, mask)
 
         # Compute temporal losses (velocity + acceleration)
         temporal_losses = self._compute_temporal_loss(pred_params, params, mask)
@@ -271,12 +270,12 @@ class TransformerModel(pl.LightningModule):
         if self.output_dim == 24:
             # Geometric (0-13)
             geo_error = self.criterion(pred_params[:, :, :14], params[:, :, :14])
-            geo_loss = (geo_error * mask).sum() / mask.sum()
+            geo_loss = self._masked_mean(geo_error, mask)
             self.log('train_mse_geo', geo_loss, on_step=False, on_epoch=True)
             
             # PCA (14-23)
             pca_error = self.criterion(pred_params[:, :, 14:], params[:, :, 14:])
-            pca_loss = (pca_error * mask).sum() / mask.sum()
+            pca_loss = self._masked_mean(pca_error, mask)
             self.log('train_mse_pca', pca_loss, on_step=False, on_epoch=True)
 
         # Combined loss
@@ -308,8 +307,7 @@ class TransformerModel(pl.LightningModule):
 
         # Compute position loss
         squared_error = self.criterion(pred_params, params)
-        masked_error = squared_error * mask
-        position_loss = masked_error.sum() / mask.sum()
+        position_loss = self._masked_mean(squared_error, mask)
 
         # Compute temporal losses
         temporal_losses = self._compute_temporal_loss(pred_params, params, mask)
@@ -323,12 +321,12 @@ class TransformerModel(pl.LightningModule):
         if self.output_dim == 24:
             # Geometric (0-13)
             geo_error = self.criterion(pred_params[:, :, :14], params[:, :, :14])
-            geo_loss = (geo_error * mask).sum() / mask.sum()
+            geo_loss = self._masked_mean(geo_error, mask)
             self.log('val_mse_geo', geo_loss, on_step=False, on_epoch=True)
             
             # PCA (14-23)
             pca_error = self.criterion(pred_params[:, :, 14:], params[:, :, 14:])
-            pca_loss = (pca_error * mask).sum() / mask.sum()
+            pca_loss = self._masked_mean(pca_error, mask)
             self.log('val_mse_pca', pca_loss, on_step=False, on_epoch=True)
 
         # Combined loss
@@ -376,8 +374,7 @@ class TransformerModel(pl.LightningModule):
 
         # Compute position loss
         squared_error = self.criterion(pred_params, params)
-        masked_error = squared_error * mask
-        position_loss = masked_error.sum() / mask.sum()
+        position_loss = self._masked_mean(squared_error, mask)
 
         # Compute temporal losses
         temporal_losses = self._compute_temporal_loss(pred_params, params, mask)
@@ -513,6 +510,14 @@ class TransformerModel(pl.LightningModule):
             'pearson': pearson
         }
 
+    @staticmethod
+    def _masked_mean(error: torch.Tensor, mask: torch.Tensor) -> torch.Tensor:
+        """Average over valid frames and output dimensions; return zero for an empty mask."""
+        denominator = mask.sum() * error.shape[-1]
+        if denominator.item() == 0:
+            return error.sum() * 0.0
+        return (error * mask).sum() / denominator
+
     def _compute_temporal_loss(
         self,
         pred: torch.Tensor,
@@ -548,7 +553,7 @@ class TransformerModel(pl.LightningModule):
 
         # Velocity loss
         velocity_error = self.criterion(pred_velocity, target_velocity)
-        velocity_loss = (velocity_error * velocity_mask).sum() / velocity_mask.sum()
+        velocity_loss = self._masked_mean(velocity_error, velocity_mask)
 
         # Compute acceleration (second-order difference)
         # acceleration[t] = velocity[t+1] - velocity[t] = position[t+2] - 2*position[t+1] + position[t]
@@ -560,7 +565,7 @@ class TransformerModel(pl.LightningModule):
 
         # Acceleration loss
         acceleration_error = self.criterion(pred_acceleration, target_acceleration)
-        acceleration_loss = (acceleration_error * acceleration_mask).sum() / acceleration_mask.sum()
+        acceleration_loss = self._masked_mean(acceleration_error, acceleration_mask)
 
         return {
             'velocity_loss': velocity_loss,

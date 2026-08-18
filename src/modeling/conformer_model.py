@@ -180,7 +180,7 @@ class ConformerInversionModel(pl.LightningModule):
         mask = mask.unsqueeze(-1)  # (batch, seq_len, 1)
 
         # Position loss (MSE)
-        position_loss = (self.criterion(pred, params) * mask).sum() / mask.sum()
+        position_loss = self._masked_mean(self.criterion(pred, params), mask)
 
         # Temporal losses
         temporal = self._compute_temporal_loss(pred, params, mask)
@@ -193,10 +193,10 @@ class ConformerInversionModel(pl.LightningModule):
         # Split logging for 24-dim output (Geometric vs PCA)
         if self.output_dim == 24:
             geo_error = self.criterion(pred[:, :, :14], params[:, :, :14])
-            self.log('train_mse_geo', (geo_error * mask).sum() / mask.sum(),
+            self.log('train_mse_geo', self._masked_mean(geo_error, mask),
                      on_step=False, on_epoch=True)
             pca_error = self.criterion(pred[:, :, 14:], params[:, :, 14:])
-            self.log('train_mse_pca', (pca_error * mask).sum() / mask.sum(),
+            self.log('train_mse_pca', self._masked_mean(pca_error, mask),
                      on_step=False, on_epoch=True)
 
         # Combined hybrid loss (curriculum-weighted)
@@ -224,16 +224,16 @@ class ConformerInversionModel(pl.LightningModule):
         mask = self._create_mask(lengths, pred.shape[1]).to(pred.device)
         mask = mask.unsqueeze(-1)
 
-        position_loss = (self.criterion(pred, params) * mask).sum() / mask.sum()
+        position_loss = self._masked_mean(self.criterion(pred, params), mask)
         temporal = self._compute_temporal_loss(pred, params, mask)
         pcc_loss = self._compute_pcc_loss(pred, params, mask)
 
         if self.output_dim == 24:
             geo_error = self.criterion(pred[:, :, :14], params[:, :, :14])
-            self.log('val_mse_geo', (geo_error * mask).sum() / mask.sum(),
+            self.log('val_mse_geo', self._masked_mean(geo_error, mask),
                      on_step=False, on_epoch=True)
             pca_error = self.criterion(pred[:, :, 14:], params[:, :, 14:])
-            self.log('val_mse_pca', (pca_error * mask).sum() / mask.sum(),
+            self.log('val_mse_pca', self._masked_mean(pca_error, mask),
                      on_step=False, on_epoch=True)
 
         pcc_w, vel_w, acc_w = self._get_curriculum_weights()
@@ -261,7 +261,7 @@ class ConformerInversionModel(pl.LightningModule):
         mask = self._create_mask(lengths, pred.shape[1]).to(pred.device)
         mask = mask.unsqueeze(-1)
 
-        position_loss = (self.criterion(pred, params) * mask).sum() / mask.sum()
+        position_loss = self._masked_mean(self.criterion(pred, params), mask)
         temporal = self._compute_temporal_loss(pred, params, mask)
         metrics = self._compute_metrics(pred, params, mask)
 
@@ -381,6 +381,14 @@ class ConformerInversionModel(pl.LightningModule):
             return total_pcc_loss / valid_sequences
         return torch.tensor(0.0, device=pred.device, requires_grad=True)
 
+    @staticmethod
+    def _masked_mean(error: torch.Tensor, mask: torch.Tensor) -> torch.Tensor:
+        """Average over valid frames and output dimensions; return zero for an empty mask."""
+        denominator = mask.sum() * error.shape[-1]
+        if denominator.item() == 0:
+            return error.sum() * 0.0
+        return (error * mask).sum() / denominator
+
     def _compute_temporal_loss(
         self, pred: torch.Tensor, target: torch.Tensor, mask: torch.Tensor
     ) -> Dict[str, torch.Tensor]:
@@ -389,13 +397,13 @@ class ConformerInversionModel(pl.LightningModule):
         target_vel = target[:, 1:, :] - target[:, :-1, :]
         vel_mask = mask[:, :-1, :] * mask[:, 1:, :]
 
-        vel_loss = (self.criterion(pred_vel, target_vel) * vel_mask).sum() / vel_mask.sum()
+        vel_loss = self._masked_mean(self.criterion(pred_vel, target_vel), vel_mask)
 
         pred_acc = pred_vel[:, 1:, :] - pred_vel[:, :-1, :]
         target_acc = target_vel[:, 1:, :] - target_vel[:, :-1, :]
         acc_mask = vel_mask[:, :-1, :] * vel_mask[:, 1:, :]
 
-        acc_loss = (self.criterion(pred_acc, target_acc) * acc_mask).sum() / acc_mask.sum()
+        acc_loss = self._masked_mean(self.criterion(pred_acc, target_acc), acc_mask)
 
         return {'velocity_loss': vel_loss, 'acceleration_loss': acc_loss}
 

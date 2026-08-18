@@ -38,6 +38,7 @@ dependencies = [
     "scikit-image>=0.21.0",
     "pillow>=10.0.0",
     "imageio>=2.31.0",
+    "imageio-ffmpeg>=0.4.9",
     "nibabel>=5.0.0",
     "pydicom>=2.4.0",
     "SimpleITK>=2.3.0",

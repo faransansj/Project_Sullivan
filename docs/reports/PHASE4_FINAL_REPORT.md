@@ -1,16 +1,18 @@
-# Project Sullivan Phase 4 Completion Report: High-Resolution Shape Recovery
+# Project Sullivan Phase 3 Completion Report: High-Resolution Shape Recovery
+
+> **Archived report:** 이 문서는 Transformer 기반 Phase 3 결과(PCC 0.1982)를 기록합니다. 최신 Phase 4 Conformer/HuBERT 최종 결과는 `papers/phase4_research_journal.md`를 참고하세요: 최고 RMSE 0.1200, PCC 0.1212.
 
 **Date**: January 23, 2026
 **Author**: Lead Engineer Agent
-**Status**: ✅ Complete
+**Status**: ✅ Phase 3 Complete (archived)
 
 ---
 
 ## 1. Executive Summary
 
-**Phase 4 Goal**: Recover high-resolution vocal tract shapes (via PCA components) from speech audio, surpassing the low-resolution geometric bounding boxes of Phase 3.
+**Phase 3 Goal**: Recover high-resolution vocal tract shapes (via PCA components) from speech audio.
 
-**Key Achievement**: Successfully trained a 21.5M parameter Transformer to predict 24 dimensions (14 Geometric + 10 PCA) using a **Staged Curriculum Learning** strategy. The final model achieves a Global PCC of **0.1982**, a **7.6x improvement** over the Phase 3 baseline (0.026).
+**Key Achievement**: Successfully trained a 21.5M parameter Transformer to predict 24 dimensions (14 Geometric + 10 PCA) using a **Staged Curriculum Learning** strategy. The final model achieves a Global PCC of **0.1982**, a **7.6x improvement** over the earlier baseline (0.026).
 
 **Deliverable**: A "Master Model" capable of reconstructing realistic tongue curves and airway constrictions solely from audio input.
 

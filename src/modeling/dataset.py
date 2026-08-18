@@ -126,6 +126,7 @@ class ArticulatoryDataset(Dataset):
         streaming: bool = False,
         zip_file_path: Optional[Path] = None,
         augmentation: Optional['AudioAugmentation'] = None,
+        normalization_stats: Optional[Dict[str, np.ndarray]] = None,
     ):
         self.utterance_list = utterance_list
         self.audio_feature_dir = Path(audio_feature_dir)
@@ -142,9 +143,12 @@ class ArticulatoryDataset(Dataset):
         # Load data (metadata only if streaming)
         self.data = self._load_data()
 
-        # Compute or set normalization statistics if needed
+        # Validation/test must use statistics fitted on the training split.
         if self.normalize_params:
-            self._compute_normalization_stats()
+            if normalization_stats is None:
+                self._compute_normalization_stats()
+            else:
+                self._set_normalization_stats(normalization_stats)
 
     def _load_data(self) -> List[Dict]:
         """Load utterances (metadata or full data)."""
@@ -274,6 +278,41 @@ class ArticulatoryDataset(Dataset):
 
         return data
 
+    def _set_normalization_stats(self, stats: Dict[str, np.ndarray]) -> None:
+        """Apply normalization statistics fitted on the training split."""
+        stats_type = stats.get('normalization_type', self.normalization_type)
+        if stats_type != self.normalization_type:
+            raise ValueError(
+                f"Normalization type mismatch: dataset={self.normalization_type}, stats={stats_type}"
+            )
+        if self.normalization_type == 'minmax':
+            self.param_min = np.asarray(stats['min'])
+            self.param_max = np.asarray(stats['max'])
+            self.param_range = np.where(
+                (self.param_max - self.param_min) < 1e-8,
+                1.0,
+                self.param_max - self.param_min,
+            )
+        elif self.normalization_type == 'zscore':
+            self.param_mean = np.asarray(stats['mean'])
+            self.param_std = np.asarray(stats['std'])
+        else:
+            raise ValueError(f"Unsupported normalization type: {self.normalization_type}")
+
+    def get_normalization_stats(self) -> Dict[str, object]:
+        """Return JSON-serializable normalization statistics."""
+        if self.normalization_type == 'minmax':
+            return {
+                'normalization_type': 'minmax',
+                'min': self.param_min.squeeze(0).tolist(),
+                'max': self.param_max.squeeze(0).tolist(),
+            }
+        return {
+            'normalization_type': 'zscore',
+            'mean': self.param_mean.squeeze(0).tolist(),
+            'std': self.param_std.squeeze(0).tolist(),
+        }
+
     def _compute_normalization_stats(self):
         """Compute statistics for normalization."""
         if self.streaming:
@@ -300,7 +339,10 @@ class ArticulatoryDataset(Dataset):
             self.param_range = np.where((self.param_max - self.param_min) < 1e-8, 1.0, self.param_max - self.param_min)
         elif self.normalization_type == 'zscore':
             self.param_mean = np.mean(all_params, axis=0, keepdims=True)
-            self.param_std = np.where(np.std(all_params, axis=0, keepdims=True) < 1e-8, 1.0, np.std(all_params, axis=0, keepdims=True))
+            std = np.std(all_params, axis=0, keepdims=True)
+            self.param_std = np.where(std < 1e-8, 1.0, std)
+        else:
+            raise ValueError(f"Unsupported normalization type: {self.normalization_type}")
 
     def _interpolate_features(self, features: np.ndarray, target_length: int) -> np.ndarray:
         """Interpolate features to target length."""
@@ -390,6 +432,7 @@ def create_dataloaders(
     train_augmentation: Optional['AudioAugmentation'] = None,
 ) -> Dict[str, DataLoader]:
     dataloaders = {}
+    training_stats = None
     for split in ['train', 'val', 'test']:
         utterance_list_file = splits_dir / f'{split}.json'
         if not utterance_list_file.exists():
@@ -415,7 +458,12 @@ def create_dataloaders(
             streaming=streaming,
             zip_file_path=zip_file_path,
             augmentation=train_augmentation if split == 'train' else None,
+            normalization_stats=training_stats,
         )
+        if split == 'train':
+            training_stats = dataset.get_normalization_stats()
+        elif training_stats is None:
+            raise ValueError("Training split is required to fit normalization statistics")
         dataloaders[split] = DataLoader(
             dataset, batch_size=batch_size, shuffle=(split == 'train'),
             num_workers=num_workers, collate_fn=collate_fn, pin_memory=True

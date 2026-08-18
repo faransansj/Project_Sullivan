@@ -32,7 +32,7 @@
 
 ## 2. 주요 성과 및 성능
 
-초기 인프라 구축에서 시작하여 현재 **고해상도 형상 복원 단계(Phase 4)** 를 진행 중입니다.
+Phase 4 정확도 개선 실험을 완료했으며, 현재는 **Phase 5 데이터 확장**을 준비하고 있습니다.
 
 ### 🏆 Phase 3 결과 (Master Model - Legacy)
 - **Architecture**: 21.5M Parameter Transformer Encoder
@@ -41,10 +41,11 @@
   - PCA-1 (Jaw Opening / 턱 열림): **PCC 0.50**
   - PCA-5 (Tongue Fronting / 혀 수평 이동): **PCC 0.46**
 
-### 🚀 Phase 4 목표 (현재 진행 중)
-- **Architecture**: Conformer (12 Layers, 512d)
-- **Features**: HuBERT-Large (1024d) Self-Supervised Audio Features
-- **Target**: Global PCC > 0.40 달성
+### Phase 4 결과 (완료)
+- **Best model**: HuBERT Small Conformer, 6.3M parameters
+- **Test RMSE**: **0.1200** (M2 목표 < 0.15 달성)
+- **Test PCC**: **0.1212** (M2 목표 > 0.50 미달)
+- **Conclusion**: 추가 아키텍처 확장보다 학습 데이터 확보가 우선
 
 ---
 
@@ -68,7 +69,7 @@
 | Phase | 단계 명칭 | 상태 | 핵심 요약 및 산출물 |
 |:---:|:---|:---:|:---|
 | **1-3** | **기반 인프라 및 기준선 확보** | ✅ 완료 | MRI 세그멘테이션 파이프라인(Dice 81.8%), Bi-LSTM 기준선, 21.5M Transformer를 통한 초기 고해상도 형상 복원(PCC 0.1982). |
-| **4** | **정확도 개선 (Conformer)** | 🔄 진행 중 | HuBERT 특징 추출기 및 Conformer 모델 코드 작성 완료. A100 GPU에서의 대규모 학습 준비 완료. ([Phase 4 Guide](docs/guides/PHASE4_ACCURACY_GUIDE.md)) |
+| **4** | **정확도 개선 (Conformer)** | ✅ 완료 | 9개 변형 비교 결과 HuBERT Small이 최고(RMSE 0.1200, PCC 0.1212). 데이터 규모가 핵심 병목으로 확인됨. ([Research Journal](papers/phase4_research_journal.md)) |
 | **5-1** | **원격 GPU 서버 구축** | ✅ 준비 완료 | A100/A6000 서버용 SSH 스크립트, UV 환경 초기화 로직 구현 완료. ([GPU Quick Start](docs/guides/PHASE5_GPU_QUICKSTART.md)) |
 | **5-2** | **NAS 데이터 스트리밍 연계** | ⏳ 대기 중 | 600GB+ 데이터를 NAS에서 파싱 후 GPU 서버로 전송하는 하이브리드 자동 전처리 파이프라인 스크립트 완료. NAS 실제 연동 테스트 대기. |
 | **5-3** | **웹 데모 대시보드 시각화** | ⬜ 계획 중 | 추론 결과 시각화 및 학습 진행 과정 모니터링을 위한 Gradio 앱 대시보드 기획안 작성 완료. ([Web Demo Plan](docs/plans/PHASE5_3_WEB_DEMO.md)) |

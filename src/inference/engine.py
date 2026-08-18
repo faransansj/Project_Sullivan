@@ -59,6 +59,10 @@ class InferenceEngine:
         device: str = "cpu",
     ):
         print("Initializing Inference Engine...")
+        if model_type not in {'transformer', 'conformer'}:
+            raise ValueError("model_type must be 'transformer' or 'conformer'")
+        if feature_type not in {'mel', 'hubert'}:
+            raise ValueError("feature_type must be 'mel' or 'hubert'")
         self.device = torch.device(device)
         self.feature_type = feature_type
 
@@ -73,22 +77,32 @@ class InferenceEngine:
             print(f"Loading statistics from {stats_path}")
             with open(stats_path, 'r') as f:
                 self.stats = json.load(f)
-                self.stats['min'] = np.array(self.stats['min'])
-                self.stats['max'] = np.array(self.stats['max'])
-                if 'mean' in self.stats:
-                    self.stats['mean'] = np.array(self.stats['mean'])
-                    self.stats['std'] = np.array(self.stats['std'])
+                normalization_type = self.stats.get('normalization_type', 'minmax')
+                required = ('min', 'max') if normalization_type == 'minmax' else ('mean', 'std')
+                if normalization_type not in {'minmax', 'zscore'} or any(
+                    key not in self.stats for key in required
+                ):
+                    raise ValueError(f"Invalid normalization statistics: {stats_path}")
+                for key in required:
+                    self.stats[key] = np.asarray(self.stats[key])
 
         # Load model
         print(f"Loading {model_type} model from {model_path}")
-        ModelClass = (
-            TransformerModel if model_type == "transformer"
-            else ConformerInversionModel
-        )
+        ModelClass = {
+            'transformer': TransformerModel,
+            'conformer': ConformerInversionModel,
+        }[model_type]
         self.model = ModelClass.load_from_checkpoint(
             model_path, map_location=self.device
         )
-        self.model.eval()
+        self.model.to(self.device).eval()
+        expected_input_dim = 1024 if feature_type == 'hubert' else self.config.get('model', {}).get('input_dim', 80)
+        checkpoint_input_dim = getattr(self.model.hparams, 'input_dim', expected_input_dim)
+        if checkpoint_input_dim != expected_input_dim:
+            raise ValueError(
+                f"{feature_type} features produce {expected_input_dim} dimensions, "
+                f"but checkpoint expects {checkpoint_input_dim}"
+            )
 
         # Initialize HuBERT extractor lazily (heavy import)
         self._hubert_extractor = None
@@ -150,19 +164,19 @@ class InferenceEngine:
         if self.stats is None:
             return predictions
 
-        if len(self.stats['min']) != predictions.shape[1]:
-            print(
-                f"Warning: Stats dim ({len(self.stats['min'])}) != "
-                f"pred dim ({predictions.shape[1]})"
+        normalization_type = self.stats.get('normalization_type', 'minmax')
+        reference = self.stats['min'] if normalization_type == 'minmax' else self.stats['mean']
+        if len(reference) != predictions.shape[1]:
+            raise ValueError(
+                f"Stats dim ({len(reference)}) != prediction dim ({predictions.shape[1]})"
             )
-            return predictions
 
-        p_min = self.stats['min']
-        p_max = self.stats['max']
-        p_range = p_max - p_min
+        if normalization_type == 'zscore':
+            return predictions * self.stats['std'] + self.stats['mean']
+
+        p_range = self.stats['max'] - self.stats['min']
         p_range[p_range == 0] = 1.0
-
-        return predictions * p_range + p_min
+        return predictions * p_range + self.stats['min']
 
     def predict(self, audio_path: str) -> np.ndarray:
         """

@@ -11,6 +11,7 @@ Usage:
 """
 
 import argparse
+import json
 import sys
 from pathlib import Path
 import yaml
@@ -161,6 +162,15 @@ def main():
         streaming=args.streaming or config['training'].get('streaming', False),
         zip_file_path=config['data'].get('zip_file_path', None)
     )
+
+    save_dir = Path(config['logging']['save_dir'])
+    save_dir.mkdir(parents=True, exist_ok=True)
+    stats_path = save_dir / 'normalization_stats.json'
+    stats_path.write_text(
+        json.dumps(dataloaders['train'].dataset.get_normalization_stats(), indent=2),
+        encoding='utf-8',
+    )
+    print(f"Normalization statistics saved to: {stats_path}")
 
     # Create model
     print("\nCreating Transformer model...")

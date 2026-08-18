@@ -6,11 +6,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **Project Sullivan** is a research project developing AI models that infer articulatory parameters (tongue position, jaw opening, lip shape, etc.) from audio signals alone using the USC-TIMIT Speech MRI Dataset.
 
-**Current Status**: Phase 4 (정확도 개선) Active, Phase 5 (인프라) Planning
+**Current Status**: Phase 4 experiments complete; Phase 5 data expansion recommended
 - Phase 2-A (Baseline LSTM): Test RMSE 1.011, PCC 0.105
-- Phase 3 (Transformer) Complete: Global PCC 0.1982, 21.5M params, 24-dim output
-- Phase 4 Active: HuBERT features + Conformer architecture + Inference Engine
-- M2 Target: RMSE < 0.15, PCC > 0.50
+- Phase 3 (Transformer): Global PCC 0.1982, 21.5M params, 24-dim output
+- Phase 4 (Conformer/HuBERT): best test RMSE 0.1200, PCC 0.1212 (HuBERT Small, 6.3M params)
+- M2 Target: RMSE < 0.15 achieved; PCC > 0.50 not achieved
 
 **Key Technologies**: PyTorch, PyTorch Lightning, rtMRI processing, HuBERT, Conformer
 
@@ -161,7 +161,8 @@ All models inherit from `pl.LightningModule` with standard methods: `forward`, `
 **Variable-Length Sequence Handling**: Dataset returns `(features, params, mask)` where mask=1 for valid frames. Models compute MSE only on valid frames:
 ```python
 loss_mask = create_loss_mask(lengths, max_len)
-loss = ((predictions - targets) ** 2 * loss_mask).sum() / loss_mask.sum()
+error = (predictions - targets) ** 2
+loss = (error * loss_mask).sum() / (loss_mask.sum() * error.shape[-1])
 ```
 
 **Config Interpolation**: YAML configs use `${section.key}` syntax resolved in training scripts. See `scripts/train_transformer.py` for the `load_config()` implementation.
@@ -249,7 +250,7 @@ Fixtures: `sample_mri_frame/sequence` (256×256), `sample_audio` (2s @ 16kHz), `
 | Phase 1: Data Pipeline | ✅ Complete | U-Net 81.8% Dice, 468 utterances |
 | Phase 2-A: Baseline LSTM | ✅ Complete | RMSE 1.011, PCC 0.105 |
 | Phase 3: Core Goal | ✅ Complete | Global PCC 0.1982, 21.5M Transformer |
-| Phase 4: 정확도 개선 | 🔄 Active | HuBERT + Conformer + A100 (target PCC > 0.4) |
+| Phase 4: 정확도 개선 | ✅ Complete | HuBERT Small best: RMSE 0.1200, PCC 0.1212; data scale identified as bottleneck |
 | Phase 5-1: GPU 서버 | ⬜ Planning | A100/A6000 + UV pipeline |
 | Phase 5-2: NAS 데이터 | ⬜ Planning | 600GB+ streaming DataLoader |
 | Phase 5-3: 웹 데모 | ⬜ Planning | Dataset viewer, training dashboard |

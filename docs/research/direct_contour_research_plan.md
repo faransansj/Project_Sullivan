@@ -2,10 +2,7 @@
 
 ## Decision
 
-**CONDITIONAL GO.** Phase 0 integrity utilities and a synthetic Phase 1 scaffold
-are implementable now. Formal model comparison is not: no real contour archive,
-canonical manifest, paired feature/target arrays, or verified coordinate metadata
-is available locally.
+**Gate 1 update:** Annot-16 acquisition and handmade-contour feasibility are **GO**. Provenance, IDs, canonical conversion, coordinate semantics, timing, spacing, and ten MRI overlays were validated in [`annot16_feasibility_report.md`](annot16_feasibility_report.md). Formal model comparison remains blocked until the dense MAT label adapter, corresponding source video/audio, and audio–MRI alignment are validated.
 
 ## Research question and hypotheses
 
@@ -120,7 +117,7 @@ GO only when:
 - a tiny real subset can be overfit;
 - validation beats a train-mean/static-contour predictor.
 
-Current state: **blocked**.
+Current state: **GO for handmade contour feasibility; dense training adapter not yet validated**.
 
 ### Gate 2: representation utility
 

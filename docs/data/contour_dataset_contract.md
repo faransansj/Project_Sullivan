@@ -1,6 +1,6 @@
 # Direct-contour dataset contract
 
-**Status:** schema and synthetic loader only. No Annot-16 archive is present in this checkout.
+**Status:** schema plus validated Annot-16 handmade-ground-truth adapter. See [`../research/annot16_feasibility_report.md`](../research/annot16_feasibility_report.md). Raw Annot-16 data remains ignored and is not redistributed.
 
 ## Canonical record
 
@@ -81,8 +81,4 @@ only and persisted with manifest/config hashes.
 
 ## Source-adapter acceptance gate
 
-A real Annot-16 adapter is accepted only after archive acquisition verifies:
-license, file inventory, speaker IDs, articulator names, contour ordering,
-coordinate convention, MRI transforms, timestamps, missing-value convention,
-and spacing metadata. It must pass overlay visualization on source MRI and a
-small manually checked sample. Until then Phase 1 remains blocked.
+`src/research/annot16.py` satisfies this gate for the explicitly named handmade JSON format and matching 84×84 MRI JPG frames. The dense MAT R1/R2/R3 format still requires a separate label adapter and overlay check before use as training supervision.

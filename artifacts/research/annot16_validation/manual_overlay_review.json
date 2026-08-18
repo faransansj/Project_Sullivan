@@ -1,0 +1,17 @@
+{
+  "review_status": "pass",
+  "reviewed_speaker": "sub061",
+  "reviewed_utterance": "sub061_2drt_17_topic1",
+  "reviewed_source_frame_numbers": [530, 1005, 1074, 1269, 1519, 1638, 2430, 2516, 2649, 2659],
+  "articulators": ["arytenoid", "chin", "epiglottis", "hard_palate", "lower_lip", "pharyngeal_wall", "tongue", "upper_lip", "velum"],
+  "checks": {
+    "canonical_overlay_matches_official_rendering": true,
+    "contours_follow_visible_anatomical_boundaries": true,
+    "no_axis_flip_observed": true,
+    "no_crop_offset_observed": true,
+    "no_resize_before_overlay_required": true,
+    "all_coordinates_within_84x84_image": true
+  },
+  "evidence": "Canonical overlays were visually compared with the archive-provided mriframes_grountruth_plots for the same source frames.",
+  "result": "anatomically_plausible"
+}

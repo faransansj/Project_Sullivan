@@ -1,0 +1,23 @@
+{
+  "canonical_transform": "identity",
+  "coordinate_units": "source image pixels",
+  "crop": null,
+  "flip": null,
+  "frame_numbering": "source MAT frameNo is 1-based; canonical index is frameNo-1",
+  "frame_rate_hz": 83.28,
+  "origin": "top-left",
+  "pixel_spacing_mm": [
+    2.4,
+    2.4
+  ],
+  "pixel_spacing_source": "Lim et al., Scientific Data 2021, USC 75-speaker acquisition",
+  "resize_before_overlay": null,
+  "rotation_degrees": 0,
+  "source_image_size_pixels": [
+    84,
+    84
+  ],
+  "timestamp_formula": "(source_frame_number - 1) / frame_rate_hz",
+  "x_direction": "right",
+  "y_direction": "down"
+}

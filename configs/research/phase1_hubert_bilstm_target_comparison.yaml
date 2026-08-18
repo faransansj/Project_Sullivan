@@ -1,0 +1,42 @@
+experiment:
+  name: phase1_hubert_bilstm_target_comparison
+  status: scaffold_only
+  seeds: [17, 42, 101]
+  dataset_version: REQUIRED
+  split_manifest: REQUIRED
+  normalization_artifact: REQUIRED
+
+data:
+  split_strategy: speaker_disjoint
+  fit_statistics_on: train
+  audio_feature: hubert
+  hubert_frozen: true
+  input_dim: 1024
+  targets: [geometric, pca, direct_contour]
+  contour_contract: docs/data/contour_dataset_contract.md
+  contour_points_per_articulator: REQUIRED_FROM_DATA
+
+model:
+  temporal_model: bilstm
+  hidden_dim: 128
+  num_layers: 2
+  bidirectional: true
+  dropout: 0.2
+
+training:
+  optimizer: adamw
+  learning_rate: 0.0003
+  max_steps: 10000
+  early_stopping_metric: validation_contour_rmse
+  early_stopping_mode: min
+  test_during_selection: false
+
+loss:
+  point: masked_mean_euclidean
+  velocity_weight: 0.1
+
+evaluation:
+  primary: speaker_macro_contour_rmse
+  metrics: [rmse, mae, global_pcc, utterance_mean_pcc, dimension_mean_pcc]
+  contour_metrics: [point_euclidean_rmse, symmetric_chamfer, hausdorff, articulator_rmse]
+  require_pixel_spacing_for_mm: true

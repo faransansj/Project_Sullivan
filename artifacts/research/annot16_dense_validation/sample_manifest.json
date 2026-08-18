@@ -1,0 +1,2885 @@
+{
+  "failures": [],
+  "samples": [
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub009_2drt_17_topic1_track_frame-1244.json",
+      "sample_id": "annot16-dense:sub009_2drt_17_topic1:1244",
+      "source_frame_number": 1244,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.6737,
+        "chin": 0.5258,
+        "epiglottis": 1.3592,
+        "hard_palate": 0.4977,
+        "lower_lip": 0.6952,
+        "pharyngeal_wall": 1.0919,
+        "tongue": 1.4154,
+        "upper_lip": 0.2442,
+        "velum": 1.1885
+      },
+      "template": 9,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub009/track/sub009_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub009_2drt_17_topic1_track_frame-1281.json",
+      "sample_id": "annot16-dense:sub009_2drt_17_topic1:1281",
+      "source_frame_number": 1281,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.534,
+        "chin": 0.5545,
+        "epiglottis": 1.9063,
+        "hard_palate": 0.6888,
+        "lower_lip": 0.9665,
+        "pharyngeal_wall": 1.3305,
+        "tongue": 1.7615,
+        "upper_lip": 0.3389,
+        "velum": 1.6714
+      },
+      "template": 10,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub009/track/sub009_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub009_2drt_17_topic1_track_frame-1354.json",
+      "sample_id": "annot16-dense:sub009_2drt_17_topic1:1354",
+      "source_frame_number": 1354,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.868,
+        "chin": 0.6035,
+        "epiglottis": 1.5143,
+        "hard_palate": 0.6402,
+        "lower_lip": 0.9166,
+        "pharyngeal_wall": 1.6669,
+        "tongue": 1.2504,
+        "upper_lip": 0.3685,
+        "velum": 1.6586
+      },
+      "template": 10,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub009/track/sub009_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub009_2drt_17_topic1_track_frame-1438.json",
+      "sample_id": "annot16-dense:sub009_2drt_17_topic1:1438",
+      "source_frame_number": 1438,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.3367,
+        "chin": 0.8173,
+        "epiglottis": 1.8665,
+        "hard_palate": 0.6304,
+        "lower_lip": 0.783,
+        "pharyngeal_wall": 1.0254,
+        "tongue": 1.2639,
+        "upper_lip": 0.4216,
+        "velum": 0.9606
+      },
+      "template": 6,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub009/track/sub009_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub009_2drt_17_topic1_track_frame-1575.json",
+      "sample_id": "annot16-dense:sub009_2drt_17_topic1:1575",
+      "source_frame_number": 1575,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.1505,
+        "chin": 0.5292,
+        "epiglottis": 2.1679,
+        "hard_palate": 0.6887,
+        "lower_lip": 0.6551,
+        "pharyngeal_wall": 1.1041,
+        "tongue": 1.982,
+        "upper_lip": 0.2564,
+        "velum": 3.3012
+      },
+      "template": 6,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub009/track/sub009_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub009_2drt_17_topic1_track_frame-1665.json",
+      "sample_id": "annot16-dense:sub009_2drt_17_topic1:1665",
+      "source_frame_number": 1665,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.9631,
+        "chin": 0.63,
+        "epiglottis": 1.3859,
+        "hard_palate": 0.5296,
+        "lower_lip": 0.7506,
+        "pharyngeal_wall": 1.0376,
+        "tongue": 1.4446,
+        "upper_lip": 0.3118,
+        "velum": 1.2867
+      },
+      "template": 5,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub009/track/sub009_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub009_2drt_17_topic1_track_frame-2529.json",
+      "sample_id": "annot16-dense:sub009_2drt_17_topic1:2529",
+      "source_frame_number": 2529,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 2.1133,
+        "chin": 0.6437,
+        "epiglottis": 1.8575,
+        "hard_palate": 0.9429,
+        "lower_lip": 0.6868,
+        "pharyngeal_wall": 1.3169,
+        "tongue": 1.2318,
+        "upper_lip": 0.3202,
+        "velum": 1.2373
+      },
+      "template": 10,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub009/track/sub009_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub009_2drt_17_topic1_track_frame-2545.json",
+      "sample_id": "annot16-dense:sub009_2drt_17_topic1:2545",
+      "source_frame_number": 2545,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.9124,
+        "chin": 0.6509,
+        "epiglottis": 1.5148,
+        "hard_palate": 0.6156,
+        "lower_lip": 0.7077,
+        "pharyngeal_wall": 1.1754,
+        "tongue": 1.2626,
+        "upper_lip": 0.2121,
+        "velum": 1.2225
+      },
+      "template": 9,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub009/track/sub009_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub009_2drt_17_topic1_track_frame-2657.json",
+      "sample_id": "annot16-dense:sub009_2drt_17_topic1:2657",
+      "source_frame_number": 2657,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.9002,
+        "chin": 0.6639,
+        "epiglottis": 2.6139,
+        "hard_palate": 0.4556,
+        "lower_lip": 0.7441,
+        "pharyngeal_wall": 1.2442,
+        "tongue": 1.7131,
+        "upper_lip": 0.2887,
+        "velum": 1.2754
+      },
+      "template": 6,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub009/track/sub009_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub009_2drt_17_topic1_track_frame-2688.json",
+      "sample_id": "annot16-dense:sub009_2drt_17_topic1:2688",
+      "source_frame_number": 2688,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.6222,
+        "chin": 0.551,
+        "epiglottis": 2.4079,
+        "hard_palate": 0.5199,
+        "lower_lip": 1.1239,
+        "pharyngeal_wall": 1.5826,
+        "tongue": 1.4073,
+        "upper_lip": 0.5168,
+        "velum": 1.5112
+      },
+      "template": 6,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub009/track/sub009_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub013_2drt_17_topic1_track_frame-1219.json",
+      "sample_id": "annot16-dense:sub013_2drt_17_topic1:1219",
+      "source_frame_number": 1219,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.71,
+        "chin": 0.5576,
+        "epiglottis": 0.8625,
+        "hard_palate": 0.4522,
+        "lower_lip": 0.5373,
+        "pharyngeal_wall": 0.8502,
+        "tongue": 1.1998,
+        "upper_lip": 0.2574,
+        "velum": 0.6022
+      },
+      "template": 24,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub013/track/sub013_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub013_2drt_17_topic1_track_frame-1446.json",
+      "sample_id": "annot16-dense:sub013_2drt_17_topic1:1446",
+      "source_frame_number": 1446,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.6241,
+        "chin": 0.6703,
+        "epiglottis": 0.9108,
+        "hard_palate": 0.371,
+        "lower_lip": 0.8793,
+        "pharyngeal_wall": 1.1454,
+        "tongue": 1.2509,
+        "upper_lip": 0.2784,
+        "velum": 0.6167
+      },
+      "template": 24,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub013/track/sub013_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub013_2drt_17_topic1_track_frame-1533.json",
+      "sample_id": "annot16-dense:sub013_2drt_17_topic1:1533",
+      "source_frame_number": 1533,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.8897,
+        "chin": 0.5723,
+        "epiglottis": 0.8385,
+        "hard_palate": 0.3937,
+        "lower_lip": 0.6355,
+        "pharyngeal_wall": 0.9604,
+        "tongue": 0.9906,
+        "upper_lip": 0.2294,
+        "velum": 0.5095
+      },
+      "template": 24,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub013/track/sub013_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub013_2drt_17_topic1_track_frame-1915.json",
+      "sample_id": "annot16-dense:sub013_2drt_17_topic1:1915",
+      "source_frame_number": 1915,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 2.752,
+        "chin": 0.8602,
+        "epiglottis": 1.833,
+        "hard_palate": 0.4999,
+        "lower_lip": 0.7452,
+        "pharyngeal_wall": 1.3893,
+        "tongue": 1.0321,
+        "upper_lip": 0.2556,
+        "velum": 0.7897
+      },
+      "template": 24,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub013/track/sub013_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub013_2drt_17_topic1_track_frame-1985.json",
+      "sample_id": "annot16-dense:sub013_2drt_17_topic1:1985",
+      "source_frame_number": 1985,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.908,
+        "chin": 0.6978,
+        "epiglottis": 1.2257,
+        "hard_palate": 0.3968,
+        "lower_lip": 0.7591,
+        "pharyngeal_wall": 2.169,
+        "tongue": 1.52,
+        "upper_lip": 0.4353,
+        "velum": 1.1922
+      },
+      "template": 23,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub013/track/sub013_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub013_2drt_17_topic1_track_frame-417.json",
+      "sample_id": "annot16-dense:sub013_2drt_17_topic1:417",
+      "source_frame_number": 417,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 3.1458,
+        "chin": 0.5854,
+        "epiglottis": 2.5917,
+        "hard_palate": 0.7434,
+        "lower_lip": 0.8371,
+        "pharyngeal_wall": 0.9479,
+        "tongue": 1.1483,
+        "upper_lip": 0.8755,
+        "velum": 0.7395
+      },
+      "template": 30,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub013/track/sub013_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub013_2drt_17_topic1_track_frame-545.json",
+      "sample_id": "annot16-dense:sub013_2drt_17_topic1:545",
+      "source_frame_number": 545,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.3484,
+        "chin": 0.6773,
+        "epiglottis": 1.5109,
+        "hard_palate": 0.3924,
+        "lower_lip": 0.7297,
+        "pharyngeal_wall": 0.7964,
+        "tongue": 1.436,
+        "upper_lip": 0.2786,
+        "velum": 0.6756
+      },
+      "template": 24,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub013/track/sub013_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub013_2drt_17_topic1_track_frame-717.json",
+      "sample_id": "annot16-dense:sub013_2drt_17_topic1:717",
+      "source_frame_number": 717,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.3799,
+        "chin": 0.5546,
+        "epiglottis": 1.6529,
+        "hard_palate": 0.4708,
+        "lower_lip": 0.8037,
+        "pharyngeal_wall": 1.3247,
+        "tongue": 1.3112,
+        "upper_lip": 0.3241,
+        "velum": 0.9563
+      },
+      "template": 24,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub013/track/sub013_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub013_2drt_17_topic1_track_frame-858.json",
+      "sample_id": "annot16-dense:sub013_2drt_17_topic1:858",
+      "source_frame_number": 858,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 3.0004,
+        "chin": 0.5768,
+        "epiglottis": 1.3239,
+        "hard_palate": 0.4426,
+        "lower_lip": 0.8385,
+        "pharyngeal_wall": 1.2009,
+        "tongue": 1.0248,
+        "upper_lip": 0.2423,
+        "velum": 0.8723
+      },
+      "template": 22,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub013/track/sub013_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub013_2drt_17_topic1_track_frame-958.json",
+      "sample_id": "annot16-dense:sub013_2drt_17_topic1:958",
+      "source_frame_number": 958,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 2.0226,
+        "chin": 0.5235,
+        "epiglottis": 1.5441,
+        "hard_palate": 0.4437,
+        "lower_lip": 0.3516,
+        "pharyngeal_wall": 1.024,
+        "tongue": 1.4141,
+        "upper_lip": 0.254,
+        "velum": 0.7454
+      },
+      "template": 24,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub013/track/sub013_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub022_2drt_17_topic1_track_frame-1002.json",
+      "sample_id": "annot16-dense:sub022_2drt_17_topic1:1002",
+      "source_frame_number": 1002,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.8794,
+        "chin": 0.6517,
+        "epiglottis": 1.1846,
+        "hard_palate": 0.4241,
+        "lower_lip": 0.7348,
+        "pharyngeal_wall": 1.3067,
+        "tongue": 1.0892,
+        "upper_lip": 0.7372,
+        "velum": 1.3487
+      },
+      "template": 10,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub022/track/sub022_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub022_2drt_17_topic1_track_frame-1070.json",
+      "sample_id": "annot16-dense:sub022_2drt_17_topic1:1070",
+      "source_frame_number": 1070,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.2373,
+        "chin": 0.5637,
+        "epiglottis": 1.7857,
+        "hard_palate": 0.4557,
+        "lower_lip": 0.6654,
+        "pharyngeal_wall": 0.7132,
+        "tongue": 1.4357,
+        "upper_lip": 0.5991,
+        "velum": 0.8418
+      },
+      "template": 10,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub022/track/sub022_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub022_2drt_17_topic1_track_frame-1650.json",
+      "sample_id": "annot16-dense:sub022_2drt_17_topic1:1650",
+      "source_frame_number": 1650,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.6238,
+        "chin": 0.4861,
+        "epiglottis": 1.7219,
+        "hard_palate": 0.3648,
+        "lower_lip": 0.5613,
+        "pharyngeal_wall": 0.7742,
+        "tongue": 0.9668,
+        "upper_lip": 0.5099,
+        "velum": 0.5206
+      },
+      "template": 8,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub022/track/sub022_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub022_2drt_17_topic1_track_frame-2007.json",
+      "sample_id": "annot16-dense:sub022_2drt_17_topic1:2007",
+      "source_frame_number": 2007,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.4863,
+        "chin": 0.4878,
+        "epiglottis": 1.1228,
+        "hard_palate": 0.4006,
+        "lower_lip": 0.5612,
+        "pharyngeal_wall": 0.98,
+        "tongue": 1.0296,
+        "upper_lip": 0.4936,
+        "velum": 0.6894
+      },
+      "template": 16,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub022/track/sub022_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub022_2drt_17_topic1_track_frame-2046.json",
+      "sample_id": "annot16-dense:sub022_2drt_17_topic1:2046",
+      "source_frame_number": 2046,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.682,
+        "chin": 0.5433,
+        "epiglottis": 1.9003,
+        "hard_palate": 0.3778,
+        "lower_lip": 0.4367,
+        "pharyngeal_wall": 1.3724,
+        "tongue": 1.6253,
+        "upper_lip": 0.4768,
+        "velum": 1.033
+      },
+      "template": 10,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub022/track/sub022_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub022_2drt_17_topic1_track_frame-2257.json",
+      "sample_id": "annot16-dense:sub022_2drt_17_topic1:2257",
+      "source_frame_number": 2257,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 2.421,
+        "chin": 0.4459,
+        "epiglottis": 2.2831,
+        "hard_palate": 0.3372,
+        "lower_lip": 0.4658,
+        "pharyngeal_wall": 0.7207,
+        "tongue": 1.5367,
+        "upper_lip": 0.6337,
+        "velum": 0.7086
+      },
+      "template": 8,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub022/track/sub022_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub022_2drt_17_topic1_track_frame-2367.json",
+      "sample_id": "annot16-dense:sub022_2drt_17_topic1:2367",
+      "source_frame_number": 2367,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.2732,
+        "chin": 0.4818,
+        "epiglottis": 1.7565,
+        "hard_palate": 0.3391,
+        "lower_lip": 0.5837,
+        "pharyngeal_wall": 0.669,
+        "tongue": 0.9319,
+        "upper_lip": 0.6164,
+        "velum": 1.0678
+      },
+      "template": 8,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub022/track/sub022_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub022_2drt_17_topic1_track_frame-2506.json",
+      "sample_id": "annot16-dense:sub022_2drt_17_topic1:2506",
+      "source_frame_number": 2506,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.7699,
+        "chin": 0.6511,
+        "epiglottis": 1.4154,
+        "hard_palate": 0.6125,
+        "lower_lip": 1.2102,
+        "pharyngeal_wall": 0.9668,
+        "tongue": 1.2344,
+        "upper_lip": 0.6487,
+        "velum": 0.839
+      },
+      "template": 16,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub022/track/sub022_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub022_2drt_17_topic1_track_frame-593.json",
+      "sample_id": "annot16-dense:sub022_2drt_17_topic1:593",
+      "source_frame_number": 593,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.7942,
+        "chin": 0.6164,
+        "epiglottis": 2.1547,
+        "hard_palate": 0.653,
+        "lower_lip": 0.736,
+        "pharyngeal_wall": 0.8514,
+        "tongue": 1.5587,
+        "upper_lip": 0.4994,
+        "velum": 0.9211
+      },
+      "template": 14,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub022/track/sub022_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub022_2drt_17_topic1_track_frame-857.json",
+      "sample_id": "annot16-dense:sub022_2drt_17_topic1:857",
+      "source_frame_number": 857,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.1996,
+        "chin": 0.5213,
+        "epiglottis": 1.4346,
+        "hard_palate": 0.4173,
+        "lower_lip": 0.6559,
+        "pharyngeal_wall": 0.8473,
+        "tongue": 1.1609,
+        "upper_lip": 0.5093,
+        "velum": 0.7807
+      },
+      "template": 14,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub022/track/sub022_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub023_2drt_17_topic1_track_frame-1703.json",
+      "sample_id": "annot16-dense:sub023_2drt_17_topic1:1703",
+      "source_frame_number": 1703,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.8329,
+        "chin": 0.8457,
+        "epiglottis": 1.5813,
+        "hard_palate": 1.3424,
+        "lower_lip": 0.7609,
+        "pharyngeal_wall": 1.0356,
+        "tongue": 1.5503,
+        "upper_lip": 1.1078,
+        "velum": 1.1854
+      },
+      "template": 24,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub023/track/sub023_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub023_2drt_17_topic1_track_frame-1759.json",
+      "sample_id": "annot16-dense:sub023_2drt_17_topic1:1759",
+      "source_frame_number": 1759,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.5746,
+        "chin": 0.668,
+        "epiglottis": 1.012,
+        "hard_palate": 0.6217,
+        "lower_lip": 1.0814,
+        "pharyngeal_wall": 0.9372,
+        "tongue": 1.2163,
+        "upper_lip": 0.7226,
+        "velum": 0.9921
+      },
+      "template": 23,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub023/track/sub023_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub023_2drt_17_topic1_track_frame-2114.json",
+      "sample_id": "annot16-dense:sub023_2drt_17_topic1:2114",
+      "source_frame_number": 2114,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.1719,
+        "chin": 0.9726,
+        "epiglottis": 1.8293,
+        "hard_palate": 1.118,
+        "lower_lip": 0.9406,
+        "pharyngeal_wall": 1.5528,
+        "tongue": 1.379,
+        "upper_lip": 1.6155,
+        "velum": 1.4237
+      },
+      "template": 5,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub023/track/sub023_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub023_2drt_17_topic1_track_frame-2180.json",
+      "sample_id": "annot16-dense:sub023_2drt_17_topic1:2180",
+      "source_frame_number": 2180,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.8652,
+        "chin": 0.6567,
+        "epiglottis": 1.2008,
+        "hard_palate": 0.6847,
+        "lower_lip": 0.8045,
+        "pharyngeal_wall": 0.9706,
+        "tongue": 1.559,
+        "upper_lip": 0.7271,
+        "velum": 1.1373
+      },
+      "template": 25,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub023/track/sub023_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub023_2drt_17_topic1_track_frame-2219.json",
+      "sample_id": "annot16-dense:sub023_2drt_17_topic1:2219",
+      "source_frame_number": 2219,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.2471,
+        "chin": 0.8801,
+        "epiglottis": 3.2767,
+        "hard_palate": 1.2207,
+        "lower_lip": 1.0959,
+        "pharyngeal_wall": 1.5218,
+        "tongue": 1.8333,
+        "upper_lip": 0.9432,
+        "velum": 1.7014
+      },
+      "template": 24,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub023/track/sub023_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub023_2drt_17_topic1_track_frame-2266.json",
+      "sample_id": "annot16-dense:sub023_2drt_17_topic1:2266",
+      "source_frame_number": 2266,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.2642,
+        "chin": 0.8131,
+        "epiglottis": 1.6609,
+        "hard_palate": 1.3783,
+        "lower_lip": 0.7576,
+        "pharyngeal_wall": 1.1423,
+        "tongue": 1.4353,
+        "upper_lip": 0.7535,
+        "velum": 1.0226
+      },
+      "template": 23,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub023/track/sub023_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub023_2drt_17_topic1_track_frame-2511.json",
+      "sample_id": "annot16-dense:sub023_2drt_17_topic1:2511",
+      "source_frame_number": 2511,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.6076,
+        "chin": 1.2135,
+        "epiglottis": 0.8469,
+        "hard_palate": 0.6071,
+        "lower_lip": 0.7496,
+        "pharyngeal_wall": 2.065,
+        "tongue": 1.2098,
+        "upper_lip": 0.6281,
+        "velum": 1.8099
+      },
+      "template": 13,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub023/track/sub023_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub023_2drt_17_topic1_track_frame-503.json",
+      "sample_id": "annot16-dense:sub023_2drt_17_topic1:503",
+      "source_frame_number": 503,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.7509,
+        "chin": 0.9205,
+        "epiglottis": 0.7915,
+        "hard_palate": 1.079,
+        "lower_lip": 1.0106,
+        "pharyngeal_wall": 1.7106,
+        "tongue": 1.3131,
+        "upper_lip": 0.4371,
+        "velum": 1.1969
+      },
+      "template": 17,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub023/track/sub023_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub023_2drt_17_topic1_track_frame-505.json",
+      "sample_id": "annot16-dense:sub023_2drt_17_topic1:505",
+      "source_frame_number": 505,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.8603,
+        "chin": 0.814,
+        "epiglottis": 1.0371,
+        "hard_palate": 1.0397,
+        "lower_lip": 0.7196,
+        "pharyngeal_wall": 1.6495,
+        "tongue": 1.5779,
+        "upper_lip": 0.5459,
+        "velum": 1.372
+      },
+      "template": 23,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub023/track/sub023_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub023_2drt_17_topic1_track_frame-571.json",
+      "sample_id": "annot16-dense:sub023_2drt_17_topic1:571",
+      "source_frame_number": 571,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.0144,
+        "chin": 0.646,
+        "epiglottis": 1.1972,
+        "hard_palate": 1.0001,
+        "lower_lip": 1.0705,
+        "pharyngeal_wall": 1.6977,
+        "tongue": 1.3536,
+        "upper_lip": 0.5716,
+        "velum": 1.3555
+      },
+      "template": 20,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub023/track/sub023_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub028_2drt_17_topic1_track_frame-1226.json",
+      "sample_id": "annot16-dense:sub028_2drt_17_topic1:1226",
+      "source_frame_number": 1226,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.7492,
+        "chin": 1.0335,
+        "epiglottis": 0.8615,
+        "hard_palate": 1.2169,
+        "lower_lip": 1.2877,
+        "pharyngeal_wall": 0.898,
+        "tongue": 0.9546,
+        "upper_lip": 1.0647,
+        "velum": 1.0703
+      },
+      "template": 13,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub028/track/sub028_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub028_2drt_17_topic1_track_frame-1785.json",
+      "sample_id": "annot16-dense:sub028_2drt_17_topic1:1785",
+      "source_frame_number": 1785,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.3756,
+        "chin": 1.0994,
+        "epiglottis": 0.6533,
+        "hard_palate": 1.0916,
+        "lower_lip": 1.1186,
+        "pharyngeal_wall": 1.2596,
+        "tongue": 1.327,
+        "upper_lip": 0.8044,
+        "velum": 2.7104
+      },
+      "template": 10,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub028/track/sub028_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub028_2drt_17_topic1_track_frame-1858.json",
+      "sample_id": "annot16-dense:sub028_2drt_17_topic1:1858",
+      "source_frame_number": 1858,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.7781,
+        "chin": 0.9367,
+        "epiglottis": 0.7739,
+        "hard_palate": 1.2024,
+        "lower_lip": 0.6507,
+        "pharyngeal_wall": 0.9694,
+        "tongue": 1.0056,
+        "upper_lip": 0.7596,
+        "velum": 0.9971
+      },
+      "template": 9,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub028/track/sub028_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub028_2drt_17_topic1_track_frame-1998.json",
+      "sample_id": "annot16-dense:sub028_2drt_17_topic1:1998",
+      "source_frame_number": 1998,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.9895,
+        "chin": 1.246,
+        "epiglottis": 0.7236,
+        "hard_palate": 1.2528,
+        "lower_lip": 0.8383,
+        "pharyngeal_wall": 0.9521,
+        "tongue": 0.9799,
+        "upper_lip": 0.8743,
+        "velum": 0.9556
+      },
+      "template": 13,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub028/track/sub028_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub028_2drt_17_topic1_track_frame-2208.json",
+      "sample_id": "annot16-dense:sub028_2drt_17_topic1:2208",
+      "source_frame_number": 2208,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.839,
+        "chin": 0.9775,
+        "epiglottis": 0.6769,
+        "hard_palate": 0.8658,
+        "lower_lip": 0.8932,
+        "pharyngeal_wall": 0.8167,
+        "tongue": 0.7761,
+        "upper_lip": 0.8865,
+        "velum": 0.6118
+      },
+      "template": 11,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub028/track/sub028_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub028_2drt_17_topic1_track_frame-2242.json",
+      "sample_id": "annot16-dense:sub028_2drt_17_topic1:2242",
+      "source_frame_number": 2242,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.9313,
+        "chin": 1.0322,
+        "epiglottis": 1.0217,
+        "hard_palate": 1.0236,
+        "lower_lip": 0.8954,
+        "pharyngeal_wall": 0.8628,
+        "tongue": 1.6821,
+        "upper_lip": 0.8739,
+        "velum": 0.7411
+      },
+      "template": 11,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub028/track/sub028_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub028_2drt_17_topic1_track_frame-2528.json",
+      "sample_id": "annot16-dense:sub028_2drt_17_topic1:2528",
+      "source_frame_number": 2528,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.8392,
+        "chin": 1.4612,
+        "epiglottis": 1.1123,
+        "hard_palate": 1.1141,
+        "lower_lip": 1.1427,
+        "pharyngeal_wall": 0.9658,
+        "tongue": 1.1916,
+        "upper_lip": 0.9154,
+        "velum": 0.9758
+      },
+      "template": 13,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub028/track/sub028_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub028_2drt_17_topic1_track_frame-2657.json",
+      "sample_id": "annot16-dense:sub028_2drt_17_topic1:2657",
+      "source_frame_number": 2657,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.4669,
+        "chin": 0.9114,
+        "epiglottis": 0.8983,
+        "hard_palate": 1.067,
+        "lower_lip": 0.96,
+        "pharyngeal_wall": 0.8181,
+        "tongue": 1.244,
+        "upper_lip": 1.2626,
+        "velum": 0.7327
+      },
+      "template": 8,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub028/track/sub028_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub028_2drt_17_topic1_track_frame-435.json",
+      "sample_id": "annot16-dense:sub028_2drt_17_topic1:435",
+      "source_frame_number": 435,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.8894,
+        "chin": 1.2144,
+        "epiglottis": 0.9664,
+        "hard_palate": 0.9818,
+        "lower_lip": 0.9837,
+        "pharyngeal_wall": 0.7624,
+        "tongue": 1.1583,
+        "upper_lip": 0.8395,
+        "velum": 0.9031
+      },
+      "template": 13,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub028/track/sub028_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub028_2drt_17_topic1_track_frame-944.json",
+      "sample_id": "annot16-dense:sub028_2drt_17_topic1:944",
+      "source_frame_number": 944,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.7606,
+        "chin": 1.2934,
+        "epiglottis": 0.9272,
+        "hard_palate": 0.7729,
+        "lower_lip": 1.2287,
+        "pharyngeal_wall": 0.7998,
+        "tongue": 1.1325,
+        "upper_lip": 0.9594,
+        "velum": 0.6225
+      },
+      "template": 8,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub028/track/sub028_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub030_2drt_17_topic1_track_frame-1013.json",
+      "sample_id": "annot16-dense:sub030_2drt_17_topic1:1013",
+      "source_frame_number": 1013,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 2.124,
+        "chin": 0.9836,
+        "epiglottis": 2.9876,
+        "hard_palate": 0.5791,
+        "lower_lip": 0.7813,
+        "pharyngeal_wall": 1.4479,
+        "tongue": 1.2274,
+        "upper_lip": 0.7278,
+        "velum": 0.8344
+      },
+      "template": 1,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub030/track/sub030_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub030_2drt_17_topic1_track_frame-1073.json",
+      "sample_id": "annot16-dense:sub030_2drt_17_topic1:1073",
+      "source_frame_number": 1073,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.9664,
+        "chin": 0.8581,
+        "epiglottis": 1.8149,
+        "hard_palate": 0.5354,
+        "lower_lip": 0.7223,
+        "pharyngeal_wall": 0.8262,
+        "tongue": 1.0528,
+        "upper_lip": 0.4305,
+        "velum": 1.2391
+      },
+      "template": 1,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub030/track/sub030_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub030_2drt_17_topic1_track_frame-1461.json",
+      "sample_id": "annot16-dense:sub030_2drt_17_topic1:1461",
+      "source_frame_number": 1461,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.8611,
+        "chin": 0.6745,
+        "epiglottis": 1.2804,
+        "hard_palate": 0.4748,
+        "lower_lip": 0.7127,
+        "pharyngeal_wall": 1.0343,
+        "tongue": 1.8732,
+        "upper_lip": 0.801,
+        "velum": 0.7771
+      },
+      "template": 1,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub030/track/sub030_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub030_2drt_17_topic1_track_frame-2037.json",
+      "sample_id": "annot16-dense:sub030_2drt_17_topic1:2037",
+      "source_frame_number": 2037,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.7153,
+        "chin": 0.6408,
+        "epiglottis": 2.3761,
+        "hard_palate": 0.5836,
+        "lower_lip": 0.707,
+        "pharyngeal_wall": 1.0864,
+        "tongue": 0.958,
+        "upper_lip": 0.4957,
+        "velum": 0.8135
+      },
+      "template": 1,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub030/track/sub030_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub030_2drt_17_topic1_track_frame-2237.json",
+      "sample_id": "annot16-dense:sub030_2drt_17_topic1:2237",
+      "source_frame_number": 2237,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.7856,
+        "chin": 0.854,
+        "epiglottis": 1.7867,
+        "hard_palate": 0.5183,
+        "lower_lip": 0.8595,
+        "pharyngeal_wall": 1.0104,
+        "tongue": 1.3227,
+        "upper_lip": 0.3568,
+        "velum": 0.5312
+      },
+      "template": 1,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub030/track/sub030_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub030_2drt_17_topic1_track_frame-2339.json",
+      "sample_id": "annot16-dense:sub030_2drt_17_topic1:2339",
+      "source_frame_number": 2339,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.179,
+        "chin": 0.8167,
+        "epiglottis": 1.7707,
+        "hard_palate": 0.5616,
+        "lower_lip": 0.7976,
+        "pharyngeal_wall": 0.8936,
+        "tongue": 1.4215,
+        "upper_lip": 0.5611,
+        "velum": 0.5338
+      },
+      "template": 1,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub030/track/sub030_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub030_2drt_17_topic1_track_frame-2355.json",
+      "sample_id": "annot16-dense:sub030_2drt_17_topic1:2355",
+      "source_frame_number": 2355,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.8418,
+        "chin": 0.6704,
+        "epiglottis": 1.5164,
+        "hard_palate": 0.4452,
+        "lower_lip": 0.7756,
+        "pharyngeal_wall": 0.702,
+        "tongue": 1.769,
+        "upper_lip": 0.5251,
+        "velum": 0.5995
+      },
+      "template": 1,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub030/track/sub030_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub030_2drt_17_topic1_track_frame-748.json",
+      "sample_id": "annot16-dense:sub030_2drt_17_topic1:748",
+      "source_frame_number": 748,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.4434,
+        "chin": 0.7975,
+        "epiglottis": 1.313,
+        "hard_palate": 0.4097,
+        "lower_lip": 0.7423,
+        "pharyngeal_wall": 0.9167,
+        "tongue": 1.0345,
+        "upper_lip": 0.6516,
+        "velum": 0.7287
+      },
+      "template": 1,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub030/track/sub030_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub030_2drt_17_topic1_track_frame-923.json",
+      "sample_id": "annot16-dense:sub030_2drt_17_topic1:923",
+      "source_frame_number": 923,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.8335,
+        "chin": 0.842,
+        "epiglottis": 3.002,
+        "hard_palate": 0.519,
+        "lower_lip": 0.7453,
+        "pharyngeal_wall": 0.8765,
+        "tongue": 1.0984,
+        "upper_lip": 0.8354,
+        "velum": 0.6416
+      },
+      "template": 1,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub030/track/sub030_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub030_2drt_17_topic1_track_frame-946.json",
+      "sample_id": "annot16-dense:sub030_2drt_17_topic1:946",
+      "source_frame_number": 946,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.9797,
+        "chin": 0.599,
+        "epiglottis": 2.5096,
+        "hard_palate": 0.4347,
+        "lower_lip": 0.5514,
+        "pharyngeal_wall": 0.7465,
+        "tongue": 2.0886,
+        "upper_lip": 0.6889,
+        "velum": 0.4148
+      },
+      "template": 1,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub030/track/sub030_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub034_2drt_17_topic1_track_frame-2119.json",
+      "sample_id": "annot16-dense:sub034_2drt_17_topic1:2119",
+      "source_frame_number": 2119,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.0599,
+        "chin": 0.8562,
+        "epiglottis": 1.475,
+        "hard_palate": 0.7218,
+        "lower_lip": 1.0326,
+        "pharyngeal_wall": 1.0781,
+        "tongue": 0.8678,
+        "upper_lip": 0.9054,
+        "velum": 0.7915
+      },
+      "template": 2,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub034/track/sub034_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub034_2drt_17_topic1_track_frame-2130.json",
+      "sample_id": "annot16-dense:sub034_2drt_17_topic1:2130",
+      "source_frame_number": 2130,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.0976,
+        "chin": 0.6533,
+        "epiglottis": 1.9391,
+        "hard_palate": 0.6621,
+        "lower_lip": 0.7385,
+        "pharyngeal_wall": 1.058,
+        "tongue": 0.7203,
+        "upper_lip": 1.0162,
+        "velum": 0.9844
+      },
+      "template": 2,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub034/track/sub034_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub034_2drt_17_topic1_track_frame-2205.json",
+      "sample_id": "annot16-dense:sub034_2drt_17_topic1:2205",
+      "source_frame_number": 2205,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.028,
+        "chin": 0.4488,
+        "epiglottis": 1.0316,
+        "hard_palate": 0.9379,
+        "lower_lip": 0.7684,
+        "pharyngeal_wall": 1.1473,
+        "tongue": 1.2151,
+        "upper_lip": 1.382,
+        "velum": 0.7464
+      },
+      "template": 2,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub034/track/sub034_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub034_2drt_17_topic1_track_frame-2214.json",
+      "sample_id": "annot16-dense:sub034_2drt_17_topic1:2214",
+      "source_frame_number": 2214,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.0517,
+        "chin": 1.0479,
+        "epiglottis": 1.6064,
+        "hard_palate": 0.962,
+        "lower_lip": 0.9885,
+        "pharyngeal_wall": 0.8516,
+        "tongue": 1.1882,
+        "upper_lip": 0.9464,
+        "velum": 0.9066
+      },
+      "template": 2,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub034/track/sub034_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub034_2drt_17_topic1_track_frame-278.json",
+      "sample_id": "annot16-dense:sub034_2drt_17_topic1:278",
+      "source_frame_number": 278,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.6746,
+        "chin": 0.6479,
+        "epiglottis": 1.5725,
+        "hard_palate": 0.6689,
+        "lower_lip": 0.5055,
+        "pharyngeal_wall": 1.0518,
+        "tongue": 1.0105,
+        "upper_lip": 0.7528,
+        "velum": 1.0046
+      },
+      "template": 2,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub034/track/sub034_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub034_2drt_17_topic1_track_frame-306.json",
+      "sample_id": "annot16-dense:sub034_2drt_17_topic1:306",
+      "source_frame_number": 306,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.605,
+        "chin": 0.5685,
+        "epiglottis": 1.2221,
+        "hard_palate": 1.0688,
+        "lower_lip": 0.7673,
+        "pharyngeal_wall": 0.8026,
+        "tongue": 0.9545,
+        "upper_lip": 0.8983,
+        "velum": 0.9639
+      },
+      "template": 2,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub034/track/sub034_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub034_2drt_17_topic1_track_frame-645.json",
+      "sample_id": "annot16-dense:sub034_2drt_17_topic1:645",
+      "source_frame_number": 645,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.1868,
+        "chin": 0.6737,
+        "epiglottis": 1.6308,
+        "hard_palate": 0.9636,
+        "lower_lip": 1.1528,
+        "pharyngeal_wall": 1.2521,
+        "tongue": 1.4472,
+        "upper_lip": 0.5792,
+        "velum": 3.7988
+      },
+      "template": 2,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub034/track/sub034_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub034_2drt_17_topic1_track_frame-692.json",
+      "sample_id": "annot16-dense:sub034_2drt_17_topic1:692",
+      "source_frame_number": 692,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.6639,
+        "chin": 0.4649,
+        "epiglottis": 0.7716,
+        "hard_palate": 0.5246,
+        "lower_lip": 1.2158,
+        "pharyngeal_wall": 0.8697,
+        "tongue": 1.2467,
+        "upper_lip": 0.7228,
+        "velum": 0.5014
+      },
+      "template": 1,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub034/track/sub034_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub034_2drt_17_topic1_track_frame-712.json",
+      "sample_id": "annot16-dense:sub034_2drt_17_topic1:712",
+      "source_frame_number": 712,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.5116,
+        "chin": 0.547,
+        "epiglottis": 1.1309,
+        "hard_palate": 0.6767,
+        "lower_lip": 0.724,
+        "pharyngeal_wall": 0.8305,
+        "tongue": 1.0007,
+        "upper_lip": 0.9274,
+        "velum": 1.1702
+      },
+      "template": 2,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub034/track/sub034_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub034_2drt_17_topic1_track_frame-826.json",
+      "sample_id": "annot16-dense:sub034_2drt_17_topic1:826",
+      "source_frame_number": 826,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.7416,
+        "chin": 0.6688,
+        "epiglottis": 1.1702,
+        "hard_palate": 0.5192,
+        "lower_lip": 0.8526,
+        "pharyngeal_wall": 0.7542,
+        "tongue": 0.7904,
+        "upper_lip": 0.643,
+        "velum": 0.484
+      },
+      "template": 2,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub034/track/sub034_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub043_2drt_17_topic1_track_frame-1136.json",
+      "sample_id": "annot16-dense:sub043_2drt_17_topic1:1136",
+      "source_frame_number": 1136,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.9225,
+        "chin": 1.1701,
+        "epiglottis": 0.5143,
+        "hard_palate": 0.7498,
+        "lower_lip": 0.663,
+        "pharyngeal_wall": 0.7594,
+        "tongue": 1.3379,
+        "upper_lip": 0.625,
+        "velum": 0.8371
+      },
+      "template": 12,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub043/track/sub043_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub043_2drt_17_topic1_track_frame-1690.json",
+      "sample_id": "annot16-dense:sub043_2drt_17_topic1:1690",
+      "source_frame_number": 1690,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 2.1152,
+        "chin": 0.9064,
+        "epiglottis": 0.5815,
+        "hard_palate": 0.5456,
+        "lower_lip": 0.8136,
+        "pharyngeal_wall": 0.7438,
+        "tongue": 1.0401,
+        "upper_lip": 0.6198,
+        "velum": 0.9658
+      },
+      "template": 17,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub043/track/sub043_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub043_2drt_17_topic1_track_frame-1989.json",
+      "sample_id": "annot16-dense:sub043_2drt_17_topic1:1989",
+      "source_frame_number": 1989,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.8956,
+        "chin": 0.7054,
+        "epiglottis": 0.4378,
+        "hard_palate": 0.5783,
+        "lower_lip": 0.6788,
+        "pharyngeal_wall": 0.5556,
+        "tongue": 1.2666,
+        "upper_lip": 0.8497,
+        "velum": 1.3666
+      },
+      "template": 12,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub043/track/sub043_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub043_2drt_17_topic1_track_frame-2535.json",
+      "sample_id": "annot16-dense:sub043_2drt_17_topic1:2535",
+      "source_frame_number": 2535,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.2419,
+        "chin": 0.8781,
+        "epiglottis": 0.7601,
+        "hard_palate": 0.5871,
+        "lower_lip": 0.564,
+        "pharyngeal_wall": 0.5565,
+        "tongue": 1.5432,
+        "upper_lip": 0.7614,
+        "velum": 0.9417
+      },
+      "template": 10,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub043/track/sub043_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub043_2drt_17_topic1_track_frame-2539.json",
+      "sample_id": "annot16-dense:sub043_2drt_17_topic1:2539",
+      "source_frame_number": 2539,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.1504,
+        "chin": 1.0229,
+        "epiglottis": 1.226,
+        "hard_palate": 0.5571,
+        "lower_lip": 0.9223,
+        "pharyngeal_wall": 0.6968,
+        "tongue": 1.5287,
+        "upper_lip": 0.4012,
+        "velum": 0.7767
+      },
+      "template": 10,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub043/track/sub043_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub043_2drt_17_topic1_track_frame-2558.json",
+      "sample_id": "annot16-dense:sub043_2drt_17_topic1:2558",
+      "source_frame_number": 2558,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.2646,
+        "chin": 0.7053,
+        "epiglottis": 0.9982,
+        "hard_palate": 0.794,
+        "lower_lip": 0.652,
+        "pharyngeal_wall": 0.7439,
+        "tongue": 1.6972,
+        "upper_lip": 0.6286,
+        "velum": 0.8829
+      },
+      "template": 10,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub043/track/sub043_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub043_2drt_17_topic1_track_frame-2623.json",
+      "sample_id": "annot16-dense:sub043_2drt_17_topic1:2623",
+      "source_frame_number": 2623,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.4312,
+        "chin": 0.8967,
+        "epiglottis": 1.466,
+        "hard_palate": 1.5392,
+        "lower_lip": 1.0479,
+        "pharyngeal_wall": 0.7969,
+        "tongue": 1.9439,
+        "upper_lip": 0.7871,
+        "velum": 1.1345
+      },
+      "template": 5,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub043/track/sub043_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub043_2drt_17_topic1_track_frame-2760.json",
+      "sample_id": "annot16-dense:sub043_2drt_17_topic1:2760",
+      "source_frame_number": 2760,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.4195,
+        "chin": 0.8654,
+        "epiglottis": 2.3346,
+        "hard_palate": 0.8058,
+        "lower_lip": 1.0712,
+        "pharyngeal_wall": 0.8283,
+        "tongue": 1.5038,
+        "upper_lip": 0.6719,
+        "velum": 0.7455
+      },
+      "template": 3,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub043/track/sub043_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub043_2drt_17_topic1_track_frame-627.json",
+      "sample_id": "annot16-dense:sub043_2drt_17_topic1:627",
+      "source_frame_number": 627,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.53,
+        "chin": 1.2857,
+        "epiglottis": 0.9236,
+        "hard_palate": 0.4014,
+        "lower_lip": 1.0228,
+        "pharyngeal_wall": 0.8126,
+        "tongue": 1.2167,
+        "upper_lip": 0.4706,
+        "velum": 0.7885
+      },
+      "template": 21,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub043/track/sub043_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub043_2drt_17_topic1_track_frame-813.json",
+      "sample_id": "annot16-dense:sub043_2drt_17_topic1:813",
+      "source_frame_number": 813,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.7348,
+        "chin": 0.8282,
+        "epiglottis": 1.4836,
+        "hard_palate": 0.5413,
+        "lower_lip": 0.6133,
+        "pharyngeal_wall": 1.0696,
+        "tongue": 1.439,
+        "upper_lip": 0.6152,
+        "velum": 0.7882
+      },
+      "template": 7,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub043/track/sub043_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub047_2drt_17_topic1_track_frame-1057.json",
+      "sample_id": "annot16-dense:sub047_2drt_17_topic1:1057",
+      "source_frame_number": 1057,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.9799,
+        "chin": 0.64,
+        "epiglottis": 1.2535,
+        "hard_palate": 0.4974,
+        "lower_lip": 0.9169,
+        "pharyngeal_wall": 1.0029,
+        "tongue": 1.239,
+        "upper_lip": 0.7082,
+        "velum": 0.9817
+      },
+      "template": 2,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub047/track/sub047_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub047_2drt_17_topic1_track_frame-1210.json",
+      "sample_id": "annot16-dense:sub047_2drt_17_topic1:1210",
+      "source_frame_number": 1210,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.8267,
+        "chin": 0.4962,
+        "epiglottis": 2.0483,
+        "hard_palate": 0.5775,
+        "lower_lip": 0.6291,
+        "pharyngeal_wall": 1.0641,
+        "tongue": 1.182,
+        "upper_lip": 0.557,
+        "velum": 0.8415
+      },
+      "template": 1,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub047/track/sub047_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub047_2drt_17_topic1_track_frame-1760.json",
+      "sample_id": "annot16-dense:sub047_2drt_17_topic1:1760",
+      "source_frame_number": 1760,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.7247,
+        "chin": 0.4653,
+        "epiglottis": 0.8673,
+        "hard_palate": 0.405,
+        "lower_lip": 0.7157,
+        "pharyngeal_wall": 1.0722,
+        "tongue": 1.2056,
+        "upper_lip": 0.4011,
+        "velum": 0.7545
+      },
+      "template": 2,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub047/track/sub047_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub047_2drt_17_topic1_track_frame-2283.json",
+      "sample_id": "annot16-dense:sub047_2drt_17_topic1:2283",
+      "source_frame_number": 2283,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.0525,
+        "chin": 0.4462,
+        "epiglottis": 1.5803,
+        "hard_palate": 0.6912,
+        "lower_lip": 0.6656,
+        "pharyngeal_wall": 1.2666,
+        "tongue": 0.9453,
+        "upper_lip": 0.6349,
+        "velum": 1.2903
+      },
+      "template": 2,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub047/track/sub047_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub047_2drt_17_topic1_track_frame-2409.json",
+      "sample_id": "annot16-dense:sub047_2drt_17_topic1:2409",
+      "source_frame_number": 2409,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.9921,
+        "chin": 0.7025,
+        "epiglottis": 1.8121,
+        "hard_palate": 0.625,
+        "lower_lip": 0.6032,
+        "pharyngeal_wall": 1.1919,
+        "tongue": 0.9187,
+        "upper_lip": 0.5187,
+        "velum": 0.5684
+      },
+      "template": 5,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub047/track/sub047_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub047_2drt_17_topic1_track_frame-247.json",
+      "sample_id": "annot16-dense:sub047_2drt_17_topic1:247",
+      "source_frame_number": 247,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 2.166,
+        "chin": 0.4908,
+        "epiglottis": 1.1386,
+        "hard_palate": 0.7283,
+        "lower_lip": 0.8135,
+        "pharyngeal_wall": 1.0009,
+        "tongue": 1.4971,
+        "upper_lip": 0.5461,
+        "velum": 1.251
+      },
+      "template": 2,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub047/track/sub047_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub047_2drt_17_topic1_track_frame-252.json",
+      "sample_id": "annot16-dense:sub047_2drt_17_topic1:252",
+      "source_frame_number": 252,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.6687,
+        "chin": 0.7638,
+        "epiglottis": 1.1289,
+        "hard_palate": 0.4654,
+        "lower_lip": 0.5108,
+        "pharyngeal_wall": 1.136,
+        "tongue": 0.8818,
+        "upper_lip": 0.435,
+        "velum": 0.9779
+      },
+      "template": 3,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub047/track/sub047_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub047_2drt_17_topic1_track_frame-296.json",
+      "sample_id": "annot16-dense:sub047_2drt_17_topic1:296",
+      "source_frame_number": 296,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.889,
+        "chin": 0.5444,
+        "epiglottis": 1.258,
+        "hard_palate": 0.9285,
+        "lower_lip": 0.5839,
+        "pharyngeal_wall": 1.0851,
+        "tongue": 1.1999,
+        "upper_lip": 0.6095,
+        "velum": 0.972
+      },
+      "template": 2,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub047/track/sub047_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub047_2drt_17_topic1_track_frame-437.json",
+      "sample_id": "annot16-dense:sub047_2drt_17_topic1:437",
+      "source_frame_number": 437,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.3436,
+        "chin": 0.6513,
+        "epiglottis": 0.7658,
+        "hard_palate": 0.7952,
+        "lower_lip": 1.3346,
+        "pharyngeal_wall": 0.9411,
+        "tongue": 1.0306,
+        "upper_lip": 0.6453,
+        "velum": 1.2429
+      },
+      "template": 2,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub047/track/sub047_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub047_2drt_17_topic1_track_frame-701.json",
+      "sample_id": "annot16-dense:sub047_2drt_17_topic1:701",
+      "source_frame_number": 701,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.8402,
+        "chin": 1.1428,
+        "epiglottis": 1.7291,
+        "hard_palate": 0.7353,
+        "lower_lip": 0.9819,
+        "pharyngeal_wall": 1.4021,
+        "tongue": 1.3301,
+        "upper_lip": 1.042,
+        "velum": 0.7165
+      },
+      "template": 5,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub047/track/sub047_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub061_2drt_17_topic1_track_frame-1005.json",
+      "sample_id": "annot16-dense:sub061_2drt_17_topic1:1005",
+      "source_frame_number": 1005,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.6869,
+        "chin": 0.6393,
+        "epiglottis": 0.6166,
+        "hard_palate": 0.9034,
+        "lower_lip": 1.0264,
+        "pharyngeal_wall": 0.7354,
+        "tongue": 1.0551,
+        "upper_lip": 0.6323,
+        "velum": 0.8224
+      },
+      "template": 6,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub061/track/sub061_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub061_2drt_17_topic1_track_frame-1074.json",
+      "sample_id": "annot16-dense:sub061_2drt_17_topic1:1074",
+      "source_frame_number": 1074,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.6626,
+        "chin": 0.722,
+        "epiglottis": 1.1158,
+        "hard_palate": 0.7453,
+        "lower_lip": 0.6468,
+        "pharyngeal_wall": 0.8281,
+        "tongue": 0.8852,
+        "upper_lip": 0.62,
+        "velum": 0.5869
+      },
+      "template": 4,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub061/track/sub061_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub061_2drt_17_topic1_track_frame-1269.json",
+      "sample_id": "annot16-dense:sub061_2drt_17_topic1:1269",
+      "source_frame_number": 1269,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.8552,
+        "chin": 0.7235,
+        "epiglottis": 1.118,
+        "hard_palate": 1.0873,
+        "lower_lip": 0.567,
+        "pharyngeal_wall": 0.804,
+        "tongue": 0.8835,
+        "upper_lip": 0.5597,
+        "velum": 0.738
+      },
+      "template": 1,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub061/track/sub061_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub061_2drt_17_topic1_track_frame-1519.json",
+      "sample_id": "annot16-dense:sub061_2drt_17_topic1:1519",
+      "source_frame_number": 1519,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.1367,
+        "chin": 0.7067,
+        "epiglottis": 0.9853,
+        "hard_palate": 0.9022,
+        "lower_lip": 0.5078,
+        "pharyngeal_wall": 0.7311,
+        "tongue": 1.0445,
+        "upper_lip": 0.6253,
+        "velum": 0.6064
+      },
+      "template": 1,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub061/track/sub061_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub061_2drt_17_topic1_track_frame-1638.json",
+      "sample_id": "annot16-dense:sub061_2drt_17_topic1:1638",
+      "source_frame_number": 1638,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.59,
+        "chin": 0.5379,
+        "epiglottis": 0.7051,
+        "hard_palate": 0.7293,
+        "lower_lip": 0.6655,
+        "pharyngeal_wall": 0.8015,
+        "tongue": 0.9309,
+        "upper_lip": 0.6238,
+        "velum": 0.6416
+      },
+      "template": 7,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub061/track/sub061_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub061_2drt_17_topic1_track_frame-2430.json",
+      "sample_id": "annot16-dense:sub061_2drt_17_topic1:2430",
+      "source_frame_number": 2430,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.6833,
+        "chin": 0.9609,
+        "epiglottis": 1.2187,
+        "hard_palate": 0.8601,
+        "lower_lip": 0.5493,
+        "pharyngeal_wall": 0.8352,
+        "tongue": 1.19,
+        "upper_lip": 0.6374,
+        "velum": 1.4218
+      },
+      "template": 8,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub061/track/sub061_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub061_2drt_17_topic1_track_frame-2516.json",
+      "sample_id": "annot16-dense:sub061_2drt_17_topic1:2516",
+      "source_frame_number": 2516,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.5819,
+        "chin": 0.6615,
+        "epiglottis": 1.2051,
+        "hard_palate": 0.7288,
+        "lower_lip": 0.4746,
+        "pharyngeal_wall": 0.8522,
+        "tongue": 0.9983,
+        "upper_lip": 0.7546,
+        "velum": 0.4799
+      },
+      "template": 1,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub061/track/sub061_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub061_2drt_17_topic1_track_frame-2649.json",
+      "sample_id": "annot16-dense:sub061_2drt_17_topic1:2649",
+      "source_frame_number": 2649,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.6171,
+        "chin": 0.6281,
+        "epiglottis": 1.0097,
+        "hard_palate": 0.8668,
+        "lower_lip": 0.4992,
+        "pharyngeal_wall": 0.8317,
+        "tongue": 1.5891,
+        "upper_lip": 0.6359,
+        "velum": 0.6299
+      },
+      "template": 4,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub061/track/sub061_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub061_2drt_17_topic1_track_frame-2659.json",
+      "sample_id": "annot16-dense:sub061_2drt_17_topic1:2659",
+      "source_frame_number": 2659,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.3469,
+        "chin": 1.0396,
+        "epiglottis": 1.5409,
+        "hard_palate": 1.8453,
+        "lower_lip": 0.7361,
+        "pharyngeal_wall": 1.1861,
+        "tongue": 1.322,
+        "upper_lip": 0.7771,
+        "velum": 1.2989
+      },
+      "template": 8,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub061/track/sub061_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub061_2drt_17_topic1_track_frame-530.json",
+      "sample_id": "annot16-dense:sub061_2drt_17_topic1:530",
+      "source_frame_number": 530,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.7584,
+        "chin": 0.6182,
+        "epiglottis": 1.3038,
+        "hard_palate": 1.0606,
+        "lower_lip": 0.6053,
+        "pharyngeal_wall": 1.0942,
+        "tongue": 0.9547,
+        "upper_lip": 0.7067,
+        "velum": 0.9193
+      },
+      "template": 8,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub061/track/sub061_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub064_2drt_17_topic1_track_frame-1969.json",
+      "sample_id": "annot16-dense:sub064_2drt_17_topic1:1969",
+      "source_frame_number": 1969,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.6908,
+        "chin": 0.95,
+        "epiglottis": 0.9144,
+        "hard_palate": 0.7561,
+        "lower_lip": 1.1796,
+        "pharyngeal_wall": 1.4749,
+        "tongue": 1.7222,
+        "upper_lip": 1.1896,
+        "velum": 1.1737
+      },
+      "template": 9,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub064/track/sub064_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub064_2drt_17_topic1_track_frame-1994.json",
+      "sample_id": "annot16-dense:sub064_2drt_17_topic1:1994",
+      "source_frame_number": 1994,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.2542,
+        "chin": 0.9948,
+        "epiglottis": 1.2553,
+        "hard_palate": 0.7586,
+        "lower_lip": 1.0507,
+        "pharyngeal_wall": 0.8304,
+        "tongue": 1.7899,
+        "upper_lip": 0.5839,
+        "velum": 1.0464
+      },
+      "template": 1,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub064/track/sub064_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub064_2drt_17_topic1_track_frame-2013.json",
+      "sample_id": "annot16-dense:sub064_2drt_17_topic1:2013",
+      "source_frame_number": 2013,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.0986,
+        "chin": 0.7709,
+        "epiglottis": 0.8963,
+        "hard_palate": 0.8194,
+        "lower_lip": 1.3399,
+        "pharyngeal_wall": 1.1651,
+        "tongue": 1.4547,
+        "upper_lip": 1.2489,
+        "velum": 1.0245
+      },
+      "template": 9,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub064/track/sub064_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub064_2drt_17_topic1_track_frame-270.json",
+      "sample_id": "annot16-dense:sub064_2drt_17_topic1:270",
+      "source_frame_number": 270,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.2447,
+        "chin": 0.862,
+        "epiglottis": 0.8947,
+        "hard_palate": 0.7417,
+        "lower_lip": 1.1913,
+        "pharyngeal_wall": 0.998,
+        "tongue": 1.3122,
+        "upper_lip": 0.83,
+        "velum": 1.1435
+      },
+      "template": 1,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub064/track/sub064_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub064_2drt_17_topic1_track_frame-495.json",
+      "sample_id": "annot16-dense:sub064_2drt_17_topic1:495",
+      "source_frame_number": 495,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 2.6175,
+        "chin": 1.034,
+        "epiglottis": 1.1212,
+        "hard_palate": 0.803,
+        "lower_lip": 1.8141,
+        "pharyngeal_wall": 1.0658,
+        "tongue": 2.3792,
+        "upper_lip": 0.7396,
+        "velum": 1.1037
+      },
+      "template": 8,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub064/track/sub064_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub064_2drt_17_topic1_track_frame-513.json",
+      "sample_id": "annot16-dense:sub064_2drt_17_topic1:513",
+      "source_frame_number": 513,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.1498,
+        "chin": 0.6293,
+        "epiglottis": 0.9756,
+        "hard_palate": 0.9204,
+        "lower_lip": 1.153,
+        "pharyngeal_wall": 0.6515,
+        "tongue": 1.1084,
+        "upper_lip": 0.6742,
+        "velum": 1.1708
+      },
+      "template": 3,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub064/track/sub064_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub064_2drt_17_topic1_track_frame-723.json",
+      "sample_id": "annot16-dense:sub064_2drt_17_topic1:723",
+      "source_frame_number": 723,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 2.1359,
+        "chin": 1.2007,
+        "epiglottis": 0.9712,
+        "hard_palate": 0.7164,
+        "lower_lip": 1.0101,
+        "pharyngeal_wall": 0.6862,
+        "tongue": 1.49,
+        "upper_lip": 0.8851,
+        "velum": 1.2935
+      },
+      "template": 9,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub064/track/sub064_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub064_2drt_17_topic1_track_frame-780.json",
+      "sample_id": "annot16-dense:sub064_2drt_17_topic1:780",
+      "source_frame_number": 780,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.8608,
+        "chin": 0.8985,
+        "epiglottis": 1.0205,
+        "hard_palate": 0.7565,
+        "lower_lip": 1.305,
+        "pharyngeal_wall": 1.8785,
+        "tongue": 1.7777,
+        "upper_lip": 0.9433,
+        "velum": 1.1841
+      },
+      "template": 9,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub064/track/sub064_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub064_2drt_17_topic1_track_frame-810.json",
+      "sample_id": "annot16-dense:sub064_2drt_17_topic1:810",
+      "source_frame_number": 810,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.0926,
+        "chin": 0.7303,
+        "epiglottis": 1.4352,
+        "hard_palate": 0.7377,
+        "lower_lip": 1.0447,
+        "pharyngeal_wall": 0.9182,
+        "tongue": 1.92,
+        "upper_lip": 0.7677,
+        "velum": 0.7744
+      },
+      "template": 9,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub064/track/sub064_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub064_2drt_17_topic1_track_frame-955.json",
+      "sample_id": "annot16-dense:sub064_2drt_17_topic1:955",
+      "source_frame_number": 955,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 2.2984,
+        "chin": 0.9072,
+        "epiglottis": 1.1113,
+        "hard_palate": 0.7388,
+        "lower_lip": 1.0688,
+        "pharyngeal_wall": 0.9548,
+        "tongue": 1.5688,
+        "upper_lip": 0.6283,
+        "velum": 0.6403
+      },
+      "template": 8,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub064/track/sub064_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub068_2drt_17_topic1_track_frame-1055.json",
+      "sample_id": "annot16-dense:sub068_2drt_17_topic1:1055",
+      "source_frame_number": 1055,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.3441,
+        "chin": 1.0983,
+        "epiglottis": 0.7812,
+        "hard_palate": 1.016,
+        "lower_lip": 1.2187,
+        "pharyngeal_wall": 1.0785,
+        "tongue": 1.3269,
+        "upper_lip": 0.7464,
+        "velum": 0.7987
+      },
+      "template": 5,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub068/track/sub068_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub068_2drt_17_topic1_track_frame-1261.json",
+      "sample_id": "annot16-dense:sub068_2drt_17_topic1:1261",
+      "source_frame_number": 1261,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.8583,
+        "chin": 0.7382,
+        "epiglottis": 1.0219,
+        "hard_palate": 0.6188,
+        "lower_lip": 1.0555,
+        "pharyngeal_wall": 1.2594,
+        "tongue": 1.4567,
+        "upper_lip": 1.0192,
+        "velum": 1.0801
+      },
+      "template": 2,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub068/track/sub068_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub068_2drt_17_topic1_track_frame-1587.json",
+      "sample_id": "annot16-dense:sub068_2drt_17_topic1:1587",
+      "source_frame_number": 1587,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 2.237,
+        "chin": 1.0784,
+        "epiglottis": 1.0655,
+        "hard_palate": 1.2299,
+        "lower_lip": 1.1534,
+        "pharyngeal_wall": 1.1653,
+        "tongue": 1.0188,
+        "upper_lip": 1.2077,
+        "velum": 0.9846
+      },
+      "template": 2,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub068/track/sub068_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub068_2drt_17_topic1_track_frame-1886.json",
+      "sample_id": "annot16-dense:sub068_2drt_17_topic1:1886",
+      "source_frame_number": 1886,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 2.0252,
+        "chin": 0.7347,
+        "epiglottis": 1.4435,
+        "hard_palate": 0.3972,
+        "lower_lip": 1.2697,
+        "pharyngeal_wall": 0.6797,
+        "tongue": 1.2558,
+        "upper_lip": 0.6177,
+        "velum": 0.6768
+      },
+      "template": 2,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub068/track/sub068_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub068_2drt_17_topic1_track_frame-2532.json",
+      "sample_id": "annot16-dense:sub068_2drt_17_topic1:2532",
+      "source_frame_number": 2532,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.568,
+        "chin": 0.9746,
+        "epiglottis": 0.703,
+        "hard_palate": 1.0399,
+        "lower_lip": 0.9465,
+        "pharyngeal_wall": 1.1264,
+        "tongue": 0.8836,
+        "upper_lip": 1.1469,
+        "velum": 0.965
+      },
+      "template": 2,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub068/track/sub068_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub068_2drt_17_topic1_track_frame-2611.json",
+      "sample_id": "annot16-dense:sub068_2drt_17_topic1:2611",
+      "source_frame_number": 2611,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 2.8251,
+        "chin": 0.5657,
+        "epiglottis": 0.8488,
+        "hard_palate": 0.7162,
+        "lower_lip": 1.1457,
+        "pharyngeal_wall": 0.8119,
+        "tongue": 1.1652,
+        "upper_lip": 1.2351,
+        "velum": 1.0527
+      },
+      "template": 5,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub068/track/sub068_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub068_2drt_17_topic1_track_frame-278.json",
+      "sample_id": "annot16-dense:sub068_2drt_17_topic1:278",
+      "source_frame_number": 278,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 2.0123,
+        "chin": 1.0227,
+        "epiglottis": 0.641,
+        "hard_palate": 0.6231,
+        "lower_lip": 0.9924,
+        "pharyngeal_wall": 1.2405,
+        "tongue": 1.2943,
+        "upper_lip": 1.4403,
+        "velum": 1.2979
+      },
+      "template": 2,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub068/track/sub068_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub068_2drt_17_topic1_track_frame-684.json",
+      "sample_id": "annot16-dense:sub068_2drt_17_topic1:684",
+      "source_frame_number": 684,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 2.1299,
+        "chin": 1.2385,
+        "epiglottis": 1.1872,
+        "hard_palate": 0.7144,
+        "lower_lip": 0.9847,
+        "pharyngeal_wall": 1.2255,
+        "tongue": 1.1955,
+        "upper_lip": 1.2707,
+        "velum": 1.2956
+      },
+      "template": 2,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub068/track/sub068_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub068_2drt_17_topic1_track_frame-694.json",
+      "sample_id": "annot16-dense:sub068_2drt_17_topic1:694",
+      "source_frame_number": 694,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.6574,
+        "chin": 0.6965,
+        "epiglottis": 1.416,
+        "hard_palate": 0.7227,
+        "lower_lip": 0.9845,
+        "pharyngeal_wall": 1.1055,
+        "tongue": 1.3071,
+        "upper_lip": 1.1271,
+        "velum": 0.8624
+      },
+      "template": 5,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub068/track/sub068_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub068_2drt_17_topic1_track_frame-902.json",
+      "sample_id": "annot16-dense:sub068_2drt_17_topic1:902",
+      "source_frame_number": 902,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.9469,
+        "chin": 0.9618,
+        "epiglottis": 0.7196,
+        "hard_palate": 1.088,
+        "lower_lip": 1.3517,
+        "pharyngeal_wall": 0.911,
+        "tongue": 1.2972,
+        "upper_lip": 1.1323,
+        "velum": 1.0536
+      },
+      "template": 5,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub068/track/sub068_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub070_2drt_17_topic1_track_frame-1220.json",
+      "sample_id": "annot16-dense:sub070_2drt_17_topic1:1220",
+      "source_frame_number": 1220,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.8948,
+        "chin": 0.6688,
+        "epiglottis": 1.1989,
+        "hard_palate": 0.463,
+        "lower_lip": 0.821,
+        "pharyngeal_wall": 0.9872,
+        "tongue": 1.261,
+        "upper_lip": 0.8367,
+        "velum": 0.9875
+      },
+      "template": 12,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub070/track/sub070_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub070_2drt_17_topic1_track_frame-1296.json",
+      "sample_id": "annot16-dense:sub070_2drt_17_topic1:1296",
+      "source_frame_number": 1296,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.725,
+        "chin": 1.0153,
+        "epiglottis": 2.1542,
+        "hard_palate": 0.6354,
+        "lower_lip": 1.0342,
+        "pharyngeal_wall": 0.4973,
+        "tongue": 2.671,
+        "upper_lip": 1.2297,
+        "velum": 1.0038
+      },
+      "template": 12,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub070/track/sub070_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub070_2drt_17_topic1_track_frame-1450.json",
+      "sample_id": "annot16-dense:sub070_2drt_17_topic1:1450",
+      "source_frame_number": 1450,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.455,
+        "chin": 0.6659,
+        "epiglottis": 0.7902,
+        "hard_palate": 0.5233,
+        "lower_lip": 0.9111,
+        "pharyngeal_wall": 0.694,
+        "tongue": 1.472,
+        "upper_lip": 1.2071,
+        "velum": 0.9726
+      },
+      "template": 6,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub070/track/sub070_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub070_2drt_17_topic1_track_frame-1512.json",
+      "sample_id": "annot16-dense:sub070_2drt_17_topic1:1512",
+      "source_frame_number": 1512,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.717,
+        "chin": 1.0136,
+        "epiglottis": 2.1573,
+        "hard_palate": 0.5965,
+        "lower_lip": 0.9763,
+        "pharyngeal_wall": 0.6962,
+        "tongue": 1.704,
+        "upper_lip": 0.9905,
+        "velum": 0.9674
+      },
+      "template": 12,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub070/track/sub070_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub070_2drt_17_topic1_track_frame-1519.json",
+      "sample_id": "annot16-dense:sub070_2drt_17_topic1:1519",
+      "source_frame_number": 1519,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.6898,
+        "chin": 0.5852,
+        "epiglottis": 2.5018,
+        "hard_palate": 0.4527,
+        "lower_lip": 0.7771,
+        "pharyngeal_wall": 0.5271,
+        "tongue": 2.2471,
+        "upper_lip": 0.7364,
+        "velum": 0.8946
+      },
+      "template": 12,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub070/track/sub070_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub070_2drt_17_topic1_track_frame-2235.json",
+      "sample_id": "annot16-dense:sub070_2drt_17_topic1:2235",
+      "source_frame_number": 2235,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.9782,
+        "chin": 1.0902,
+        "epiglottis": 2.1561,
+        "hard_palate": 0.4793,
+        "lower_lip": 0.8909,
+        "pharyngeal_wall": 0.6179,
+        "tongue": 1.2999,
+        "upper_lip": 1.2917,
+        "velum": 0.7714
+      },
+      "template": 12,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub070/track/sub070_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub070_2drt_17_topic1_track_frame-410.json",
+      "sample_id": "annot16-dense:sub070_2drt_17_topic1:410",
+      "source_frame_number": 410,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.2226,
+        "chin": 1.2511,
+        "epiglottis": 0.9504,
+        "hard_palate": 0.837,
+        "lower_lip": 0.8785,
+        "pharyngeal_wall": 0.461,
+        "tongue": 1.1716,
+        "upper_lip": 1.5057,
+        "velum": 0.8873
+      },
+      "template": 12,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub070/track/sub070_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub070_2drt_17_topic1_track_frame-608.json",
+      "sample_id": "annot16-dense:sub070_2drt_17_topic1:608",
+      "source_frame_number": 608,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.8595,
+        "chin": 1.0015,
+        "epiglottis": 1.2206,
+        "hard_palate": 0.4648,
+        "lower_lip": 1.0142,
+        "pharyngeal_wall": 0.4391,
+        "tongue": 1.4876,
+        "upper_lip": 0.5673,
+        "velum": 0.9279
+      },
+      "template": 12,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub070/track/sub070_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub070_2drt_17_topic1_track_frame-717.json",
+      "sample_id": "annot16-dense:sub070_2drt_17_topic1:717",
+      "source_frame_number": 717,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.9297,
+        "chin": 1.1238,
+        "epiglottis": 1.1708,
+        "hard_palate": 0.5999,
+        "lower_lip": 0.9454,
+        "pharyngeal_wall": 0.6201,
+        "tongue": 1.4507,
+        "upper_lip": 1.1669,
+        "velum": 0.8167
+      },
+      "template": 12,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub070/track/sub070_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub070_2drt_17_topic1_track_frame-992.json",
+      "sample_id": "annot16-dense:sub070_2drt_17_topic1:992",
+      "source_frame_number": 992,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.8151,
+        "chin": 1.1721,
+        "epiglottis": 0.928,
+        "hard_palate": 0.7634,
+        "lower_lip": 0.9284,
+        "pharyngeal_wall": 0.5056,
+        "tongue": 1.4656,
+        "upper_lip": 1.0729,
+        "velum": 1.149
+      },
+      "template": 12,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub070/track/sub070_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub071_2drt_17_topic1_track_frame-1011.json",
+      "sample_id": "annot16-dense:sub071_2drt_17_topic1:1011",
+      "source_frame_number": 1011,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.9231,
+        "chin": 1.1656,
+        "epiglottis": 1.4631,
+        "hard_palate": 0.5665,
+        "lower_lip": 1.0612,
+        "pharyngeal_wall": 1.287,
+        "tongue": 1.6336,
+        "upper_lip": 2.008,
+        "velum": 0.5731
+      },
+      "template": 10,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub071/track/sub071_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub071_2drt_17_topic1_track_frame-1280.json",
+      "sample_id": "annot16-dense:sub071_2drt_17_topic1:1280",
+      "source_frame_number": 1280,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.9098,
+        "chin": 0.6707,
+        "epiglottis": 1.0738,
+        "hard_palate": 0.4033,
+        "lower_lip": 0.8645,
+        "pharyngeal_wall": 1.3189,
+        "tongue": 1.5759,
+        "upper_lip": 0.8375,
+        "velum": 0.4642
+      },
+      "template": 12,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub071/track/sub071_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub071_2drt_17_topic1_track_frame-1302.json",
+      "sample_id": "annot16-dense:sub071_2drt_17_topic1:1302",
+      "source_frame_number": 1302,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 2.069,
+        "chin": 0.5383,
+        "epiglottis": 1.1268,
+        "hard_palate": 0.6702,
+        "lower_lip": 0.8951,
+        "pharyngeal_wall": 1.4438,
+        "tongue": 1.5601,
+        "upper_lip": 1.3326,
+        "velum": 0.7238
+      },
+      "template": 12,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub071/track/sub071_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub071_2drt_17_topic1_track_frame-1423.json",
+      "sample_id": "annot16-dense:sub071_2drt_17_topic1:1423",
+      "source_frame_number": 1423,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 2.4469,
+        "chin": 0.6172,
+        "epiglottis": 1.0061,
+        "hard_palate": 0.5329,
+        "lower_lip": 0.8843,
+        "pharyngeal_wall": 2.007,
+        "tongue": 0.9244,
+        "upper_lip": 1.4581,
+        "velum": 0.9061
+      },
+      "template": 7,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub071/track/sub071_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub071_2drt_17_topic1_track_frame-1918.json",
+      "sample_id": "annot16-dense:sub071_2drt_17_topic1:1918",
+      "source_frame_number": 1918,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 3.1101,
+        "chin": 0.6285,
+        "epiglottis": 2.5637,
+        "hard_palate": 0.5065,
+        "lower_lip": 0.8733,
+        "pharyngeal_wall": 1.9022,
+        "tongue": 1.6592,
+        "upper_lip": 0.9738,
+        "velum": 0.6219
+      },
+      "template": 14,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub071/track/sub071_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub071_2drt_17_topic1_track_frame-2023.json",
+      "sample_id": "annot16-dense:sub071_2drt_17_topic1:2023",
+      "source_frame_number": 2023,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 2.5063,
+        "chin": 0.5818,
+        "epiglottis": 1.0205,
+        "hard_palate": 0.569,
+        "lower_lip": 0.9653,
+        "pharyngeal_wall": 1.4812,
+        "tongue": 1.2074,
+        "upper_lip": 0.9421,
+        "velum": 0.8432
+      },
+      "template": 6,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub071/track/sub071_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub071_2drt_17_topic1_track_frame-2161.json",
+      "sample_id": "annot16-dense:sub071_2drt_17_topic1:2161",
+      "source_frame_number": 2161,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 2.1752,
+        "chin": 0.5356,
+        "epiglottis": 0.8168,
+        "hard_palate": 0.5346,
+        "lower_lip": 0.806,
+        "pharyngeal_wall": 1.4905,
+        "tongue": 1.7199,
+        "upper_lip": 1.2881,
+        "velum": 0.5924
+      },
+      "template": 11,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub071/track/sub071_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub071_2drt_17_topic1_track_frame-2561.json",
+      "sample_id": "annot16-dense:sub071_2drt_17_topic1:2561",
+      "source_frame_number": 2561,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.9476,
+        "chin": 0.5064,
+        "epiglottis": 1.6239,
+        "hard_palate": 0.5203,
+        "lower_lip": 0.7288,
+        "pharyngeal_wall": 1.5524,
+        "tongue": 1.945,
+        "upper_lip": 1.5713,
+        "velum": 0.8009
+      },
+      "template": 9,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub071/track/sub071_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub071_2drt_17_topic1_track_frame-335.json",
+      "sample_id": "annot16-dense:sub071_2drt_17_topic1:335",
+      "source_frame_number": 335,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.7898,
+        "chin": 0.8249,
+        "epiglottis": 1.5001,
+        "hard_palate": 0.7641,
+        "lower_lip": 0.9561,
+        "pharyngeal_wall": 1.3142,
+        "tongue": 1.4687,
+        "upper_lip": 1.2687,
+        "velum": 0.923
+      },
+      "template": 10,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub071/track/sub071_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub071_2drt_17_topic1_track_frame-652.json",
+      "sample_id": "annot16-dense:sub071_2drt_17_topic1:652",
+      "source_frame_number": 652,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 2.0909,
+        "chin": 0.7016,
+        "epiglottis": 1.4544,
+        "hard_palate": 0.5382,
+        "lower_lip": 0.8978,
+        "pharyngeal_wall": 1.4088,
+        "tongue": 1.6093,
+        "upper_lip": 1.4942,
+        "velum": 1.0526
+      },
+      "template": 10,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub071/track/sub071_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub072_2drt_17_topic1_track_frame-1053.json",
+      "sample_id": "annot16-dense:sub072_2drt_17_topic1:1053",
+      "source_frame_number": 1053,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.0018,
+        "chin": 0.5264,
+        "epiglottis": 1.3577,
+        "hard_palate": 0.4261,
+        "lower_lip": 1.0495,
+        "pharyngeal_wall": 0.6667,
+        "tongue": 1.2129,
+        "upper_lip": 0.2634,
+        "velum": 0.4893
+      },
+      "template": 27,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub072/track/sub072_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub072_2drt_17_topic1_track_frame-1083.json",
+      "sample_id": "annot16-dense:sub072_2drt_17_topic1:1083",
+      "source_frame_number": 1083,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.0758,
+        "chin": 0.4486,
+        "epiglottis": 1.3965,
+        "hard_palate": 0.4753,
+        "lower_lip": 0.6362,
+        "pharyngeal_wall": 0.7112,
+        "tongue": 1.2971,
+        "upper_lip": 0.3206,
+        "velum": 0.5525
+      },
+      "template": 26,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub072/track/sub072_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub072_2drt_17_topic1_track_frame-1719.json",
+      "sample_id": "annot16-dense:sub072_2drt_17_topic1:1719",
+      "source_frame_number": 1719,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 0.9762,
+        "chin": 0.4212,
+        "epiglottis": 1.0734,
+        "hard_palate": 0.3883,
+        "lower_lip": 0.7098,
+        "pharyngeal_wall": 0.874,
+        "tongue": 1.5331,
+        "upper_lip": 0.273,
+        "velum": 0.7108
+      },
+      "template": 12,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub072/track/sub072_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub072_2drt_17_topic1_track_frame-2556.json",
+      "sample_id": "annot16-dense:sub072_2drt_17_topic1:2556",
+      "source_frame_number": 2556,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.4889,
+        "chin": 0.416,
+        "epiglottis": 2.1514,
+        "hard_palate": 0.4432,
+        "lower_lip": 0.6764,
+        "pharyngeal_wall": 0.8688,
+        "tongue": 1.6148,
+        "upper_lip": 0.8308,
+        "velum": 1.1454
+      },
+      "template": 22,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub072/track/sub072_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub072_2drt_17_topic1_track_frame-2617.json",
+      "sample_id": "annot16-dense:sub072_2drt_17_topic1:2617",
+      "source_frame_number": 2617,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.037,
+        "chin": 0.4333,
+        "epiglottis": 0.9269,
+        "hard_palate": 0.5018,
+        "lower_lip": 0.7245,
+        "pharyngeal_wall": 0.9074,
+        "tongue": 1.2361,
+        "upper_lip": 0.2674,
+        "velum": 1.0354
+      },
+      "template": 18,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub072/track/sub072_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub072_2drt_17_topic1_track_frame-299.json",
+      "sample_id": "annot16-dense:sub072_2drt_17_topic1:299",
+      "source_frame_number": 299,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 2.3114,
+        "chin": 0.4439,
+        "epiglottis": 0.6797,
+        "hard_palate": 0.4689,
+        "lower_lip": 0.6171,
+        "pharyngeal_wall": 1.1571,
+        "tongue": 1.406,
+        "upper_lip": 0.5288,
+        "velum": 0.8008
+      },
+      "template": 22,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub072/track/sub072_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub072_2drt_17_topic1_track_frame-367.json",
+      "sample_id": "annot16-dense:sub072_2drt_17_topic1:367",
+      "source_frame_number": 367,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 2.5263,
+        "chin": 0.4492,
+        "epiglottis": 1.1817,
+        "hard_palate": 0.5418,
+        "lower_lip": 0.73,
+        "pharyngeal_wall": 0.8386,
+        "tongue": 1.5353,
+        "upper_lip": 0.3922,
+        "velum": 0.5057
+      },
+      "template": 22,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub072/track/sub072_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub072_2drt_17_topic1_track_frame-523.json",
+      "sample_id": "annot16-dense:sub072_2drt_17_topic1:523",
+      "source_frame_number": 523,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.1008,
+        "chin": 0.4278,
+        "epiglottis": 1.3141,
+        "hard_palate": 0.4314,
+        "lower_lip": 0.4562,
+        "pharyngeal_wall": 0.6494,
+        "tongue": 1.9025,
+        "upper_lip": 0.3652,
+        "velum": 0.5908
+      },
+      "template": 12,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub072/track/sub072_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub072_2drt_17_topic1_track_frame-604.json",
+      "sample_id": "annot16-dense:sub072_2drt_17_topic1:604",
+      "source_frame_number": 604,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.7922,
+        "chin": 0.4412,
+        "epiglottis": 2.5871,
+        "hard_palate": 0.4151,
+        "lower_lip": 0.7986,
+        "pharyngeal_wall": 0.8522,
+        "tongue": 1.2821,
+        "upper_lip": 0.3382,
+        "velum": 0.7749
+      },
+      "template": 12,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub072/track/sub072_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub072_2drt_17_topic1_track_frame-717.json",
+      "sample_id": "annot16-dense:sub072_2drt_17_topic1:717",
+      "source_frame_number": 717,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.5744,
+        "chin": 0.6998,
+        "epiglottis": 1.502,
+        "hard_palate": 0.8401,
+        "lower_lip": 1.0296,
+        "pharyngeal_wall": 0.6988,
+        "tongue": 1.5568,
+        "upper_lip": 1.0557,
+        "velum": 0.5867
+      },
+      "template": 20,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub072/track/sub072_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub074_2drt_17_topic1_track_frame-1030.json",
+      "sample_id": "annot16-dense:sub074_2drt_17_topic1:1030",
+      "source_frame_number": 1030,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.6182,
+        "chin": 1.1258,
+        "epiglottis": 0.6373,
+        "hard_palate": 0.4562,
+        "lower_lip": 0.7905,
+        "pharyngeal_wall": 0.7417,
+        "tongue": 0.9064,
+        "upper_lip": 0.3789,
+        "velum": 0.5202
+      },
+      "template": 1,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub074/track/sub074_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub074_2drt_17_topic1_track_frame-1177.json",
+      "sample_id": "annot16-dense:sub074_2drt_17_topic1:1177",
+      "source_frame_number": 1177,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.8296,
+        "chin": 0.9597,
+        "epiglottis": 0.6891,
+        "hard_palate": 0.4693,
+        "lower_lip": 0.9947,
+        "pharyngeal_wall": 0.6084,
+        "tongue": 0.8782,
+        "upper_lip": 0.6824,
+        "velum": 0.5459
+      },
+      "template": 1,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub074/track/sub074_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub074_2drt_17_topic1_track_frame-1707.json",
+      "sample_id": "annot16-dense:sub074_2drt_17_topic1:1707",
+      "source_frame_number": 1707,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.9827,
+        "chin": 0.703,
+        "epiglottis": 0.8253,
+        "hard_palate": 0.4866,
+        "lower_lip": 0.9383,
+        "pharyngeal_wall": 0.694,
+        "tongue": 0.7226,
+        "upper_lip": 0.9124,
+        "velum": 0.495
+      },
+      "template": 1,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub074/track/sub074_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub074_2drt_17_topic1_track_frame-2081.json",
+      "sample_id": "annot16-dense:sub074_2drt_17_topic1:2081",
+      "source_frame_number": 2081,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 2.5346,
+        "chin": 1.1899,
+        "epiglottis": 1.3696,
+        "hard_palate": 0.6922,
+        "lower_lip": 1.1847,
+        "pharyngeal_wall": 0.5662,
+        "tongue": 0.9856,
+        "upper_lip": 1.0707,
+        "velum": 0.6555
+      },
+      "template": 1,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub074/track/sub074_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub074_2drt_17_topic1_track_frame-2094.json",
+      "sample_id": "annot16-dense:sub074_2drt_17_topic1:2094",
+      "source_frame_number": 2094,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 2.0672,
+        "chin": 1.0862,
+        "epiglottis": 0.9825,
+        "hard_palate": 0.8013,
+        "lower_lip": 1.3998,
+        "pharyngeal_wall": 0.7292,
+        "tongue": 0.7974,
+        "upper_lip": 1.4023,
+        "velum": 0.5611
+      },
+      "template": 1,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub074/track/sub074_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub074_2drt_17_topic1_track_frame-2503.json",
+      "sample_id": "annot16-dense:sub074_2drt_17_topic1:2503",
+      "source_frame_number": 2503,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 2.0461,
+        "chin": 0.9187,
+        "epiglottis": 0.6438,
+        "hard_palate": 0.5619,
+        "lower_lip": 1.1737,
+        "pharyngeal_wall": 0.573,
+        "tongue": 0.8484,
+        "upper_lip": 0.9027,
+        "velum": 0.6592
+      },
+      "template": 1,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub074/track/sub074_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub074_2drt_17_topic1_track_frame-361.json",
+      "sample_id": "annot16-dense:sub074_2drt_17_topic1:361",
+      "source_frame_number": 361,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 1.8959,
+        "chin": 1.0696,
+        "epiglottis": 0.8651,
+        "hard_palate": 0.6618,
+        "lower_lip": 0.728,
+        "pharyngeal_wall": 0.769,
+        "tongue": 0.7314,
+        "upper_lip": 0.4836,
+        "velum": 0.6749
+      },
+      "template": 1,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub074/track/sub074_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub074_2drt_17_topic1_track_frame-597.json",
+      "sample_id": "annot16-dense:sub074_2drt_17_topic1:597",
+      "source_frame_number": 597,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 2.4846,
+        "chin": 0.9206,
+        "epiglottis": 1.4993,
+        "hard_palate": 0.6882,
+        "lower_lip": 1.4667,
+        "pharyngeal_wall": 0.6128,
+        "tongue": 1.0208,
+        "upper_lip": 0.7863,
+        "velum": 0.5338
+      },
+      "template": 1,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub074/track/sub074_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub074_2drt_17_topic1_track_frame-785.json",
+      "sample_id": "annot16-dense:sub074_2drt_17_topic1:785",
+      "source_frame_number": 785,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 2.5151,
+        "chin": 0.8998,
+        "epiglottis": 0.7972,
+        "hard_palate": 0.8534,
+        "lower_lip": 1.0104,
+        "pharyngeal_wall": 0.668,
+        "tongue": 0.8638,
+        "upper_lip": 1.0565,
+        "velum": 0.4899
+      },
+      "template": 1,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub074/track/sub074_2drt_17_topic1_track.mat"
+    },
+    {
+      "handmade_annotation_path": "data/annot16/75SpeakerAnnot16/hand_ground_truth/ground_truth_json/sub074_2drt_17_topic1_track_frame-821.json",
+      "sample_id": "annot16-dense:sub074_2drt_17_topic1:821",
+      "source_frame_number": 821,
+      "symmetric_nearest_point_error_pixels": {
+        "arytenoid": 2.5489,
+        "chin": 1.1325,
+        "epiglottis": 0.7121,
+        "hard_palate": 0.8644,
+        "lower_lip": 1.0283,
+        "pharyngeal_wall": 0.7221,
+        "tongue": 0.9743,
+        "upper_lip": 1.1247,
+        "velum": 0.4618
+      },
+      "template": 1,
+      "track_path": "data/annot16/75SpeakerAnnot16/sub074/track/sub074_2drt_17_topic1_track.mat"
+    }
+  ]
+}

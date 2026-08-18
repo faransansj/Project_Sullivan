@@ -135,11 +135,13 @@ class InferenceEngine:
         if sr != 16000:
             audio = librosa.resample(audio, orig_sr=sr, target_sr=16000)
         extractor = self._get_hubert_extractor()
-        # Estimate num frames based on audio length
-        duration = len(audio) / 16000
-        num_frames = int(duration * 83.3)  # ~83 fps MRI
-        features = extractor.extract(audio, num_frames, mri_fps=83.3)
-        return features  # (Time, 1024)
+        return extractor.extract(
+            audio,
+            None,
+            mri_fps=83.3,
+            feature_time_offset_seconds=0.0,
+            timeline_policy="truncate_to_hubert_support",
+        )
 
     def _preprocess_audio(self, audio_path: str) -> np.ndarray:
         """Load audio and extract features."""

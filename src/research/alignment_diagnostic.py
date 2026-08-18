@@ -9,6 +9,163 @@ import numpy as np
 from .metrics import dimension_mean_pcc, rmse
 
 
+def frame_timestamp(frame_index: int, frame_rate: float) -> float:
+    """Return the zero-based MRI frame timestamp in seconds."""
+    if (
+        not isinstance(frame_index, (int, np.integer))
+        or isinstance(frame_index, (bool, np.bool_))
+        or frame_index < 0
+        or frame_rate <= 0
+        or not np.isfinite(frame_rate)
+    ):
+        raise ValueError(
+            "frame_index must be non-negative and frame_rate must be finite and positive"
+        )
+    return frame_index / frame_rate
+
+
+def audio_sample_indices(timestamps: np.ndarray, sample_rate: int) -> np.ndarray:
+    """Map non-negative stream timestamps to nearest decoded sample indices."""
+    timestamps = np.asarray(timestamps, dtype=np.float64)
+    if (
+        timestamps.ndim != 1
+        or not np.isfinite(timestamps).all()
+        or (timestamps < 0).any()
+        or not isinstance(sample_rate, (int, np.integer))
+        or isinstance(sample_rate, (bool, np.bool_))
+        or sample_rate <= 0
+    ):
+        raise ValueError("timestamps and integer sample_rate must be finite and non-negative")
+    return np.floor(timestamps * sample_rate + 0.5).astype(np.int64)
+
+
+def hubert_feature_center_timestamps(
+    feature_count: int,
+    *,
+    sample_rate: int = 16000,
+    stride_samples: int = 320,
+    receptive_field_samples: int = 400,
+) -> np.ndarray:
+    """Return HuBERT convolution-output receptive-field center timestamps."""
+    if (
+        not isinstance(feature_count, (int, np.integer))
+        or isinstance(feature_count, (bool, np.bool_))
+        or feature_count < 0
+        or min(sample_rate, stride_samples, receptive_field_samples) <= 0
+    ):
+        raise ValueError("feature count and HuBERT timing parameters must be valid integers")
+    centers = np.arange(feature_count, dtype=np.float64) * stride_samples
+    return (centers + (receptive_field_samples - 1) / 2) / sample_rate
+
+
+def interpolate_feature_timestamps(
+    features: np.ndarray,
+    timestamps: np.ndarray,
+    *,
+    feature_stride_seconds: float,
+    feature_time_offset_seconds: float,
+    feature_origin_seconds: float = 0.0,
+) -> np.ndarray:
+    """Linearly sample regularly spaced features without endpoint clamping.
+
+    Sign convention: ``feature_time = MRI_time + feature_time_offset_seconds``.
+    The named offset is mandatory so alignment assumptions cannot be hidden in
+    a default. Legacy motion-correlation offsets use a different, unverified
+    convention and must not be passed here without an independent conversion.
+    """
+    features = np.asarray(features)
+    timestamps = np.asarray(timestamps, dtype=np.float64)
+    if features.ndim != 2 or not len(features) or not np.issubdtype(features.dtype, np.number):
+        raise ValueError("features must have numeric shape [time, dimension] and be non-empty")
+    if not np.isfinite(features).all():
+        raise ValueError("features must be finite")
+    if timestamps.ndim != 1 or not np.isfinite(timestamps).all():
+        raise ValueError("timestamps must be a finite one-dimensional array")
+    if (
+        feature_stride_seconds <= 0
+        or not np.isfinite(feature_stride_seconds)
+        or not np.isfinite([feature_time_offset_seconds, feature_origin_seconds]).all()
+    ):
+        raise ValueError("feature timing values must be finite and stride must be positive")
+
+    query = timestamps + feature_time_offset_seconds
+    last_timestamp = feature_origin_seconds + (len(features) - 1) * feature_stride_seconds
+    if len(query) and (query.min() < feature_origin_seconds or query.max() > last_timestamp):
+        raise ValueError(
+            f"requested feature timestamp outside [{feature_origin_seconds}, {last_timestamp}] seconds"
+        )
+    source = (
+        feature_origin_seconds + np.arange(len(features), dtype=np.float64) * feature_stride_seconds
+    )
+    sampled = np.column_stack(
+        [np.interp(query, source, features[:, dimension]) for dimension in range(features.shape[1])]
+    )
+    return (
+        sampled.astype(features.dtype, copy=False)
+        if np.issubdtype(features.dtype, np.floating)
+        else sampled
+    )
+
+
+def supported_features_for_timestamps(
+    features: np.ndarray,
+    timestamps: np.ndarray,
+    *,
+    feature_stride_seconds: float,
+    feature_time_offset_seconds: float,
+    feature_origin_seconds: float,
+) -> tuple[np.ndarray, np.ndarray]:
+    """Interpolate only timestamps inside feature-center support.
+
+    Returns the sampled features and indices into the original timestamp/target
+    sequence so supervision can be sliced by exactly the same indices.
+    """
+    timestamps = np.asarray(timestamps, dtype=np.float64)
+    if timestamps.ndim != 1 or not np.isfinite(timestamps).all():
+        raise ValueError("timestamps must be a finite one-dimensional array")
+    last = feature_origin_seconds + (len(features) - 1) * feature_stride_seconds
+    query = timestamps + feature_time_offset_seconds
+    indices = np.flatnonzero((query >= feature_origin_seconds) & (query <= last))
+    if not len(indices):
+        raise ValueError("no MRI timestamps overlap feature-center support")
+    return (
+        interpolate_feature_timestamps(
+            features,
+            timestamps[indices],
+            feature_stride_seconds=feature_stride_seconds,
+            feature_time_offset_seconds=feature_time_offset_seconds,
+            feature_origin_seconds=feature_origin_seconds,
+        ),
+        indices,
+    )
+
+
+def features_for_mri_frames(
+    features: np.ndarray,
+    frame_indices: np.ndarray,
+    *,
+    mri_frame_rate: float,
+    feature_stride_seconds: float,
+    feature_time_offset_seconds: float,
+    feature_origin_seconds: float = 0.0,
+) -> np.ndarray:
+    """Map frames using ``feature_time = MRI_time + feature_time_offset_seconds``."""
+    frame_indices = np.asarray(frame_indices)
+    if frame_indices.ndim != 1 or not np.issubdtype(frame_indices.dtype, np.integer):
+        raise ValueError("frame_indices must be a one-dimensional integer array")
+    timestamps = np.asarray(
+        [frame_timestamp(int(index), mri_frame_rate) for index in frame_indices],
+        dtype=np.float64,
+    )
+    return interpolate_feature_timestamps(
+        features,
+        timestamps,
+        feature_stride_seconds=feature_stride_seconds,
+        feature_time_offset_seconds=feature_time_offset_seconds,
+        feature_origin_seconds=feature_origin_seconds,
+    )
+
+
 def lag_sweep(
     predictions: np.ndarray,
     targets: np.ndarray,

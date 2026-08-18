@@ -1,0 +1,73 @@
+{
+  "acquisition_provenance": {
+    "acquisition_system_paper": "https://sail.usc.edu/span/pdfs/narayanan2014realtime.pdf",
+    "corpus_page": "https://sail.usc.edu/span/75speakers/",
+    "dataset_paper": "https://doi.org/10.1038/s41597-021-00976-x",
+    "evidence": "Primary sources document synchronized audio/rtMRI for the 75-speaker corpus and the shared-clock USC acquisition system. The local MP4 path/layout and content are consistent with that corpus, but no primary manifest proves this file's release/transcoding chain.",
+    "local_file_claim_limit": "Do not treat the mounted MP4 as an authenticated official derivative without a primary release manifest.",
+    "synchronization_hardware_paper": "https://sail.usc.edu/span/pdfs/bresch2006synchronized.pdf"
+  },
+  "audio": {
+    "channels": 1,
+    "codec": "aac",
+    "decoded_audio_frame_count": 711,
+    "decoded_audio_frame_sample_sum": 727650,
+    "decoded_duration_seconds": 33.0,
+    "decoded_sample_count": 727650,
+    "decoded_sample_zero_container_time_seconds": 0.0,
+    "final_packet_discard_padding_samples": 414,
+    "first_decoded_frame_pts_samples": 0,
+    "first_packet_pts_seconds": -0.09288,
+    "first_packet_skip_samples": 2048,
+    "initial_padding_samples": 2048,
+    "last_decoded_frame_nb_samples": 610,
+    "last_decoded_frame_pts_samples": 727040,
+    "mri_first_last_mapped_sample_indices": [
+      0,
+      726546
+    ],
+    "packet_count": 713,
+    "packet_pts_step_samples_unique": [
+      1024
+    ],
+    "sample_rate_hz": 22050,
+    "stream_duration_seconds": 33.0,
+    "stream_start_time_seconds": 0.0,
+    "time_base": "1/22050"
+  },
+  "dataset_identity": "local 75-Speaker-layout source candidate (not legacy USC-TIMIT)",
+  "decode_commands": {
+    "audio": "ffmpeg -v error -i INPUT -map 0:a:0 -ac 1 -ar 22050 -f f32le -",
+    "audio_16k": "ffmpeg -v error -i INPUT -map 0:a:0 -ac 1 -ar 16000 -f f32le -",
+    "video": "ffmpeg -v error -i INPUT -map 0:v:0 -pix_fmt gray -f rawvideo -"
+  },
+  "source_media_path": "/run/media/midori/\uc0c8 \ubcfc\ub968/sullivan_dataset/dataset_2drt_video_only/sub061/2drt/video/sub061_2drt_17_topic1_video.mp4",
+  "source_media_sha256": "c53042a781f3bc33d338bdc3040d5b20bd08bfbaf0107f737f501e66047413a4",
+  "source_release_chain_verified": false,
+  "textgrid": {
+    "encoding": "UTF-16",
+    "path": "data/annot16/75SpeakerAnnot16/sub061/alignment/sub061_2drt_17_topic1_text.TextGrid",
+    "word_intervals": 79,
+    "xmax_seconds": 33.0,
+    "xmin_seconds": 0.0
+  },
+  "tool_versions": {
+    "ffmpeg": "ffmpeg version n9.0.1 Copyright (c) 2000-2026 the FFmpeg developers",
+    "ffprobe": "ffprobe version n9.0.1 Copyright (c) 2007-2026 the FFmpeg developers"
+  },
+  "utterance_id": "sub061_2drt_17_topic1",
+  "video": {
+    "average_frame_rate_rational": "65040/781",
+    "codec": "h264",
+    "first_pts_seconds": 0.0,
+    "frame_count": 2745,
+    "height": 84,
+    "last_pts_seconds": 32.94993849938499,
+    "median_pts_step_seconds": 0.012007995079951428,
+    "pts_integer_step": 781,
+    "start_time_seconds": 0.0,
+    "stream_duration_seconds": 32.961946,
+    "time_base": "1/65040",
+    "width": 84
+  }
+}

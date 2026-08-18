@@ -1,0 +1,9 @@
+{
+  "dataset": "75-Speaker Annot-16",
+  "dense_annotated_frames": 1199966,
+  "dense_track_files": 460,
+  "evaluated_handmade_overlaps": 160,
+  "failed_handmade_overlaps": [],
+  "handmade_frames": 160,
+  "raw_contour_arrays_redistributed": false
+}

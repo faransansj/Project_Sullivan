@@ -17,17 +17,15 @@ def _fixture(tmp_path, coordinates=None):
         json.dumps({"tongue": coordinates or [[10, 20], [11, 19], [12, 20]]}),
         encoding="utf-8",
     )
-    Image.new("L", (84, 84)).save(
-        images / "sub061_2drt_17_topic1_video.mp4_frame-530.jpg"
-    )
+    Image.new("L", (84, 84)).save(images / "sub061_2drt_17_topic1_video.mp4_frame-530.jpg")
     return root, annotation
 
 
 def test_annot16_ground_truth_adapter_preserves_identifiers_and_coordinates(tmp_path):
     root, annotation = _fixture(tmp_path)
-    sample = Annot16GroundTruthAdapter(
-        root, frame_rate=83.28, pixel_spacing=(2.4, 2.4)
-    ).load(annotation)
+    sample = Annot16GroundTruthAdapter(root, frame_rate=83.28, pixel_spacing=(2.4, 2.4)).load(
+        annotation
+    )
 
     assert sample.speaker_id == "sub061"
     assert sample.utterance_id == "sub061_2drt_17_topic1"
@@ -49,6 +47,12 @@ def test_annot16_adapter_does_not_invent_timestamp_or_spacing(tmp_path):
     sample = Annot16GroundTruthAdapter(root).load(annotation)
     assert sample.timestamp is None
     assert sample.pixel_spacing is None
+
+
+@pytest.mark.parametrize("frame_rate", [float("nan"), float("inf"), -float("inf")])
+def test_annot16_adapter_rejects_nonfinite_frame_rate(tmp_path, frame_rate):
+    with pytest.raises(ValueError, match="finite and positive"):
+        Annot16GroundTruthAdapter(tmp_path, frame_rate=frame_rate)
 
 
 def test_annot16_adapter_rejects_unknown_articulator_and_missing_frame(tmp_path):

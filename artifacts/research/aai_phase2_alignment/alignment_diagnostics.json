@@ -1,0 +1,289 @@
+{
+  "candidate_alignment": {
+    "feature_time_offset_seconds": 0.0,
+    "interpretation": "TextGrid/audio peak is consistent with zero but does not validate MRI timing or drift",
+    "textgrid_peak_difference_from_zero_seconds": -0.005,
+    "validation_resolution_seconds": 0.005
+  },
+  "drift_evidence_limit": "Only one local TextGrid/audio window met the predeclared correlation>=0.5 and distant-peak-margin>=0.03 rule, so no slope was fit. TextGrid/audio anchors do not directly anchor MRI content in any case; motion proxies were ambiguous.",
+  "gate2": "NO-GO",
+  "gate2_criteria": {
+    "aac_priming_resolved": "pass",
+    "deterministic_decoder_and_pts_mapping": "pass",
+    "drift_bounded": "fail: container clocks are regular, but content anchors do not bound audio-to-MRI drift through the unknown transcode",
+    "hubert_center_and_boundary_treatment": "pass",
+    "stream_origin_resolved": "pass: 0 seconds",
+    "verified_source_identity": "partial: corpus layout/content match but release manifest absent",
+    "weak_proxy_peak_required": false
+  },
+  "gate_basis": "NO-GO because acquisition/container evidence gives a zero-offset candidate but informative content anchors cannot bound audio-to-MRI drift after an unverified transcode",
+  "hubert_mapping": {
+    "conv_kernel": [
+      10,
+      3,
+      3,
+      3,
+      3,
+      2,
+      2
+    ],
+    "conv_stride": [
+      5,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2
+    ],
+    "excluded_boundary_frames": [
+      0,
+      1
+    ],
+    "feature_center_formula": "(feature_index*320 + 199.5) / 16000",
+    "feature_count_for_this_audio": 1649,
+    "first_feature_center_seconds": 0.01246875,
+    "installed_bundle": "torchaudio.pipelines.HUBERT_LARGE",
+    "installed_extractor_conv_layer_config": [
+      [
+        512,
+        10,
+        5
+      ],
+      [
+        512,
+        3,
+        2
+      ],
+      [
+        512,
+        3,
+        2
+      ],
+      [
+        512,
+        3,
+        2
+      ],
+      [
+        512,
+        3,
+        2
+      ],
+      [
+        512,
+        2,
+        2
+      ],
+      [
+        512,
+        2,
+        2
+      ]
+    ],
+    "installed_torchaudio_version": "2.9.1+cu128",
+    "last_feature_center_seconds": 32.97246875,
+    "mapping": "interpolate feature vectors by their receptive-field center timestamps at exact MRI PTS; do not extrapolate",
+    "receptive_field_samples": 400,
+    "resampled_sample_count": 528000,
+    "resampling": "decoded 22050 Hz sample timeline deterministically resampled to 16000 Hz",
+    "stride_samples": 320,
+    "stride_seconds": 0.02,
+    "supervised_extraction_contract": "HuBERTExtractor strict mode returns frame indices; extract_hubert_features.py stores *_hubert_mri_frame_indices.npy beside features and targets must use that slice",
+    "supported_mri_frame_range_inclusive": [
+      2,
+      2744
+    ]
+  },
+  "legacy_metadata_correction": {
+    "decoded_pts_trimmed_audio_sample_count": 727650,
+    "difference_samples": 414,
+    "exact_container_fps": 83.27784891165173,
+    "interpretation": "legacy count included AAC frame padding; decoded PTS/Skip Samples timeline is authoritative",
+    "last_frame_timestamp_error_from_83_28_seconds": 0.0008510834387891464,
+    "previous_assumed_fps": 83.28,
+    "previous_audio_sample_count": 728064
+  },
+  "offset_diagnostics": {
+    "dense_contour_displacement__rms": {
+      "ambiguous": true,
+      "best_correlation": 0.164412,
+      "best_distant_competitor_correlation": 0.143686,
+      "best_distant_competitor_offset_seconds": -0.39,
+      "best_offset_seconds": -0.445,
+      "distant_peak_margin": 0.020726,
+      "zero_offset_correlation": 0.115635
+    },
+    "dense_contour_displacement__spectral_flux": {
+      "ambiguous": true,
+      "best_correlation": 0.19187,
+      "best_distant_competitor_correlation": 0.165658,
+      "best_distant_competitor_offset_seconds": 0.045,
+      "best_offset_seconds": -0.47,
+      "distant_peak_margin": 0.026213,
+      "zero_offset_correlation": 0.153117
+    },
+    "global_motion__rms": {
+      "ambiguous": true,
+      "best_correlation": 0.244552,
+      "best_distant_competitor_correlation": 0.231749,
+      "best_distant_competitor_offset_seconds": 0.145,
+      "best_offset_seconds": -0.12,
+      "distant_peak_margin": 0.012803,
+      "zero_offset_correlation": 0.20225
+    },
+    "global_motion__spectral_flux": {
+      "ambiguous": true,
+      "best_correlation": 0.276843,
+      "best_distant_competitor_correlation": 0.266408,
+      "best_distant_competitor_offset_seconds": 0.015,
+      "best_offset_seconds": -0.14,
+      "distant_peak_margin": 0.010436,
+      "zero_offset_correlation": 0.263558
+    },
+    "lower_face_motion__rms": {
+      "ambiguous": true,
+      "best_correlation": 0.299775,
+      "best_distant_competitor_correlation": 0.296931,
+      "best_distant_competitor_offset_seconds": 0.145,
+      "best_offset_seconds": -0.125,
+      "distant_peak_margin": 0.002843,
+      "zero_offset_correlation": 0.250858
+    },
+    "lower_face_motion__spectral_flux": {
+      "ambiguous": true,
+      "best_correlation": 0.334869,
+      "best_distant_competitor_correlation": 0.33082,
+      "best_distant_competitor_offset_seconds": -0.14,
+      "best_offset_seconds": 0.105,
+      "distant_peak_margin": 0.004049,
+      "zero_offset_correlation": 0.315888
+    },
+    "mouth_roi_motion__rms": {
+      "ambiguous": true,
+      "best_correlation": 0.311531,
+      "best_distant_competitor_correlation": 0.304741,
+      "best_distant_competitor_offset_seconds": 0.145,
+      "best_offset_seconds": -0.125,
+      "distant_peak_margin": 0.006791,
+      "zero_offset_correlation": 0.271136
+    },
+    "mouth_roi_motion__spectral_flux": {
+      "ambiguous": true,
+      "best_correlation": 0.341801,
+      "best_distant_competitor_correlation": 0.339769,
+      "best_distant_competitor_offset_seconds": -0.14,
+      "best_offset_seconds": 0.105,
+      "distant_peak_margin": 0.002032,
+      "zero_offset_correlation": 0.329281
+    },
+    "textgrid_speech__audio_log_rms": {
+      "ambiguous": true,
+      "best_correlation": 0.767538,
+      "best_distant_competitor_correlation": 0.745619,
+      "best_distant_competitor_offset_seconds": -0.06,
+      "best_offset_seconds": -0.005,
+      "distant_peak_margin": 0.021919,
+      "zero_offset_correlation": 0.767227
+    }
+  },
+  "residual_uncertainty": [
+    "Mounted MP4 release/transcoding chain is not authenticated by a primary manifest",
+    "frame PTS denotes presentation time; release metadata does not expose reconstruction-window center",
+    "motion/audio proxy peaks are low and multimodal because acoustic energy is not a direct motion measurement",
+    "HuBERT boundary MRI frames 0-1 lack a centered feature and must be excluded"
+  ],
+  "stream_clock_evidence": {
+    "audio_and_video_stream_start_seconds": [
+      0.0,
+      0.0
+    ],
+    "audio_minus_video_stream_duration_seconds": 0.038054000000002475,
+    "audio_packet_pts_step_samples_unique": [
+      1024
+    ],
+    "drift_assessment": "video and decoded-audio PTS are internally regular, but PTS regularity alone cannot prove that the unverified transcode preserved relative audio/MRI timing",
+    "video_pts_affine_step_seconds": 0.012007995079950803,
+    "video_pts_max_affine_residual_seconds": 1.4210854715202004e-14
+  },
+  "textgrid_audio_drift_fit": null,
+  "textgrid_audio_local_anchors": [
+    {
+      "ambiguous": true,
+      "best_correlation": 0.814282,
+      "best_distant_competitor_correlation": 0.813961,
+      "best_distant_competitor_offset_seconds": -0.015,
+      "best_offset_seconds": -0.065,
+      "center_seconds": 4.0,
+      "distant_peak_margin": 0.000322,
+      "informative_for_drift": false,
+      "overlap_count_at_peak": 794,
+      "window_seconds": [
+        0.0,
+        8.0
+      ],
+      "zero_offset_correlation": 0.811818
+    },
+    {
+      "ambiguous": true,
+      "best_correlation": 0.814376,
+      "best_distant_competitor_correlation": 0.79388,
+      "best_distant_competitor_offset_seconds": -0.06,
+      "best_offset_seconds": -0.005,
+      "center_seconds": 12.0,
+      "distant_peak_margin": 0.020496,
+      "informative_for_drift": false,
+      "overlap_count_at_peak": 802,
+      "window_seconds": [
+        8.0,
+        16.0
+      ],
+      "zero_offset_correlation": 0.813269
+    },
+    {
+      "ambiguous": false,
+      "best_correlation": 0.575097,
+      "best_distant_competitor_correlation": 0.543287,
+      "best_distant_competitor_offset_seconds": -0.065,
+      "best_offset_seconds": -0.015,
+      "center_seconds": 20.0,
+      "distant_peak_margin": 0.03181,
+      "informative_for_drift": true,
+      "overlap_count_at_peak": 802,
+      "window_seconds": [
+        16.0,
+        24.0
+      ],
+      "zero_offset_correlation": 0.569633
+    },
+    {
+      "ambiguous": true,
+      "best_correlation": 0.785436,
+      "best_distant_competitor_correlation": 0.758062,
+      "best_distant_competitor_offset_seconds": 0.09,
+      "best_offset_seconds": 0.035,
+      "center_seconds": 28.5,
+      "distant_peak_margin": 0.027375,
+      "informative_for_drift": false,
+      "overlap_count_at_peak": 896,
+      "window_seconds": [
+        24.0,
+        33.0
+      ],
+      "zero_offset_correlation": 0.771981
+    }
+  ],
+  "textgrid_evidence": {
+    "best_correlation": 0.767538,
+    "best_offset_seconds": -0.005,
+    "silence_log_rms_mean": -7.936904430389404,
+    "speech_log_rms_mean": -3.1411280632019043,
+    "zero_offset_correlation": 0.767227
+  },
+  "timestamp_contract": {
+    "audio_sample_for_mri_frame": "floor(frame_pts_seconds * 22050 + 0.5)",
+    "decoded_audio_sample_time": "sample_index / 22050; ffmpeg applies AAC Skip Samples before emitted sample 0",
+    "feature_time_offset_seconds": 0.0,
+    "mri_frame_time": "ffprobe best_effort_timestamp_time for decoded frame i"
+  }
+}

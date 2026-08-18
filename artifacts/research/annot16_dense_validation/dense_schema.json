@@ -1,0 +1,15 @@
+{
+  "confidence": "segment mu exists but is undocumented; no verified per-point confidence",
+  "coordinates": "x_image=v[:,0]+width/2; y_image=-v[:,1]+height/2",
+  "frame_numbering": "frameNo is 1-based; canonical frame_index = frameNo - 1; lookup uses equality",
+  "frame_record_fields": [
+    "contours",
+    "frameNo",
+    "template"
+  ],
+  "mat_variable": "trackdata",
+  "missing_contour": "absent mapped identity becomes an empty contour; absent frame is an error",
+  "point_order": "source v row order retained after filtering by i equality",
+  "segments": "four zero-based contours.segment entries; no fields literally named R1/R2/R3",
+  "tracking_failure_encoding": "unresolved; non-finite coordinates receive valid_mask=false"
+}

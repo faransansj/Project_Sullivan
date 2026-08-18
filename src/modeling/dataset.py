@@ -15,6 +15,7 @@ import torch
 from torch.utils.data import Dataset, DataLoader
 import zipfile
 import io
+import warnings
 from scipy import interpolate
 
 
@@ -150,6 +151,33 @@ class ArticulatoryDataset(Dataset):
             else:
                 self._set_normalization_stats(normalization_stats)
 
+    def _load_hubert_frame_indices(
+        self,
+        index_file: Optional[Path],
+        feature_rows: int,
+        parameter_rows: int,
+        utterance_name: str,
+    ) -> Optional[np.ndarray]:
+        """Validate the exact HuBERT-row to original-MRI-frame contract."""
+        if index_file is None:
+            return None
+        indices = np.load(index_file)
+        if indices.ndim != 1 or not np.issubdtype(indices.dtype, np.integer):
+            raise ValueError(f"{utterance_name}: HuBERT MRI frame indices must be 1-D integers")
+        if len(indices) != feature_rows:
+            raise ValueError(
+                f"{utterance_name}: HuBERT index count {len(indices)} != feature rows {feature_rows}"
+            )
+        if len(indices) and (
+            indices[0] < 0
+            or indices[-1] >= parameter_rows
+            or not np.all(np.diff(indices) > 0)
+        ):
+            raise ValueError(
+                f"{utterance_name}: HuBERT MRI frame indices must be unique, strictly increasing, and in bounds"
+            )
+        return indices.astype(np.int64, copy=False)
+
     def _load_data(self) -> List[Dict]:
         """Load utterances (metadata or full data)."""
         data = []
@@ -199,41 +227,79 @@ class ArticulatoryDataset(Dataset):
             else:
                 continue
 
+            hubert_index_file = None
+            if self.audio_feature_type == 'hubert':
+                if is_npy_audio:
+                    candidate = audio_file.with_name(
+                        f'{audio_file.stem}_mri_frame_indices.npy'
+                    )
+                    if candidate.exists():
+                        hubert_index_file = candidate
+                if hubert_index_file is None:
+                    warnings.warn(
+                        f'{utterance_name}: legacy HuBERT file has no MRI frame-index sidecar; '
+                        'alignment is not exact and legacy interpolation remains enabled',
+                        RuntimeWarning,
+                    )
+
             if self.streaming:
-                # Streaming mode: store metadata only
-                if self.sequence_length is not None:
-                    try:
-                        if is_npy_param:
-                            params_mmap = np.load(param_file, mmap_mode='r')
-                            num_frames = params_mmap.shape[0]
-                        else:
-                            param_data = np.load(param_file)
-                            num_frames = param_data['geometric_features'].shape[0]
-                        
-                        num_sequences = num_frames // self.sequence_length
-                        for i in range(num_sequences):
-                            start_idx = i * self.sequence_length
-                            end_idx = start_idx + self.sequence_length
-                            data.append({
-                                'utterance_name': f"{utterance_name}_seq{i}",
-                                'audio_file': audio_file,
-                                'param_file': param_file,
-                                'is_npy_audio': is_npy_audio,
-                                'is_npy_param': is_npy_param,
-                                'start_idx': start_idx,
-                                'end_idx': end_idx
-                            })
-                    except Exception as e:
-                        print(f"Warning: Could not determine length for {utterance_name}: {e}")
+                # Validate exact correspondence before sequence boundaries are computed.
+                audio_data = np.load(audio_file, mmap_mode='r')
+                if is_npy_audio:
+                    feature_rows = audio_data.shape[0]
                 else:
+                    audio_key = 'mel_spectrogram' if self.audio_feature_type == 'mel' else 'mfcc'
+                    feature_rows = audio_data[audio_key].shape[0]
+                param_data = np.load(param_file, mmap_mode='r')
+                if is_npy_param:
+                    parameter_rows = param_data.shape[0]
+                else:
+                    param_key = (
+                        'geometric_features'
+                        if self.parameter_type == 'geometric'
+                        else 'pca_features'
+                    )
+                    parameter_rows = param_data[param_key].shape[0]
+                hubert_frame_indices = self._load_hubert_frame_indices(
+                    hubert_index_file,
+                    feature_rows,
+                    parameter_rows,
+                    utterance_name,
+                )
+                num_frames = (
+                    len(hubert_frame_indices)
+                    if hubert_frame_indices is not None
+                    else parameter_rows
+                )
+                sequence_ranges = [(None, None)]
+                if self.sequence_length is not None:
+                    sequence_ranges = [
+                        (i * self.sequence_length, (i + 1) * self.sequence_length)
+                        for i in range(num_frames // self.sequence_length)
+                    ]
+                for i, (start_idx, end_idx) in enumerate(sequence_ranges):
                     data.append({
-                        'utterance_name': utterance_name,
+                        'utterance_name': (
+                            f"{utterance_name}_seq{i}"
+                            if self.sequence_length is not None
+                            else utterance_name
+                        ),
                         'audio_file': audio_file,
                         'param_file': param_file,
                         'is_npy_audio': is_npy_audio,
                         'is_npy_param': is_npy_param,
-                        'start_idx': None,
-                        'end_idx': None
+                        'hubert_frame_indices': hubert_frame_indices,
+                        'alignment_contract': (
+                            'exact_hubert_frame_indices'
+                            if hubert_frame_indices is not None
+                            else (
+                                'legacy_hubert_interpolation_no_sidecar'
+                                if self.audio_feature_type == 'hubert'
+                                else 'legacy_length_reconciliation'
+                            )
+                        ),
+                        'start_idx': start_idx,
+                        'end_idx': end_idx,
                     })
                 continue
 
@@ -255,8 +321,29 @@ class ArticulatoryDataset(Dataset):
                 else:
                     parameters = param_data['parameters']
 
-            if audio_features.shape[0] != parameters.shape[0]:
-                audio_features = self._interpolate_features(audio_features, parameters.shape[0])
+            hubert_frame_indices = self._load_hubert_frame_indices(
+                hubert_index_file,
+                audio_features.shape[0],
+                parameters.shape[0],
+                utterance_name,
+            )
+            if hubert_frame_indices is not None:
+                parameters = parameters[hubert_frame_indices]
+                alignment_contract = 'exact_hubert_frame_indices'
+                if audio_features.shape[0] != parameters.shape[0]:
+                    raise ValueError(
+                        f'{utterance_name}: exact HuBERT features and sliced targets differ in length'
+                    )
+            else:
+                alignment_contract = (
+                    'legacy_hubert_interpolation_no_sidecar'
+                    if self.audio_feature_type == 'hubert'
+                    else 'legacy_length_reconciliation'
+                )
+                if audio_features.shape[0] != parameters.shape[0]:
+                    audio_features = self._interpolate_features(
+                        audio_features, parameters.shape[0]
+                    )
 
             if self.sequence_length is not None:
                 num_frames = audio_features.shape[0]
@@ -267,13 +354,15 @@ class ArticulatoryDataset(Dataset):
                     data.append({
                         'utterance_name': f"{utterance_name}_seq{i}",
                         'audio_features': audio_features[start_idx:end_idx],
-                        'parameters': parameters[start_idx:end_idx]
+                        'parameters': parameters[start_idx:end_idx],
+                        'alignment_contract': alignment_contract,
                     })
             else:
                 data.append({
                     'utterance_name': utterance_name,
                     'audio_features': audio_features,
-                    'parameters': parameters
+                    'parameters': parameters,
+                    'alignment_contract': alignment_contract,
                 })
 
         return data
@@ -326,6 +415,8 @@ class ArticulatoryDataset(Dataset):
                 else:
                     params = param_data['geometric_features'] if self.parameter_type == 'geometric' else param_data['pca_features']
                 
+                if item['hubert_frame_indices'] is not None:
+                    params = params[item['hubert_frame_indices']]
                 if item['start_idx'] is not None:
                     params = params[item['start_idx']:item['end_idx']]
                 sampled_params.append(params)
@@ -365,7 +456,14 @@ class ArticulatoryDataset(Dataset):
             param_data = np.load(item['param_file'])
             audio_features = audio_data if item['is_npy_audio'] else audio_data['mel_spectrogram']
             parameters = param_data if item['is_npy_param'] else param_data['geometric_features']
-            if audio_features.shape[0] != parameters.shape[0]:
+            hubert_frame_indices = item['hubert_frame_indices']
+            if hubert_frame_indices is not None:
+                parameters = parameters[hubert_frame_indices]
+                if audio_features.shape[0] != parameters.shape[0]:
+                    raise ValueError(
+                        f"{item['utterance_name']}: exact HuBERT features and targets differ in length"
+                    )
+            elif audio_features.shape[0] != parameters.shape[0]:
                 audio_features = self._interpolate_features(audio_features, parameters.shape[0])
             if item['start_idx'] is not None:
                 audio_features = audio_features[item['start_idx']:item['end_idx']]

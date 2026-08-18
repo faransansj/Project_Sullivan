@@ -1,0 +1,83 @@
+{
+  "evaluated_handmade_overlaps": 160,
+  "evidence_scope": "all locally available handmade overlaps; not corpus validation",
+  "mapping": [
+    {
+      "canonical_articulator": "epiglottis",
+      "identity": 1,
+      "segment_index": 0
+    },
+    {
+      "canonical_articulator": "tongue",
+      "identity": 2,
+      "segment_index": 0
+    },
+    {
+      "canonical_articulator": "lower_lip",
+      "identity": 4,
+      "segment_index": 0
+    },
+    {
+      "canonical_articulator": "chin",
+      "identity": 5,
+      "segment_index": 0
+    },
+    {
+      "canonical_articulator": "arytenoid",
+      "identity": 1,
+      "segment_index": 1
+    },
+    {
+      "canonical_articulator": "pharyngeal_wall",
+      "identity": 2,
+      "segment_index": 1
+    },
+    {
+      "canonical_articulator": "hard_palate",
+      "identity": 1,
+      "segment_index": 2
+    },
+    {
+      "canonical_articulator": "velum",
+      "identity": 2,
+      "segment_index": 2
+    },
+    {
+      "canonical_articulator": "upper_lip",
+      "identity": 5,
+      "segment_index": 2
+    }
+  ],
+  "mean_symmetric_nearest_point_error_pixels": {
+    "arytenoid": 1.42,
+    "chin": 0.774,
+    "epiglottis": 1.3389,
+    "hard_palate": 0.692,
+    "lower_lip": 0.8655,
+    "pharyngeal_wall": 1.0064,
+    "tongue": 1.3135,
+    "upper_lip": 0.752,
+    "velum": 0.9438
+  },
+  "metric_warning": "nearest-point error is diagnostic, not semantic proof or point correspondence",
+  "speakers": [
+    "sub009",
+    "sub013",
+    "sub022",
+    "sub023",
+    "sub028",
+    "sub030",
+    "sub034",
+    "sub043",
+    "sub047",
+    "sub061",
+    "sub064",
+    "sub068",
+    "sub070",
+    "sub071",
+    "sub072",
+    "sub074"
+  ],
+  "status": "PARTIAL",
+  "unresolved": "all other segment/identity semantics, segment 3, mu, and failure encoding"
+}

@@ -24,9 +24,11 @@
 ---
 
 ## 1. 프로젝트 개요
-**Project Sullivan**은 음성 오디오 데이터만을 입력받아 조음 기관(혀의 위치, 턱의 열림 정도, 입술 모양 등)의 파라미터를 고해상도로 추론하는 딥러닝 시스템 개발 연구입니다.
+**Project Sullivan**은 처음 보는 화자의 음성으로부터 혀, 입술, 턱, 연구개 등 발음기관의 물리적으로 해석 가능한 움직임을 복원하는 **speaker-independent Acoustic-to-Articulatory Inversion(AAI)** 연구입니다.
 
-**USC-TIMIT** 및 **HDDB** 실시간 MRI(rtMRI) 데이터셋을 정답 데이터로 활용하며, 개발된 시스템은 향후 언어 치료, 단어 없는 음성 인터페이스(Silent Speech Interface), 언어학 연구 등에 활용될 수 있습니다.
+현재 연구 전환의 핵심은 기존 geometric/mask-PCA target을 비교 baseline으로 보존하면서, 실제 articulator contour를 직접 예측하는 방식의 타당성을 speaker-disjoint 조건에서 검증하는 것입니다. 저장소에는 아직 실제 contour annotation이 없어 Phase 1 실행은 조건부이며, 평가 무결성 도구와 데이터 계약만 구현되어 있습니다.
+
+상세 감사와 계획은 [`docs/research/aai_repository_audit.md`](docs/research/aai_repository_audit.md), [`docs/research/direct_contour_research_plan.md`](docs/research/direct_contour_research_plan.md)를 참고하세요.
 
 ---
 
@@ -37,9 +39,10 @@ Phase 4 정확도 개선 실험을 완료했으며, 현재는 **Phase 5 데이�
 ### 🏆 Phase 3 결과 (Master Model - Legacy)
 - **Architecture**: 21.5M Parameter Transformer Encoder
 - **Global PCC**: **0.1982** (Phase 2 대비 7.6배 성능 향상)
-- **High-Fidelity 컴포넌트 복원 성능**:
-  - PCA-1 (Jaw Opening / 턱 열림): **PCC 0.50**
-  - PCA-5 (Tongue Fronting / 혀 수평 이동): **PCC 0.46**
+- **Legacy PCA component 성능**:
+  - PCA-1: **PCC 0.50**
+  - PCA-5: **PCC 0.46**
+  - 물리적 조음 의미는 검증되지 않았으며 direct-contour 비교 전까지 해석을 유보합니다.
 
 ### Phase 4 결과 (완료)
 - **Best model**: HuBERT Small Conformer, 6.3M parameters
